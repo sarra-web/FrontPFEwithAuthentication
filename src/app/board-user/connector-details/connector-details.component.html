@@ -1,0 +1,182 @@
+<div *ngIf="viewMode; else editable">
+  <div *ngIf="currentConnector.id">
+    <a routerLink="/connectors/{{currentConnector.typeConnector}}/{{currentConnector.id}}">  </a>
+  </div>
+  <div *ngIf="!currentConnector">
+    <br />
+    <p>Please click on a Connector...</p>
+  </div>
+</div>
+<ng-template #editable>
+  <div *ngIf="currentConnector.id" class="edit-form">
+    <h4>Connector</h4>
+
+    <form
+    name="currentConnector"
+    #f="ngForm"
+    (ngSubmit)="f.form.valid && updateConnector()"
+    novalidate
+
+    >
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" id="nameId" [(ngModel)]="currentConnector.name" name="name" required  #name="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && name.errors }"/>
+
+        <div *ngIf="f.submitted && name.errors" class="invalid-feedback">
+          <div *ngIf="name.errors['required']">name is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Column Delimiter</label>
+        <input type="text" class="form-control" [(ngModel)]="currentConnector.separator" name="colDel" required />
+      </div>
+      <div class="form-group">
+        <label>Encoding</label>
+        <input type="text" class="form-control" [(ngModel)]="currentConnector.encoding" name="encoding" required />
+      </div>
+      <div class="form-group">
+        <label>Quoting caracter</label>
+        <input type="text" class="form-control" [(ngModel)]="currentConnector.quotingCaracter" name="quoting" required />
+      </div>
+      <div class="form-group">
+        <label>Escaping character</label>
+        <input type="text" name="escaping" class="form-control" required [(ngModel)]="currentConnector.escapingCaracter" />
+      </div>
+      <div class="form-group">
+        <input class="form-check-input" type="checkbox" id="flexCheckChecked" checked [(ngModel)]="currentConnector.containsHeaders" value="containHeader" name="containHeader" />
+        <label class="form-check-label" for="flexCheckChecked"> Contain header </label>
+      </div>
+      <div>
+        <label>file path</label>
+      <mat-toolbar *ngIf="currentFile" class="progress-bar">
+          <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
+          <span class="progress">{{ progress }}%</span>
+        </mat-toolbar>
+        <mat-form-field>
+          <div>
+            <mat-toolbar>
+              <input matInput [value]="fileName" [(ngModel)]="currentConnector.path" name="file" />
+              <button mat-flat-button color="primary" [disabled]="!currentFile" (click)="upload()"> Upload </button>
+            </mat-toolbar>
+          <input type="file" id="fileInput" (change)="selectFile($event)" name="fileInput"  />
+          </div>
+        </mat-form-field>
+      </div>
+      <div class="form-group" *ngIf="message" class="message">
+        {{ message }}
+      </div>
+      <button (click)="onClick(this.currentConnector.separator)">Retrieve fields</button>
+      <div class="container">
+        <div class="box" *ngFor="let field of currentConnector.fields ; let i = index;">
+          <div class="ui form">
+            <div class="ui grid">
+              <div class="sixteen wide right aligned column">
+                <div class="ui checkbox" style="margin-right: 1em;">
+                  <input class="form-check-input" type="checkbox" id="flexCheckChecked" checked name="includ" [(ngModel)]="field.included" value="true" />
+                  <label class="form-check-label" for="flexCheckChecked"> Included </label>
+                </div>
+                <!--<button class="boutton"  (click)="changeButton()" [ngStyle]="{ 'background-color': buttonColor }"  >{{ buttonText }}</button>-->
+              </div>
+              <!-- <app-button></app-button>[(ngModel)]="connector.headers[i].field_type"-->
+            </div>
+            <div class="field">
+              <label>Type de colonne</label>
+              <br style="display: none;">
+              <div class="ui fluid search dropdown selection">
+                <select [(ngModel)]="field.fieldType" name="fieldType{{i}}"
+
+                [disabled]="!field.included">
+                  <option value="Identifiant">Identifiant</option>
+                  <option value="Title">Titre</option>
+                  <option value="Text">Text</option>
+                  <option value="Date">Date</option>
+                  <option value="Meta">Meta</option>
+                  <option value="Language">Language</option>
+                </select>
+                <i class="dropdown icon"></i>
+              </div>
+            </div>
+            <div class="field" *ngIf="field.fieldType=='Meta'">
+              <label>Nom du meta</label>
+              <br>
+              <input [disabled]="!field.included" type="text" placeholder="Nom du meta" [(ngModel)]="field.meta" name="meta name{{i}}">
+            </div>
+            <div class="field">
+              <label>Nom de la colonne</label>
+              <br>
+              <input [disabled]="!field.included" type="text" placeholder="Nom de la colonne" [(ngModel)]="field.name" name="name{{i}}">
+            </div>
+            <!--
+       <div class="inline fields"><div class="field"><div class="ui checkbox" style="margin-right: 1em;"><input type="checkbox" tabindex="0" class="hidden"><label>
+              Scinder la colonne
+              <i data-content="Si une colonne contient plusieurs métadonnées séparées par un caractère séparateur comme une virgule ou un point-virgule, cochez la case correspondante et précisez le caractère séparateur pour ajouter ces métadonnées au document"
+                data-variation="wide" class="question circle icon link"></i>
+              :
+            </label></div></div><div class="field disabled"></div></div>
+     -->
+            <div class="field">
+              <label>Overview</label>
+              <br style="display: none;">
+              <div class="ui fluid search dropdown selection">
+                <select [disabled]="!field.included" id="{{i}}">
+                  <option *ngFor="let cell of field.content" [value]="cell">{{cell}}</option>
+                </select>
+                <i class="dropdown icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" (click)="updateConnector()"> Update </button>
+      <!--
+        <div class="form-group"><label for="name">Name</label><input
+          type="text"
+          class="form-control"
+          id="name"
+          [(ngModel)]="currentConnector.name"
+          name="name"
+        /></div><div class="form-group"><label for="description">filePath</label><input
+          type="text"
+          class="form-control"
+          id="description"
+          [(ngModel)]="currentConnector.path"
+          name="description"
+        /></div>
+
+      -->
+      <!--
+       <div class="form-group"><label><strong>Status:</strong></label>
+        {{ currentConnector.published ? "Published" : "Pending" }}
+      </div>
+     -->
+    </form>
+    <!--
+      <button
+      class="badge badge-primary mr-2"
+      *ngIf="currentConnector.published"
+      (click)="updatePublished(false)"
+    >
+      UnPublish
+    </button><button
+      *ngIf="!currentConnector.published"
+      class="badge badge-primary mr-2"
+      (click)="updatePublished(true)"
+    >
+      Publish
+    </button>
+  -->
+    <button class="btn btn-danger" (click)="deleteConnector()"> Delete </button>
+
+    <button class="btn btn-info" (click)=" pushActiveConnector()"> Scan </button>
+    <button class="btn btn-success" (click)=" clear()"> Clear </button>
+    <button class="btn btn-light" > <a routerLink="/squeduler/{{currentConnector.id}}">
+      Operation
+    </a>  </button>
+    <p>{{ message }}</p>
+  </div>
+  <div *ngIf="!currentConnector.id">
+    <br />
+    <p>Cannot access this connector...</p>
+  </div>
+</ng-template>

@@ -1,0 +1,29 @@
+<h2>Update User</h2>
+<form >
+    <div class="form-control" appearance="fill">
+        <label>User Id</label>
+        <input [(ngModel)]="user.id" name="userid">
+    </div>
+    <div class="form-control" appearance="fill">
+      <label>Username</label>
+      <input [(ngModel)]="user.username" name="username">
+  </div>
+<div appearance="fill">
+    <label>Role</label>
+    <select name="role"  [(ngModel)]="user.roles[0]">
+      <option *ngFor="let role of roledata" [value]="role.id">
+        {{role.name}}
+      </option>
+    </select>
+  </div>
+  <div>
+    <section class="example-section">
+        <input type="checkbox" class="example-margin" name="isActive">Is Active
+      </section>
+
+  </div>
+  <div>
+    <button mat-raised-button color="primary" (click)="SaveUser()">Update</button> |
+            <button mat-raised-button mat-dialog-close color="accent">Close</button>
+        </div>
+        </form>

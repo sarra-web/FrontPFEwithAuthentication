@@ -1,0 +1,50 @@
+<h2>User Details</h2>
+<div style="width:800px" class="mat-elevation-z8">
+
+<table mat-table [dataSource]="dataSource" >
+
+    <ng-container matColumnDef="userid">
+      <th mat-header-cell *matHeaderCellDef> UserId </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="isActive">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element">
+         <span *ngIf="element.isActive">Active</span>
+         <span *ngIf="!element.isActive">InActive</span>
+
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef> Role </th>
+        <td mat-cell *matCellDef="let element"> {{element.roles[0].name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element">
+            <button mat-raised-button color="primary" (click)="FunctionUpdate(element.id)">Change</button> |
+   <button mat-raised-button color="accent" (click)="FunctionDelete(element.id)">Delete</button>
+        </td>
+      </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; "></tr>
+  </table>
+  <div class="col-md-12">
+    <mat-paginator [length]="100"
+    [pageSize]="5"
+    [pageSizeOptions]="[3,5, 10, 25, 100]"
+    aria-label="Select page">
+</mat-paginator>
+  </div>
+</div>

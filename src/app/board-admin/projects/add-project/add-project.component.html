@@ -1,0 +1,45 @@
+
+  <h2>addP work</h2>
+
+     <div>
+ <div class="submit-form">
+    <div *ngIf="!submitted">
+      <div class="form-group">
+        <label for="name">name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+
+          [(ngModel)]="project.name"
+          name="name" required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="proxemToken">proxemToken</label>
+        <input
+          class="form-control"
+          id="proxemToken"
+          required
+          [(ngModel)]="project.proxemToken"
+          name="proxemToken"
+        />
+      </div>
+
+      <button (click)="saveProject()" class="btn btn-success">Submit</button>
+    </div>
+
+    <div *ngIf="submitted">
+      <h4>project was submitted successfully!</h4>
+      <button class="btn btn-success" (click)="newproject()">Add</button>
+    </div>
+
+
+  </div>
+</div>
+
+
+  
+
+

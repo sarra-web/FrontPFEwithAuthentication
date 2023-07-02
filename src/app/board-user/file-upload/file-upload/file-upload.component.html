@@ -1,0 +1,153 @@
+
+<div class="register-form">
+  <form
+    name="connector"
+    #f="ngForm"
+    (ngSubmit)="f.form.valid && onSubmit()"
+    novalidate
+
+  >
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" id="aa" [(ngModel)]="connector.name" name="name" required
+        #name="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && name.errors }"/>
+
+        <div *ngIf="f.submitted && name.errors" class="invalid-feedback">
+          <div *ngIf="name.errors['required']">name is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Column Delimiter</label>
+        <input type="text" id="bb" class="form-control" [(ngModel)]="connector.separator" name="separator" required
+        #separator="ngModel"   [ngClass]="{ 'is-invalid': f.submitted && name.errors }"/>
+
+        <div *ngIf="f.submitted && separator.errors" class="invalid-feedback">
+          <div *ngIf="name.errors['required']">separator is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Encoding</label>
+        <input type="text" id="cc" class="form-control" [(ngModel)]="connector.encoding" name="encoding" required
+        #encoding="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.errors }"/>
+
+        <div *ngIf="f.submitted && encoding.errors" class="invalid-feedback">
+          <div *ngIf="name.errors['required']">encoding is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Quoting caracter</label>
+        <input id="dd" type="text" class="form-control" [(ngModel)]="connector.quotingCaracter" name="quotingCaracter" required />
+      </div>
+      <div class="form-group">
+        <label>Escaping character</label>
+        <input id="nn" name="escapingCaracter" type="text" class="form-control" required [(ngModel)]="connector.escapingCaracter" />
+      </div>
+      <div class="form-group">
+        <input name="chek" class="form-check-input" type="checkbox" id="flexCheckChecked" checked [(ngModel)]="isChecked" value="containHeader" />
+        <label class="form-check-label" for="flexCheckChecked"> Contain header </label>
+      </div>
+      <div class="form-group">
+       <mat-toolbar *ngIf="currentFile" class="progress-bar">
+          <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
+          <span class="progress">{{ progress }}%</span>
+        </mat-toolbar>
+        <mat-form-field>
+          <div >
+            <mat-toolbar>
+              <input matInput [value]="fileName" id="file" name="fil"
+             />
+              <a mat-flat-button color="primary" [disabled]="!currentFile" (click)="upload()"> Upload </a>
+            </mat-toolbar>-
+            <input type="file" id="fff" id="fileInput" (change)="selectFile($event)" name="fileInput" />
+          </div>
+        </mat-form-field>
+      </div>
+      <div *ngIf="message" class="message">
+        {{ message }}
+      </div>
+      <!--
+  <mat-card class="example-card"><mat-card-header><mat-card-title>List of Files</mat-card-title>
+  </mat-card-header><mat-card-content><mat-list role="list">
+    <mat-list-item role="listitem" *ngFor="let file of fileInfos | async">
+      <a href="{{ file.url }}">{{ file.name }}</a></mat-list-item></mat-list></mat-card-content></mat-card>
+-->
+      <a mat-flat-button color="primary" (click)="onClick(this.connector.separator)">Retrieve fields</a>
+      <!--
+        <button type="button" (click)="PagePrecedente()">Precedente</button>
+        <button (click)="removeFiles()">RemoveAll</button>
+
+      -->
+
+      <div class="container">
+        <div id="box" class="box" *ngFor="let field of result ; let i = index;">
+          <div class="ui form">
+            <div class="ui grid">
+              <div class="sixteen wide right aligned column">
+                <div class="ui checkbox" style="margin-right: 1em;">
+                  <input class="form-check-input" type="checkbox" id="flex" checked [(ngModel)]="field.included" value="true"  name="zz"/>
+                  <label class="form-check-label" for="flexCheckChecked"> Included </label>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Type de colonne</label>
+              <br style="display: none;">
+              <div class="ui fluid search dropdown selection">
+                <select id="select_{{i}}" [(ngModel)]="field.fieldType" name="fieldType{{i}}"
+                [disabled]="!field.included" >
+                  <option value="Identifiant">Identifiant</option>
+                  <option value="Title">Titre</option>
+                  <option value="Text">Text</option>
+                  <option value="Date">Date</option>
+                  <option value="Meta">Meta</option>
+                  <option value="Language">Language</option>
+                </select>
+                <i class="dropdown icon"></i>
+              </div>
+            </div>
+            <div class="field" *ngIf="field.fieldType=='Meta'">
+              <label>Nom du meta</label>
+              <br>
+              <input type="text" placeholder="Nom du meta" [(ngModel)]="field.meta" [disabled]="!field.included" name="meta name{{i}}">
+            </div>
+            <div class="field">
+              <label>Nom de la colonne</label>
+              <br>
+              <input type="text" [disabled]="!field.included"
+              placeholder="Nom de la colonne" [(ngModel)]="field.name" name="name{{i}}">
+            </div>
+            <div class="field">
+              <label>Overview:</label>
+              <br style="display: none;">
+              <div class="ui fluid search dropdown selection">
+                <select id="{{i}}" [disabled]="!field.included">
+                  <option *ngFor="let cell of field.content" [value]="cell">{{cell}}</option>
+                </select>
+                <i class="dropdown icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+      <button type="submit" name="reg"  (click)="onSubmit()" class="btn btn-primary" ><!-- [disabled]="disabled"-->
+        Register</button>
+
+      <button name="Can" type="button" (click)="changementDePage()" class="btn btn-danger">Cancel</button>
+
+     <button name="res" type="button" (click)="onReset(f)" class="btn btn-warning float-right">
+        Reset </button>
+      </div>
+  </form>
+  </div>
+
+
+
+
+
+
+
+
+

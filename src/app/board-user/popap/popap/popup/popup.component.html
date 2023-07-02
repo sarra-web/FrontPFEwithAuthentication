@@ -1,0 +1,49 @@
+<!--<h2> Welcome  </h2>
+
+  <label for="name">Name</label>
+<input type="text" placeholder="name" required>
+-->
+<!--
+
+<div class="type"><label>Type of connector</label>
+  <div class="ui fluid search dropdown selection">
+    <select [(ngModel)]="selectedValue">
+      <option value="JDBC">JDBC</option>
+      <option value="CSV">CSV</option>
+      <option value="XML">XML</option>
+    </select><i class="dropdown icon"></i></div>
+</div>
+<div class="mode"><label>Creation mode </label>
+  <div class="ui fluid search dropdown selection"><select >
+      <option value="">New</option>
+      <option value="Id">Copy</option>
+    </select><i class="dropdown icon"></i></div>
+</div>
+
+
+<button class="btn btn-primary" (click)="cancel()">
+    Cancel
+</button>
+<button type="button" (click)="changementDePageWithCondition()">Continue</button>-->
+<div class="col-3">
+      <button class="btn btn-success" (click)="openModel()">Open Model</button>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">Open Model 2</button>
+    </div> 
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+        <button type="button" class="btn-close" (click)="CloseModel()" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<!--<button class="btn btn-primary" (click)="openDialog()">
+  Click to add new connector
+</button>-->
+<div class="col-3">
+  <button class="btn btn-success" (click)="openModel()">Click to add new connector</button>
+</div>
+
+<div class="modal" id="myModal">
+<div class="modal-dialog">
+<div class="modal-content">
+
+    <div class="modal-header">
+      <h4 class="modal-title">Modal Heading</h4>
+    </div>
+
+
+<div class="modal-body">
+body
+<div class="type"><label>Type of connector</label>
+  <div class="ui fluid search dropdown selection">
+    <select [(ngModel)]="selectedValue">
+      <option value="JDBC">JDBC</option>
+      <option value="CSV">CSV</option>
+      <option value="XML">XML</option>
+    </select><i class="dropdown icon"></i></div>
+</div>
+<div class="mode"><label>Creation mode </label>
+  <div class="ui fluid search dropdown selection"><select >
+      <option value="">New</option>
+      <option value="Id">Copy</option>
+    </select><i class="dropdown icon"></i></div>
+</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="changementDePageWithCondition()" data-bs-dismiss="modal">Continue</button>
+
+    <button type="button" class="btn btn-danger" (click)="cancel()" data-bs-dismiss="modal" >Cancel</button>
+  </div>
+
+
+</div>
+
+
+</div>
+</div>
+
