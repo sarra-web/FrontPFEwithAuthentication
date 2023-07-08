@@ -20,6 +20,7 @@ export class AddJDBCconnectorComponent implements OnInit{
   currentFile?: File;
   progress = 0;
   message = '';
+  messageQuery='';
   fileName = 'Select File';
   fileInfos?: Observable<any>;
   data: string[][] = [];
@@ -39,6 +40,11 @@ export class AddJDBCconnectorComponent implements OnInit{
     password:'',
     className:'',
     tableName:'',
+    initialQuery:'',
+    checkpointColumn:'',
+    incrementalVariable:'',
+    incrementalQuery:'',
+    mode:"Full",
     fields: []
 }
 isChecked:boolean;
@@ -62,15 +68,50 @@ newConnector(): void {
         password:'',
         className:'',
         tableName:'',
+           initialQuery:'',
+    checkpointColumn:'',
+    incrementalVariable:'',
+    incrementalQuery:'',
+    mode:"Full",
         fields:[]
       };
+    }
+    myFunction():void {
+      var x = document.getElementById("myInput") as HTMLInputElement;
+      if (x.type === "password") {
+         console.log("pass")
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+    }
+    handleKeyDown(event:any): void {
+      // Check if the key pressed is not allowed
+      if (!this.isAllowedKey(event.key)) {
+        event.preventDefault();
+      }
+    }
+
+    isAllowedKey(key: string): boolean {
+      // Define the allowed characters and special keys
+      const allowedCharacters = /^[a-zA-Z0-9\s.,();'"$]+$/;
+      const allowedSpecialKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab'];
+
+      // Check if the key is allowed
+      return allowedCharacters.test(key) || allowedSpecialKeys.includes(key);
     }
     onClick(): void {
       this.connectorService.extract(this.connector).subscribe(
         (response) => {
-          console.log(response);
-          this.data =response //response.map((row: any) => row.split(','));
-          const columns = this.data[0].length; // Nombre de colonnes dans le tableau (supposant que toutes les lignes ont la même longueur)
+
+          console.log("response",response);
+          this.data =response
+          const columns = this.data[0].length;
+          if (columns===0){
+            console.log("vide")
+            this.messageQuery="Invalid query"}
+            else{this.messageQuery=""}
+          // Nombre de colonnes dans le tableau (supposant que toutes les lignes ont la même longueur)
             this.result = Array.from({ length: columns }, (_, columnIndex) =>
            new Field(this.data.map(row => row[columnIndex]))
           );
@@ -92,6 +133,8 @@ newConnector(): void {
         },
         (error) => {
           console.log('Erreur lors de la récupération des données CSV :', error);
+
+
         }
 
       );
@@ -118,7 +161,12 @@ console.log(this.fields)
       password:this.connector.password,
       className:this.connector.className,
       tableName:this.connector.tableName,
-      fields:this.fields
+      fields:this.fields,
+      initialQuery:this.connector.initialQuery,
+      checkpointColumn:this.connector.checkpointColumn,
+        incrementalVariable:this.connector.incrementalVariable,
+       incrementalQuery:this.connector.incrementalQuery,
+       mode: this.connector.mode
 };
 
 this.connectorService.create(data)

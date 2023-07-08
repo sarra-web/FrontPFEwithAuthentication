@@ -1,6 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LogService } from '../../_services/log.service';
 import { NgModule,NO_ERRORS_SCHEMA } from '@angular/core';
+import { Observable } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { FormsModule } from '@angular/forms'
+/**
+ * @title Data table with sorting, pagination, and filtering.
+ */
 @Component({
   selector: 'app-log',
   templateUrl: './log.component.html',
@@ -10,23 +18,55 @@ export class LogComponent implements OnInit {
 
   files: { name: string }[] = []; // Replace this with your actual file data structure
   fileData: string[];
-  elements: string[] = [];
+  elements: Observable<any>;
+  result:Data[];
+  result2: string[][] = [];
+  data: string[][] = [];
+  displayedColumns = ['Date', 'RequestURI', 'Method', 'ResponseStatus','Level'];
+  dataSource: MatTableDataSource<Data>;
 
-  constructor(private fileService: LogService) { }
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  constructor(private logService: LogService) {
+
+    const users: Data[] = [];
+
+    this.logService.getFile2("myLog.csv").subscribe(
+      (response) => {
+        this.data = response.map((row: any) => row.split(','));
+      const   columns = this.data.length; // Nombre de colonnes dans le tableau (supposant que toutes les lignes ont la même longueur)
+      for (let i =0; i < columns; i++) {
+        users.push( new Data(this.data[i]));
+        ;
+      }
+
+        console.log("users",users);
+      },
+      (error) => {
+        console.log('Erreur lors de la récupération des données CSV :', error);
+      }
+       );
+    // Assign the data to the data source for the table to render
+    this.dataSource = new MatTableDataSource(users);
+  }
+   red=COLORS[1];
+   a=COLORS[0];
   ngOnInit(): void {
-    this.fileService.getFile2('application.csv')
-    .then(data => {
-      this.elements = data.split(' '); // Split the data by spaces
 
-    console.log(data)
-    })
-    .catch(error => {
-      console.error('Error fetching file data:', error);
-    });
 }
 
+ngAfterViewInit() {
+  this.dataSource.paginator = this.paginator;
+  this.dataSource.sort = this.sort;
+}
+
+applyFilter(filterValue: string) {
+  filterValue = filterValue.trim(); // Remove whitespace
+  filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+  this.dataSource.filter = filterValue;
+}
   downloadFile(file: { name: string }) {
-    this.fileService.getFile(file.name)
+    this.logService.getFile(file.name)
       .then(blob => {
         // Perform any necessary operations with the downloaded file
         // For example, you can create a URL for the blob and open it in a new window
@@ -38,13 +78,53 @@ export class LogComponent implements OnInit {
         console.error('Error downloading file:', error);
       });
   }
-  getFileData(filename: string) {
-    this.fileService.getFile2(filename)
-      .then(data => {
-        this.fileData = data.split('\n'); // Supposons que les données du fichier sont séparées par des sauts de ligne
-      })
-      .catch(error => {
-        console.error('Error fetching file data:', error);
-      });
+
+  getFileData() {
+    this.logService.getFile2("myLog.csv").subscribe(
+      (response) => {
+        this.data = response.map((row: any) => row.split(','));
+        const columns = this.data[0].length; // Nombre de colonnes dans le tableau (supposant que toutes les lignes ont la même longueur)
+          this.result2 = Array.from({ length: columns }, (_, columnIndex) =>
+         (this.data.map(row => row[columnIndex]))
+        );
+        console.log(this.data);
+        console.log(this.result);
+      },
+      (error) => {
+        console.log('Erreur lors de la récupération des données CSV :', error);
+      }
+
+    );
+}
+}
+function createNewUser(id: number): Data {
+  const name =
+      NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
+      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
+
+  return {
+    Date: id.toString(),
+    RequestURI: name,
+    Method: Math.round(Math.random() * 100).toString(),
+    ResponseStatus: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
+  };
+}
+
+/** Constants used to fill up our data base. */
+const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
+  'fuchsia', 'lime', 'teal', 'aqua', 'blue', 'navy', 'black', 'gray'];
+const NAMES = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
+  'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
+  'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
+export class Data {
+  Date: string;
+  RequestURI: string;
+  Method: string;
+  ResponseStatus: string;
+  constructor( a:string[]) {
+    this.Date =a[0] ;
+    this.RequestURI =a[1] ;
+    this. Method= a[2];
+    this. ResponseStatus= a[3];
   }
 }

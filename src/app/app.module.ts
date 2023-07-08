@@ -93,7 +93,8 @@ const materialModules = [
     PopapComponent,
      JDBCconnectorComponent,
     AddJDBCconnectorComponent,
-    LogComponent,HomeComponent
+    LogComponent
+    ,HomeComponent
 
   ],
   imports: [
@@ -118,6 +119,8 @@ const materialModules = [
     MatProgressBarModule,
     MatInputModule,
     ...materialModules,
+    MatSelectModule,
+    MatFormFieldModule,
     //,NgModule
     //,CommonModule
 

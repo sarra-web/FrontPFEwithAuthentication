@@ -27,6 +27,9 @@ export class ConnectorServiceService {
   get(id: any): Observable<any> {
     return this.http.get<any>(`${baseUrl}/findById/${id}`);
   }
+  get2(id: any): Observable<any> {
+    return this.http.get<any>(`${baseUrl}/findById2/${id}`);
+  }
 
   create(data: any): Observable<any> {
     return this.http.post(baseUrl, data);

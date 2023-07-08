@@ -18,7 +18,68 @@
     </div>
   </div>
 </div>-->
+<div class="col-md-1">
+  <button class="btn btn-success" (click)="openModel()">Add</button>
+</div>
+<div>
+<div class="modal" id="myModal">
+<div class="modal-dialog">
+<div class="modal-content">
+
+    <div class="modal-header">
+      <h4 class="modal-title">Modal Heading</h4>
+    </div>
+<div class="modal-body">
+  <div class="card">
+    <div class="card-body">
+      <div class="submit-form">
+        <div *ngIf="!submitted">
+          <div class="form-group">
+            <label for="description">Name</label>
+            <input
+              class="form-control"
+              id="description"
+              required
+              [(ngModel)]="scheduler.name"
+              name="description"
+            />
+
+     <label for=""> Scan mode </label>
+     <select  [(ngModel)]="scheduler.scanMode" class="form-select" aria-label="Default select example">
+      <option selected>Open this select menu</option>
+      <option value="Once">Once</option>
+      <option value="Cron">Cron</option>
+
+    </select> <br>
+
+     <label for=""> Starts time </label>
+     <input type="text"  [(ngModel)]="scheduler.startsTime"><br>
+
+     <div class="field" *ngIf="scheduler.scanMode=='Cron'">
+      <label>Cron expression</label>
+      <br>
+      <input type="text" placeholder="cronExpression" [(ngModel)]="scheduler.cronExpression" name="cron">
+    </div>
+
+
+    </div>
+  </div>
+  </div>
+  </div>
+</div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="savescheduler()" data-bs-dismiss="modal">Schedule</button>
+
+  <button type="button" class="btn btn-danger" (click)="cancel()" data-bs-dismiss="modal" >Cancel</button>
+</div>
+</div>
+
+</div>
+
+</div>
 <div class="list row">
+
   <div class="">
    <!--
      <div class="input-group mb-3">
@@ -40,7 +101,7 @@
    -->
   </div>
   <div class="col-md-6">
-    <button (click)="retrieveSchedulers()">Schedulers List</button>
+
 
 
 
@@ -64,33 +125,30 @@
                     [(ngModel)]="Scheduler.name"
                     name="description"
                   />
+                  <label for=""> Scan mode </label>
+                  <select  [(ngModel)]="Scheduler.scanMode" class="form-select" aria-label="Default select example">
+                   <option selected>Open this select menu</option>
+                   <option value="Once">Once</option>
+                   <option value="Cron">Cron</option>
 
-           <label for=""> Scan mode </label>
-           <select  [(ngModel)]="Scheduler.scanMode" class="form-select" aria-label="Default select example">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select> <br>
-           <label for=""> Scan type</label>
-           <select  [(ngModel)]="Scheduler.scanType" class="form-select" aria-label="Default select example">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select><br>
-           <label for=""> Starts time </label>
-           <input type="date"  [(ngModel)]="Scheduler.startsTime"><br>
-           <label for=""> Execution time </label>
-           <input type="text"  [(ngModel)]="Scheduler.executionTime">
-           <br></div>
+                 </select> <br>
 
+                  <label for=""> Starts time </label>
+                  <input type="text"  [(ngModel)]="Scheduler.startsTime"><br>
 
-          </div>
-        
+                  <div class="field" *ngIf="Scheduler.scanMode=='Cron'">
+                   <label>Cron expression</label>
+                   <br>
+                   <input type="text" placeholder="cronExpression" [(ngModel)]="Scheduler.cronExpression" name="cron">
+                 </div>
+                 <button type="button" class="btn btn-danger" (click)=" deletethisScheduler(Scheduler.id)" data-bs-dismiss="modal">Delete</button>
+                 <button type="submit" class="btn btn-primary" (click)="updateScheduler(Scheduler,Scheduler.id)"> Update </button>
+
         </div>
         </div>
-          </div></li></ul>
+          </div></div></div>
+        </li>
+      </ul>
         </div>
 
 

@@ -36,17 +36,53 @@
       </div>
       <div class="form-group">
         <label>password</label>
-        <input id="dd" type="text" class="form-control" [(ngModel)]="connector.password" name="password" required />
+        <input id="myInput" type="password" class="form-control" [(ngModel)]="connector.password" name="password" required />
+      <!-- An element to toggle between password visibility -->
+           <input type="checkbox" (click)="myFunction()">Show Password
       </div>
       <div class="form-group">
         <label>className</label>
-        <input id="nn" name="className" type="text" class="form-control" required [(ngModel)]="connector.className" />
+        <input id="class" name="classname" type="text" class="form-control" required [(ngModel)]="connector.className" />
       </div>
       <div class="form-group">
         <label>tableName</label>
-        <input id="nn" name="tableName" type="text" class="form-control" required [(ngModel)]="connector.tableName" />
+        <input id="table" name="tablename" type="text" class="form-control" required [(ngModel)]="connector.tableName" />
       </div>
+
+      <div class="ui fluid search dropdown selection">
+        <select  [(ngModel)]="connector.mode" name="mode"
+        >
+        <option value="Full">Full</option>
+          <option value="Incremental">Incremental</option>
+
+        </select>
+      </div>
+<div class="form-group">
+        <label for="comment">Initial query:</label>
+        <textarea name="query" (input)="handleKeyDown($event)" [(ngModel)]="connector.initialQuery" class="form-control" rows="5" id="comment"></textarea>
+      </div>
+
+
+      <div class="if" *ngIf="connector.mode=='Incremental'">
+        <label>Checkpoint Column</label>
+        <input type="text" placeholder="checkpointColumn" [(ngModel)]="connector.checkpointColumn" >
+<br>
+        <label>Incremental variable</label>
+
+        <input type="text" placeholder="incrementalVariable" [(ngModel)]="connector.incrementalVariable"  >
+        <div class="form-group">
+          <label for="comment">Incremental query:</label>
+          <textarea name="query" (input)="handleKeyDown($event)" [(ngModel)]="connector.incrementalQuery" class="form-control" rows="5" id="comment"></textarea>
+        </div>
+
+      </div>
+
+
+
       <a mat-flat-button color="primary" (click)="onClick()">Retrieve fields</a>
+      <div class="form-group" *ngIf="messageQuery" class="message">
+        {{ messageQuery }}
+      </div>
       <div class="container">
         <div id="box" class="box" *ngFor="let field of result ; let i = index;">
           <div class="ui form">

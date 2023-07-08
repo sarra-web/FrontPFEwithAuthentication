@@ -4,9 +4,8 @@ export class Scheduler {
   id?:string;
   name?:string;
   scanMode?:string
-  scanType?:string
   startsTime?:string
-  executionTime?:string
+  cronExpression?:string
 
   published?: boolean;
 

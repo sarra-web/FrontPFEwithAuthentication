@@ -1,23 +1,6 @@
 <div *ngIf="viewMode; else editable">
   <div *ngIf="currentConnector.id">
-    <h4>Connector</h4>
-    <div>
-      <label>
-        <strong>Name:</strong>
-      </label> {{ currentConnector.name }}
-    </div>
-    <div>
-      <label>
-        <strong>username:</strong>
-      </label>
-      {{ currentConnector.username}}
-    </div>
-    <div>
-      <label>
-        <strong>Status:</strong>
-      </label>
-      {{ currentConnector.published? "Published" : "Pending" }}
-    </div>
+
     <a routerLink="/connectors/{{currentConnector.typeConnector}}/{{currentConnector.id}}"> Edit </a>
   </div>
   <div *ngIf="!currentConnector">
@@ -55,20 +38,55 @@
       </div>
       <div class="form-group">
         <label>password</label>
-        <input type="text" class="form-control" [(ngModel)]="currentConnector.password" name="password" required />
+        <input id="myInput" type="password" class="form-control" [(ngModel)]="currentConnector.password" name="password" required />
+      <!-- An element to toggle between password visibility -->
+           <input type="checkbox" (click)="myFunction()">Show Password
       </div>
       <div class="form-group">
         <label>className</label>
-        <input type="text" name="className" class="form-control" required [(ngModel)]="currentConnector.className" />
+        <input id="class" type="text" name="class" class="form-control" required [(ngModel)]="currentConnector.className" />
       </div>
       <div class="form-group">
         <label>tableName</label>
-        <input id="nn" name="tableName" type="text" class="form-control" required [(ngModel)]="currentConnector.tableName" />
+        <input id="table" name="table" type="text" class="form-control" required [(ngModel)]="currentConnector.tableName" />
       </div>
       <div class="form-group" *ngIf="message" class="message">
         {{ message }}
       </div>
-      <button >Retrieve fields</button>
+      <!--      <button (click)="onClick()" [disabled]="false">Retrieve fields</button>
+-->
+
+<div class="ui fluid search dropdown selection">
+  <select  [(ngModel)]="currentConnector.mode" name="mode"
+  >
+  <option value="Full">Full</option>
+    <option value="Incremental">Incremental</option>
+
+  </select>
+</div>
+<div class="form-group">
+  <label for="comment">Initial query:</label>
+  <textarea name="query" (input)="handleKeyDown($event)" [(ngModel)]="currentConnector.initialQuery" class="form-control" rows="5" id="comment"></textarea>
+</div>
+
+
+<div class="if" *ngIf="currentConnector.mode=='Incremental'">
+  <label>Checkpoint Column</label>
+  <input type="text" placeholder="checkpointColumn" [(ngModel)]="currentConnector.checkpointColumn" >
+<br>
+  <label>Incremental variable</label>
+
+  <input type="text" placeholder="incrementalVariable" [(ngModel)]="currentConnector.incrementalVariable"  >
+  <div class="form-group">
+    <label for="comment">Incremental query:</label>
+    <textarea name="query" (input)="handleKeyDown($event)" [(ngModel)]="currentConnector.incrementalQuery" class="form-control" rows="5" id="comment"></textarea>
+  </div>
+
+</div>
+      <a mat-flat-button color="primary" (click)="onClick()">Retrieve fields</a>
+      <div class="form-group" *ngIf="messageQuery" class="message">
+        {{ messageQuery }}
+      </div>
       <div class="container">
         <div class="box" *ngFor="let field of currentConnector.fields ; let i = index;">
           <div class="ui form">

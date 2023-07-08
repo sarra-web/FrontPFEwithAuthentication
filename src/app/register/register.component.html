@@ -1,5 +1,5 @@
 <!--register-->
-<!--
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -21,75 +21,98 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
                                     <div class="card-body">
-                                        <form>
+                                        <form  *ngIf="!isSuccessful"
+                                        name="form"
+                                        (ngSubmit)="f.form.valid && onSubmit()"
+                                        #f="ngForm"
+                                        novalidate>
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
-                                                        <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" />
-                                                        <label for="inputFirstName">First name</label>
-                                                    </div>
+                                                        <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name"   name="username"
+                                                        [(ngModel)]="form.username"
+                                                        required
+                                                        minlength="3"
+                                                        maxlength="20"
+                                                        #username="ngModel"
+                                                        [ngClass]="{ 'is-invalid': f.submitted && username.errors }" />
+                                                        <label for="inputFirstName">username</label>
+                                                        <div class="invalid-feedback" *ngIf="username.errors && f.submitted">
+                                                          <div *ngIf="username.errors['required']">Username is required</div>
+                                                          <div *ngIf="username.errors['minlength']">
+                                                            Username must be at least 3 characters
+                                                          </div>
+                                                          <div *ngIf="username.errors['maxlength']">
+                                                            Username must be at most 20 characters
+                                                          </div>
+                                                        </div>                                            </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
-                                                        <input class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" />
-                                                        <label for="inputLastName">Last name</label>
+                                                        <input class="form-control" id="inputEmail" type="email" placeholder="Enter your email" name="email"
+                                                        [(ngModel)]="form.email"
+                                                        required
+                                                        email
+                                                        #email="ngModel"
+                                                        [ngClass]="{ 'is-invalid': f.submitted && email.errors }"/>
+                                                        <label for="inputLastName">Email</label>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
+                                              <div *ngIf="email.errors['required']">Email is required</div>
+                                              <div *ngIf="email.errors['email']">
+                                                Email must be a valid email address
+                                              </div>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
-                                                <label for="inputEmail">Email address</label>
+                                                <input class="form-control" id="inputPassword" type="password" placeholder="password"
+                                                name="password"
+                                                [(ngModel)]="form.password"
+                                                required
+                                                minlength="6"
+                                                #password="ngModel"
+                                                [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+                                                />
+                                                <label for="inputPassword">Password</label>
                                             </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <div class="form-floating mb-3 mb-md-0">
-                                                        <input class="form-control" id="inputPassword" type="password" placeholder="Create a password" />
-                                                        <label for="inputPassword">Password</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-floating mb-3 mb-md-0">
-                                                        <input class="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password" />
-                                                        <label for="inputPasswordConfirm">Confirm Password</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-4 mb-0">
-                                                <div class="d-grid"><a class="btn btn-primary btn-block" href="login.html">Create Account</a></div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="card-footer text-center py-3">
-                                        <div class="small"><a href="login.html">Have an account? Go to login</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-            </div>
-            <div id="layoutAuthentication_footer">
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
-            </div>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
-    </body>
-</html>-->
+                                            <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
+                                              <div *ngIf="password.errors['required']">Password is required</div>
+                                              <div *ngIf="password.errors['minlength']">
+                                                Password must be at least 6 characters
+                                              </div></div>
+
+                                              <div class="form-group">
+                                                <button class="btn btn-primary btn-block">Sign Up</button>
+                                              </div>
+
+                                              <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+                                                Signup failed!<br />{{ errorMessage }}
+                                              </div>
+                                            </form>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
 <div class="col-md-12">
   <div class="card card-container">
 
@@ -175,3 +198,4 @@
     </div>
   </div>
 </div>
+-->

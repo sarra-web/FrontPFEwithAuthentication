@@ -103,6 +103,8 @@ onClick(sep:any): void {
         this.result = Array.from({ length: columns }, (_, columnIndex) =>
        new Field(this.data.map(row => row[columnIndex]))
       );
+      this.currentConnector.path=this.fileName;
+      this.currentConnector.fields=this.result;
       console.log(this.data);
       console.log(this.result);
       for (let i = 0; i < this.result.length; i = i + 1) {
@@ -146,7 +148,7 @@ this.connectorService.update(data)
         next: (res) => {
           console.log(res);
           this.currentConnector.published= status;
-          this.message = res.message ? res.message : 'The status was updated successfully!';
+         // this.message = res.message ? res.message : 'The status was updated successfully!';
         },
         error: (e) => console.error(e)
       });
@@ -167,8 +169,14 @@ console.log(data)
     this.connectorService.updateProx(data).subscribe({
       next: (res) => {
         console.log(res);
+        const now = new Date();
+        let j=0;
+        for (let i = 0; i < res.length; i = i + 1){
+          if(res[i].UpsertSuccessful===true){
+                j=j+1;
+          }}
         if(res[1].UpsertSuccessful===true){
-          alertify.success ('You data was pushed to proxem successfully! ');
+          alertify.success (j+' documents are pushed to proxem successfully! \n start time: '+now);
         }
         if(!res[1].Errors ===false){
           alertify.success ('You data was pushed to proxem successfully! but not accepted');
@@ -198,11 +206,11 @@ console.log(data)
     this.connectorService.update(this.currentConnector).subscribe({
         next: (res) => {
           console.log(res);
-          this.message = res.message ? res.message : 'This Connector was updated successfully!';
+         // this.message = res.message ? res.message : 'This Connector was updated successfully!';
           alertify.success("This Connector was updated successfully!")
 
         },
-        error: (e) => {console.error(e);this.message='bad request'
+        error: (e) => {//console.error(e);this.message='bad request'
         console.log(e)
       }
       });

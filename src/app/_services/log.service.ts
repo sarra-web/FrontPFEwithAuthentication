@@ -1,5 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,8 @@ export class LogService {
 
     return file;
 }
-getFile2(filename: string): Promise<string> {
-  return this.http.get(`${this.backendUrl}/${filename}`, { responseType: 'text' })
-    .toPromise();
+getFile2(filename: any): Observable<any> {
+  return this.http.get(`${this.backendUrl}/${filename}`)
+
 }
 }

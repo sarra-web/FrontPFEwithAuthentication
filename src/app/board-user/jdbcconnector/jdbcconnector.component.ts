@@ -23,12 +23,18 @@ export class JDBCconnectorComponent {
   password:'',
   className: '',
   tableName:'',
+  initialQuery:'',
+  checkpointColumn:'',
+  incrementalVariable:'',
+  incrementalQuery:'',
+  mode:"Full",
   fields: [],
   published: false
   };
   currentFile?: File;
   progress = 0;
   message = '';
+  messageQuery='';
   fileName = '';
   fileInfos?: Observable<any>;
   data: string[][] = [];
@@ -43,10 +49,7 @@ export class JDBCconnectorComponent {
       this.message = '';
       this.getConnector(this.route.snapshot.params["id"]);
 
-    }
-
-
-  }
+    } }
 //adds
 
 selectFile(event: any): void {
@@ -59,31 +62,36 @@ selectFile(event: any): void {
   }
 }
 
-onClick(sep:any): void {
-
- /* this.uploadService.ExtactData(this.fileName).subscribe(
+onClick(): void {
+  this.connectorService.extract(this.currentConnector).subscribe(
     (response) => {
-      this.data = response.map((row: any) => row.split(sep));
+      console.log(response);
+      this.data =response
       const columns = this.data[0].length; // Nombre de colonnes dans le tableau (supposant que toutes les lignes ont la même longueur)
-        this.result = Array.from({ length: columns }, (_, columnIndex) =>
+      if (columns===0){
+        console.log("vide")
+        this.messageQuery="Invalid query"}
+        else{this.messageQuery=""}
+      this.result = Array.from({ length: columns }, (_, columnIndex) =>
        new Field(this.data.map(row => row[columnIndex]))
       );
+      this.currentConnector.fields=this.result;
       console.log(this.data);
       console.log(this.result);
-      for (let i = 0; i < this.result.length; i = i + 1) {
+      for (let i = 0; i < this.result.length; i = i + 1) {//initialisation
         this.result[i].name=this.result[i].content?.at(0);
         this.result[i].fieldType="Meta"
           this.result[i].position=i+1;
          this.result[i].included=false;
           this.result[i].meta=this.result[i].content?.at(0);
           this.result[i].partOfDocumentIdentity=true;
-       }
-    },
-    (error) => {
-      console.log('Erreur lors de la récupération des données CSV :', error);
-    }
-  );*/
-}
+       }},
+       (error) => {
+        console.log('Erreur lors de la récupération des données :', error);
+        this.messageQuery="Invalid query"
+      }
+    );
+      }
 
 //
   getConnector(id: string): void {
@@ -123,14 +131,26 @@ this.connectorService.update(data)
       password:this.currentConnector.password,
       tableName:this.currentConnector.tableName,
       username:this.currentConnector.username,
-      fields: this.currentConnector.fields
+      initialQuery:this.currentConnector.initialQuery,
+      checkpointColumn:this.currentConnector.checkpointColumn,
+        incrementalVariable:this.currentConnector.incrementalVariable,
+       incrementalQuery:this.currentConnector.incrementalQuery,
+       mode: this.currentConnector.mode,
+      fields: this.currentConnector.fields,
+
 };
 console.log(data)
     this.connectorService.updateProx(data).subscribe({
       next: (res) => {
-        console.log(res);
+        console.log("res",res,"lenght",res.length);
+        const now = new Date();
+        let j=0;
+        for (let i = 0; i < res.length; i = i + 1){
+          if(res[i].UpsertSuccessful===true){
+                j=j+1;
+          }}
         if(res[1].UpsertSuccessful===true){
-          alertify.success ('You data was pushed to proxem successfully! ');
+          alertify.success (j+' documents are pushed to proxem successfully! \n start time: '+now);
         }
         if(!res[1].Errors ===false){
           alertify.success ('You data was pushed to proxem successfully! but not accepted');
@@ -146,6 +166,30 @@ console.log(data)
 
    clear(){
    }
+   myFunction():void {
+    var x = document.getElementById("myInput") as HTMLInputElement;
+    if (x.type === "password") {
+       console.log("pass")
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+  handleKeyDown(event:any): void {
+    // Check if the key pressed is not allowed
+    if (!this.isAllowedKey(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+  isAllowedKey(key: string): boolean {
+    // Define the allowed characters and special keys
+    const allowedCharacters = /^[a-zA-Z0-9\s.,();'"$]+$/;
+    const allowedSpecialKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab'];
+
+    // Check if the key is allowed
+    return allowedCharacters.test(key) || allowedSpecialKeys.includes(key);
+  }
    goToSqueduler(){
 
     this.router.navigateByUrl('/squeduler/{{currentConnector.id}}');

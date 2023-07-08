@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
 <div *ngIf="viewMode; else editable">
   <div *ngIf="currentConnector.id">
     <a routerLink="/connectors/{{currentConnector.typeConnector}}/{{currentConnector.id}}">  </a>
@@ -9,7 +17,7 @@
 </div>
 <ng-template #editable>
   <div *ngIf="currentConnector.id" class="edit-form">
-    <h4>Connector</h4>
+    <h4>Connector CSV</h4>
 
     <form
     name="currentConnector"
@@ -57,7 +65,10 @@
           <div>
             <mat-toolbar>
               <input matInput [value]="fileName" [(ngModel)]="currentConnector.path" name="file" />
-              <button mat-flat-button color="primary" [disabled]="!currentFile" (click)="upload()"> Upload </button>
+
+              <a mat-flat-button color="primary" [disabled]="!currentFile" (click)="upload()">Upload</a>
+
+              <!--<button mat-flat-button color="primary" [disabled]="!currentFile" (click)="upload()"> Upload </button>-->
             </mat-toolbar>
           <input type="file" id="fileInput" (change)="selectFile($event)" name="fileInput"  />
           </div>
@@ -66,14 +77,17 @@
       <div class="form-group" *ngIf="message" class="message">
         {{ message }}
       </div>
-      <button (click)="onClick(this.currentConnector.separator)">Retrieve fields</button>
+<!--      <button (click)="onClick(this.currentConnector.separator)" [disabled]="false">Retrieve fields</button>
+-->
+<a mat-flat-button color="primary" (click)="onClick(this.currentConnector.separator)">Retrieve fields</a>
+
       <div class="container">
         <div class="box" *ngFor="let field of currentConnector.fields ; let i = index;">
           <div class="ui form">
             <div class="ui grid">
               <div class="sixteen wide right aligned column">
                 <div class="ui checkbox" style="margin-right: 1em;">
-                  <input class="form-check-input" type="checkbox" id="flexCheckChecked" checked name="includ" [(ngModel)]="field.included" value="true" />
+                  <input class="form-check-input" type="checkbox" id="flexCheckChecked" checked="field.included" name="includ" [(ngModel)]="field.included" value="true" />
                   <label class="form-check-label" for="flexCheckChecked"> Included </label>
                 </div>
                 <!--<button class="boutton"  (click)="changeButton()" [ngStyle]="{ 'background-color': buttonColor }"  >{{ buttonText }}</button>-->
@@ -180,3 +194,5 @@
     <p>Cannot access this connector...</p>
   </div>
 </ng-template>
+</body>
+</html>

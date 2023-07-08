@@ -1,13 +1,59 @@
-<p>log works!</p>
-<div>
-  {{this.elements}}
+<div class="example-header">
+  <mat-form-field>
+  <input matInput #filterInput (keyup)="applyFilter(filterInput.value)" placeholder="Filter">
+  </mat-form-field>
 </div>
-<table>
-  <tr>
-    <th>Elements</th>
-  </tr>
-  <tr *ngFor="let element of elements">
-    <td>{{ element }}</td>
+<div class="example-container mat-elevation-z8">
+
+  <mat-table [dataSource]="dataSource" matSort>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="Date">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Date </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.Date}} </mat-cell>
+    </ng-container>
+
+    <!-- Progress Column -->
+    <ng-container matColumnDef="RequestURI">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> RequestURI </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.RequestURI}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="Method">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Method </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.Method}} </mat-cell>
+    </ng-container>
+
+    <!-- Color Column -->
+    <ng-container matColumnDef="ResponseStatus">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> ResponseStatus </mat-header-cell>
+      <mat-cell *matCellDef="let row" [style.color]="red"> {{row.ResponseStatus}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Level">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Level </mat-header-cell>
+      <mat-cell *matCellDef="let row" [style.color]="a"> info </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+
+
+<!-- Copyright 2018 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->
+
+
+
+
+  <table>
+  <tr *ngFor="let sublist of data.reverse()">
+    <td *ngFor="let item of sublist">{{ item }}</td>
   </tr>
 </table>
 

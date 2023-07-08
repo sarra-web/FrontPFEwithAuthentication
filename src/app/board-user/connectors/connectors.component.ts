@@ -124,9 +124,14 @@ export class ConnectorsComponent implements OnInit{
     console.log(this.currentConnector)
     this.connectorService.updateProx(this.currentConnector).subscribe({
       next: (res) => {
-        console.log(res);
+        const now = new Date();
+        let j=0;
+        for (let i = 0; i < res.length; i = i + 1){
+          if(res[i].UpsertSuccessful===true){
+                j=j+1;
+          }}
         if(res[1].UpsertSuccessful===true){
-          alertify.success ('You data was pushed to proxem successfully! ');
+          alertify.success (j+' documents are pushed to proxem successfully! \n start time: '+now);
         }
         if(!res[1].Errors ===false){
           alertify.success ('You data was pushed to proxem successfully! but not accepted');
@@ -142,9 +147,14 @@ export class ConnectorsComponent implements OnInit{
       console.log(this.currentConnector)
       this.connectorJDBCService.updateProx(this.currentConnector).subscribe({
         next: (res) => {
-          console.log(res);
+          const now = new Date();
+          let j=0;
+          for (let i = 0; i < res.length; i = i + 1){
+            if(res[i].UpsertSuccessful===true){
+                  j=j+1;
+            }}
           if(res[1].UpsertSuccessful===true){
-            alertify.success ('You data was pushed to proxem successfully! ');
+            alertify.success (j+' documents are pushed to proxem successfully! \n start time: '+now);
           }
           if(!res[1].Errors ===false){
             alertify.success ('You data was pushed to proxem successfully! but not accepted');
