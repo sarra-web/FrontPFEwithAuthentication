@@ -40,7 +40,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'admin/project', component: ProjectComponent }
   ,{ path: 'admin/project/projects', component: ProjectsListComponent },
-  { path: 'admin/project/projects/:id', component: ProjectDetailsComponent },
+  { path: 'projects/:id', component: ProjectDetailsComponent },
   { path: 'admin/project/addP', component: AddProjectComponent }
   ,{ path: 'admin/user', component: UserManagementComponent },
   { path: 'user/connectors', component: ConnectorsComponent },

@@ -21,9 +21,10 @@ projectsState$: Observable<{ appState: string; appData?: ApiResponse<Page>; erro
   private currentPageSubject = new BehaviorSubject<number>(0);
   currentPage$ = this.currentPageSubject.asObservable();
  //loadingService: any;
-  projects?: Project[];
-  project?: Project;
-  currentproject: Project;
+  projects: Project[];
+  submitted=false;
+  project: Project={};
+  currentproject: Project={};
   currentIndex = -1;
   name:string = "";
   input:any;
@@ -50,6 +51,22 @@ projectsState$: Observable<{ appState: string; appData?: ApiResponse<Page>; erro
         return of({ appState: 'APP_ERROR', error })}
         )
     )
+  }
+  saveProject(): void {
+    const data = {
+      id:this.project.name,
+      name: this.project.name,
+      proxemToken: this.project.proxemToken
+    };
+
+    this.projectService.create(data)
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.submitted = true;
+        },
+        error: (e) => console.error(e)
+      });
   }
 
   getRequestParams(name: string, page: number, pageSize: number): any {
@@ -177,25 +194,32 @@ removeAllprojects(): void {
     });},function(){})
 }
   searchByNameIgnoreCase(): void {
+    const params = this.getRequestParams(this.name, this.page, this.pageSize);
+    console.log("name",this.name)
+    this.currentproject = {};
+    this.currentIndex = -1;
+
+    this.projectService.findByNameContaining(params)
+    .subscribe({
+      next: (data) => {
+        const {projects, totalItems } = data;
+        this.projects = projects;
+        this.count = totalItems;
+        console.log(data);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  searchName(): void {
     this.currentIndex = -1;
 
     this.projectService.findByNameIgnoreCase(this.name)
       .subscribe({
         next: (data) => {
           this.projects = data;
-          console.log(data);
-        },
-        error: (e) => console.error(e)
-      });
-  }
-
-  searchName(): void {
-    this.currentIndex = -1;
-
-    this.projectService.findByName(this.name)
-      .subscribe({
-        next: (data) => {
-          this.project = data;
           console.log(data);
         },
         error: (e) => console.error(e)
@@ -242,7 +266,7 @@ removeAllprojects(): void {
 
 
    cancel():void{
-    this.router.navigateByUrl('/projects');
+    //this.router.navigateByUrl('/projects');
     this.CloseModel()
    }
   myFunction() {

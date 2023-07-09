@@ -188,13 +188,44 @@
   -->
     <button class="btn btn-danger" (click)="deleteConnector()"> Delete </button>
 
-    <button class="btn btn-info" (click)=" pushActiveConnector()"> Scan </button>
+    <button class="btn btn-info" (click)=" scan()"> Scan </button>
     <button class="btn btn-success" (click)=" clear()"> Clear </button>
     <button class="btn btn-light" > <a routerLink="/squeduler/{{currentConnector.id}}">
       Operation
     </a>  </button>
     <p>{{ message }}</p>
   </div>
+  <div class="col-md-1">
+    <button class="btn btn-success" (click)="openModel()">Scan from check point</button>
+  </div>
+  <div>
+  <div class="modal" id="myModal">
+  <div class="modal-dialog">
+  <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+      </div>
+  <div class="modal-body">
+  <div class="type" [(ngModel)]="incrementalVariable">
+    <label>Checkpoint</label>
+              <br>
+  <input type="text">
+  </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="scanFromCheckPoint()" data-bs-dismiss="modal">Run</button>
+
+      <button type="button" class="btn btn-danger" (click)="cancel()" data-bs-dismiss="modal" >Cancel</button>
+    </div>
+  </div>
+
+
+  </div>
+  </div>
+</div>
+
   <div *ngIf="!currentConnector.id">
     <br />
     <p>Cannot access this connector...</p>

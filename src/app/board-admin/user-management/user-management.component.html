@@ -47,4 +47,66 @@
     aria-label="Select page">
 </mat-paginator>
   </div>
+
+
 </div>
+<button class="btn btn-success" (click)="openModel()">Add</button>
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+  <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+      </div>
+  <div class="modal-body">
+
+    <div class="submit-form">
+      <div *ngIf="!submitted">
+        <div class="form-group">
+          <label for="name">username</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+
+            [(ngModel)]="user.username"
+            name="name" required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="proxemToken">Email</label>
+          <input type="email" placeholder="user@gamil.com"
+
+            id="email"
+            required
+            [(ngModel)]="user.email"
+            name="email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password"
+
+            id="password"
+            required
+            [(ngModel)]="user.password"
+            name="password" placeholder="password"
+          />
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button (click)="saveUser()" class="btn btn-success">Submit</button>
+    <div *ngIf="submitted">
+      <h4>User was registred successfully!</h4>
+    </div>
+    <button type="button" class="btn btn-danger" (click)="cancel()" data-bs-dismiss="modal" >Cancel</button>
+  </div>
+</div></div></div>
+<button class="m-3 btn btn-sm btn-danger" (click)="removeAllprojects()">
+  Remove All
+</button>

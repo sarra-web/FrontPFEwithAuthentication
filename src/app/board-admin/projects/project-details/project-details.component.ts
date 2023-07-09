@@ -66,7 +66,7 @@ export class ProjectDetailsComponent {
   updateProject(): void {
     this.message = '';
 
-    this.projectService.update(this.currentProject.id)
+    this.projectService.update(this.currentProject)
       .subscribe({
         next: (res) => {
           console.log(res);

@@ -118,9 +118,9 @@ export class ConnectorsComponent implements OnInit{
     this.page = event;
     this.retrieveConnectors();
   }
-  pushActiveConnector(): void {
+  scan(): void {
 
-    if(this.currentConnector.typeConnector==="connecteurCSV"){
+    if(this.currentConnector.typeConnector==="connectorCSV"){
     console.log(this.currentConnector)
     this.connectorService.updateProx(this.currentConnector).subscribe({
       next: (res) => {
@@ -143,8 +143,9 @@ export class ConnectorsComponent implements OnInit{
       },
       error: (e) => console.error(e)
     });}
-    if(this.currentConnector.typeConnector==="connecteurJDBC"){
+    if(this.currentConnector.typeConnector==="connectorJDBC"){
       console.log(this.currentConnector)
+
       this.connectorJDBCService.updateProx(this.currentConnector).subscribe({
         next: (res) => {
           const now = new Date();
@@ -224,7 +225,7 @@ removeAllConnectors(): void {
   }
 
   deletethisConnector(id:any): void {
-    if(this.currentConnector.typeConnector==="connecteurCSV"){
+    if(this.currentConnector.typeConnector==="connectorCSV"){
       alertify.confirm("Remove Connector","do you want remove this connector?",()=>{this.connectorService.delete(id)
         .subscribe({
           next: (res) => {
@@ -236,7 +237,7 @@ removeAllConnectors(): void {
           error: (e) => console.error(e)
         });},function(){})
     }
-    if(this.currentConnector.typeConnector==="connecteurJDBC"){
+    if(this.currentConnector.typeConnector==="connectorJDBC"){
       alertify.confirm("Remove Connector","do you want remove this connector?",()=>{this.connectorJDBCService.delete(id)
         .subscribe({
           next: (res) => {

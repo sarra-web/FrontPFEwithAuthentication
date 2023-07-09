@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ModalpopupComponent implements OnInit {
   @Input() viewMode = false;
   @Input() user:User={
-id:0,
+
 username:'',
 email:'',
 password:'',
@@ -57,7 +57,7 @@ roles:Role[]=[];
 
   }
 
-  SaveUser() {
+  SaveUser() {/*
     console.log("user",this.user)
     if (this.updateform.valid) {
       this.service.UpdateUser(this.user).subscribe(item => {
@@ -69,7 +69,19 @@ roles:Role[]=[];
           alertify("Failed try again");
         }
       });
+    }*/
+    if (this.updateform.valid) {
+      this.service.UpdateUser(this.updateform.getRawValue()).subscribe(item => {
+        this.savedata = item;
+        if (this.savedata.result == 'pass') {
+          alertify.success("Updated successfully.")
+          this.ref.close();
+        } else {
+          alertify.error("Failed try again");
+        }
+      });
     }
+
   }
 
   GetAllRole() {

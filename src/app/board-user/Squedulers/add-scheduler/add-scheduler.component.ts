@@ -90,7 +90,7 @@ export class AddSchedulerComponent implements OnInit{
         error: (e) => console.error(e)
       });
 
-      if(this.currentConnector.typeConnector==='connecteurCSV')
+      if(this.currentConnector.typeConnector==='connectorCSV')
       {console.log("planif en cour",this.currentConnector.typeConnector)
         this.schedulerService.planifierCSV(data)
       .subscribe({
@@ -100,7 +100,7 @@ export class AddSchedulerComponent implements OnInit{
         },
         error: (e) => console.error(e)
       });}
-      if(this.currentConnector.typeConnector==='connecteurJDBC')
+      if(this.currentConnector.typeConnector==='connectorJDBC')
       {console.log("planif en cour",this.currentConnector.typeConnector)
         this.schedulerService.planifierJDBC(data)
       .subscribe({
@@ -124,7 +124,7 @@ export class AddSchedulerComponent implements OnInit{
       published: false
     };
     console.log("avant",this.currentConnector.typeConnector)
-  if(this.currentConnector.typeConnector==='connecteurCSV')
+  if(this.currentConnector.typeConnector==='connectorCSV')
     {console.log("aprés",this.currentConnector.typeConnector)
       this.schedulerService.planifierCSV(data)
     .subscribe({
@@ -134,7 +134,7 @@ export class AddSchedulerComponent implements OnInit{
       },
       error: (e) => console.error(e)
     });}
-    if(this.currentConnector.typeConnector==='connecteurJDBC')
+    if(this.currentConnector.typeConnector==='connectorJDBC')
     {this.schedulerService.planifierJDBC(data)
     .subscribe({
       next: (res) => {

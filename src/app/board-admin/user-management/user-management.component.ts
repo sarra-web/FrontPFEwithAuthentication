@@ -8,6 +8,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import * as alertify from 'alertifyjs'
 import { MatDialog } from '@angular/material/dialog';
 import { ModalpopupComponent } from '../modalpopup/modalpopup.component';
+import { Router } from '@angular/router';
+import { StorageService } from 'src/app/_services/storage.service';
+import { AuthService } from 'src/app/_services/auth.service';
+import { elementAt } from 'rxjs';
 
 
 
@@ -38,8 +42,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class  UserManagementComponent implements OnInit {
 
-  constructor(private service: BoardAdminService,private dialog :MatDialog) { }
-
+  constructor(private router:Router,private service: BoardAdminService,private dialog :MatDialog,private userService:AuthService) { }
+user:User={}
+submitted=false;
   ngOnInit(): void {
     this.GetAllUser();
   }
@@ -58,6 +63,33 @@ export class  UserManagementComponent implements OnInit {
     this.page = 1;
 
   }
+
+  removeAllprojects(): void {
+    alertify.confirm("Remove projects","do you want remove all these users?",()=>{
+     this.userService.deleteAll()
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          //this.refreshList();
+        },
+        error: (e) => console.error(e)
+      });},function(){})
+
+  }
+  cancel():void{
+    this.CloseModel()
+   }
+   saveUser(): void {
+     this.userService.register(this.user.username,this.user.email,this.user.password).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.submitted = true;
+      },
+      error: (e) => console.error(e)
+    });
+}
+
+
   GetAllUser() {
     this.service.GetAllUser().subscribe(item => {
       this.UserDetail = item;
@@ -82,7 +114,7 @@ openModel() {
     }
   }
   FunctionUpdate(userid: any) {
-
+   console.log(userid)
    let popup= this.dialog.open(ModalpopupComponent,{
       width:'400px',
       // height:'400px',

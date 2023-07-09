@@ -16,14 +16,14 @@ export class ProjectServiceService {
   constructor(private http: HttpClient) { }
 
 
-  projects$ = (page: number = 0, size: number = 10): Observable<ApiResponse<Page>> =>    this.http.get<any>(`${baseUrl}/projects?name=${name}&?page=${page}&size=${size}`);
+  projects$ = (page: number = 0, size: number = 10): Observable<ApiResponse<Page>> => this.http.get<any>(`${baseUrl}/projects?name=${name}&?page=${page}&size=${size}`);
 
   getAll(): Observable<Project[]> {
     return this.http.get<Project[]>(baseUrl);
   }
 
   get(id: any): Observable<Project> {
-    return this.http.get<Project>(`${baseUrl}/${id}`);//pas encore en backend
+    return this.http.get<Project>(`${baseUrl}/findById/${id}`);
   }
 
 
@@ -54,7 +54,7 @@ export class ProjectServiceService {
   }
 
   deleteAll(): Observable<any> {
-    return this.http.delete('${baseUrl}');//pas encore developpé en java
+    return this.http.delete(`${baseUrl}/projects`);
   }
 
   findByName(name: any): Observable<Project> {

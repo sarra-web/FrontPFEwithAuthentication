@@ -36,6 +36,7 @@ export class JDBCconnectorComponent {
   message = '';
   messageQuery='';
   fileName = '';
+  incrementalVariable='';
   fileInfos?: Observable<any>;
   data: string[][] = [];
   result: Field[] = [];
@@ -122,7 +123,7 @@ this.connectorService.update(data)
         error: (e) => console.error(e)
       });
   }
-  pushActiveConnector(): void {
+  scan(): void {
     const data = {
       id:this.currentConnector.id,
       name:this.currentConnector.name,
@@ -134,6 +135,47 @@ this.connectorService.update(data)
       initialQuery:this.currentConnector.initialQuery,
       checkpointColumn:this.currentConnector.checkpointColumn,
         incrementalVariable:this.currentConnector.incrementalVariable,
+       incrementalQuery:this.currentConnector.initialQuery,
+       mode: this.currentConnector.mode,
+      fields: this.currentConnector.fields,
+
+};
+console.log(data)
+    this.connectorService.updateProx(data).subscribe({
+      next: (res) => {
+        console.log("res",res,"lenght",res.length);
+        const now = new Date();
+        let j=0;
+        for (let i = 0; i < res.length; i = i + 1){
+          if(res[i].UpsertSuccessful===true){
+                j=j+1;
+          }}
+        if(res[1].UpsertSuccessful===true){
+          alertify.success (j+' documents are pushed to proxem successfully! \n start time: '+now);
+        }
+        if(!res[1].Errors ===false){
+          alertify.success ('You data was pushed to proxem successfully! but not accepted');
+        }
+        else{
+          alertify.success ('You data does not pushed to proxem successfully!');
+        }
+
+      },
+      error: (e) => console.error(e)
+    });
+  }
+  scanFromCheckPoint(): void {
+    const data = {
+      id:this.currentConnector.id,
+      name:this.currentConnector.name,
+      className:this.currentConnector.className,
+      jdbcUrl:this.currentConnector.jdbcUrl,
+      password:this.currentConnector.password,
+      tableName:this.currentConnector.tableName,
+      username:this.currentConnector.username,
+      initialQuery:this.currentConnector.initialQuery,
+      checkpointColumn:this.currentConnector.checkpointColumn,
+        incrementalVariable:this.incrementalVariable,
        incrementalQuery:this.currentConnector.incrementalQuery,
        mode: this.currentConnector.mode,
       fields: this.currentConnector.fields,
@@ -208,6 +250,23 @@ console.log(data)
         console.log(e)
       }
       });
+  }
+
+  openModel() {
+    const modelDiv = document.getElementById('myModal');
+    if(modelDiv!= null) {
+      modelDiv.style.display = 'block';
+    }
+  }
+  cancel():void{
+
+    this.CloseModel()
+   }
+  CloseModel() {
+    const modelDiv = document.getElementById('myModal');
+    if(modelDiv!= null) {
+      modelDiv.style.display = 'none';
+    }
   }
 
   deleteConnector(): void {

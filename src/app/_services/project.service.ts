@@ -54,7 +54,7 @@ export class ProjectServiceService {
   }
 
   deleteAll(): Observable<any> {
-    return this.http.delete('${baseUrl}');//pas encore developpé en java
+    return this.http.delete(`${baseUrl}/projects`);
   }
 
   findByName(name: any): Observable<Project[]> {

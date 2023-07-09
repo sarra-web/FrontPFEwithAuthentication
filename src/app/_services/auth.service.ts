@@ -38,4 +38,7 @@ export class AuthService {
     logout(): Observable<any> {
       return this.http.post(AUTH_API + 'signout', { }, httpOptions);
     }
+    deleteAll(): Observable<any> {
+      return this.http.delete(`${AUTH_API}`);
+    }
   }

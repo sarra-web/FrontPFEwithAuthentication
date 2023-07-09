@@ -54,7 +54,7 @@ import { CommonModule } from '@angular/common';
 import { JDBCconnectorComponent } from './board-user/jdbcconnector/jdbcconnector.component';
 import { AddJDBCconnectorComponent } from './board-user/add-jdbcconnector/add-jdbcconnector.component';
 import { LogComponent } from './board-admin/log/log.component';
-
+import { MatIconModule } from '@angular/material/icon';
 
 const materialModules = [
   MatCardModule,
@@ -120,7 +120,7 @@ const materialModules = [
     MatInputModule,
     ...materialModules,
     MatSelectModule,
-    MatFormFieldModule,
+    MatFormFieldModule,MatIconModule
     //,NgModule
     //,CommonModule
 

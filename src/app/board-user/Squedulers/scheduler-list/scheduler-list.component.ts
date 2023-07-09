@@ -149,7 +149,7 @@ message: string;
      console.log("planification en cours")
 
      console.log("avant",this.currentConnector.typeConnector)
-   if(this.currentConnector.typeConnector==='connecteurCSV')
+   if(this.currentConnector.typeConnector==='connectorCSV')
      {console.log("aprés",this.currentConnector.typeConnector)
      console.log("data",data)
        this.schedulerService.planifierCSV(data)
@@ -163,7 +163,7 @@ message: string;
        error: (e) => console.error("erreur",e)
 
      });}
-     if(this.currentConnector.typeConnector==='connecteurJDBC')
+     if(this.currentConnector.typeConnector==='connectorJDBC')
      {this.schedulerService.planifierJDBC(data)
      .subscribe({
        next: (res) => {
