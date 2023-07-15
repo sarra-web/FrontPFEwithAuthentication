@@ -22,8 +22,8 @@ export class BoardAdminService {
     return this.http.get<any>(this.apiurl+'/users');
   }
 
-  GetUserbyId(UserId: any) {
-    return this.http.get(this.apiurl +'/' + UserId);
+  GetUserbyId(UserId: any):Observable<User> {
+    return this.http.get<User>(this.apiurl +'/' + UserId);
   }
 
   RemoveUser(UserId: any) {

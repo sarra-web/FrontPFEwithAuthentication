@@ -8,6 +8,8 @@ import { FormBuilder, NgForm } from '@angular/forms';
 import { ConnectorCSV } from 'src/app/model/ConnectorCSV copy';
 import { Field } from 'src/app/model/FieldDAO';
 import * as alertify from 'alertifyjs'
+import { Project } from 'src/app/model/Project';
+import { ProjectServiceService } from 'src/app/_services/project.service';
 
 
 @Component({
@@ -23,10 +25,12 @@ export class FileUploadComponent implements OnInit {
   progress = 0;
   message = '';
   fileName = 'Select File';
+  type:string[];
   fileInfos?: Observable<any>;
   data: string[][] = [];
   result: Field[] = [];
   headers: string[] = [];
+  fil:any;
   http: any;
   buttonText = 'Egnored x';
   buttonColor = 'grey';
@@ -34,8 +38,10 @@ export class FileUploadComponent implements OnInit {
   submitted = false;
    fields: any[] = [];
   positions:number[]=[];
+  projects:Project[];
   connector:ConnectorCSV={
     name:'',
+    projectName:'',
     separator:'',
     encoding:'',
     path:'',
@@ -50,9 +56,16 @@ v:any;
 
   constructor(private fb: FormBuilder,private uploadService: FileUploadService,
     private router: Router,
-    connectorService:ConnectorServiceService) { }
+    connectorService:ConnectorServiceService,private projectService:ProjectServiceService) { }
 
 ngOnInit(): void {
+  this.projectService.getAll().subscribe({
+    next:(data) =>{
+      this.projects = data;
+      console.log(data);
+    },
+    error: (e) => console.error(e)
+  });
 
     this.fileInfos = this.uploadService.getFiles();
     /*console.log("select")
@@ -62,8 +75,7 @@ ngOnInit(): void {
   }
   //connector
 changementDePage =  () => {
-
-    this.router.navigateByUrl('/connectors');
+this.router.navigateByUrl('user/connectors');
 
     };
 
@@ -87,9 +99,15 @@ PagePrecedente=() => {
 
    };
 onSubmit(){
-
- console.log(JSON.stringify(this.connector, null, 2));
+this.type=[];
+console.log(JSON.stringify(this.connector, null, 2));
 // this.fields= this.result;
+for (let i = 0; i < this.result.length; i++) {
+  this.type.push(this.result[i].fieldType)
+  }
+
+
+  if((this.type.includes("Text")) &&(this.type.includes("Title")) ){
 for (let i = 0; i < this.result.length; i++) {
 
       this.fields.push({ name:this.result[i].name,
@@ -102,6 +120,7 @@ console.log(this.fields)
     const data = {
       id:this.connector.name,
       name:this.connector.name,
+      projectName:this.connector.projectName,
       separator:this.connector.separator,
       encoding:this.connector.encoding,
       path:this.currentFile.name,
@@ -120,7 +139,11 @@ console.log(data);
          alertify.success("Connector registred successfelly")
        },
        error: (e) => console.error(e)
-     });
+     });}
+     else{
+      alertify.confirm("The fields must include at least one of type 'Text' and one of type 'Title'.")
+
+    }
 
    }
 

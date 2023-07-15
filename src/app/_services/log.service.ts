@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LogService {
+  private backendUrl2 = 'http://localhost:8080/log';
   private backendUrl = 'http://localhost:8080/configuration/log'; // Remplacez l'URL par celle de votre backend
   constructor(private http: HttpClient) { }
 
@@ -26,7 +27,7 @@ export class LogService {
     return file;
 }
 getFile2(filename: any): Observable<any> {
-  return this.http.get(`${this.backendUrl}/${filename}`)
+  return this.http.get(`${this.backendUrl2}/${filename}`)
 
 }
 }

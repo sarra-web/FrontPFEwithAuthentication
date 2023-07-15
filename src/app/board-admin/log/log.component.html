@@ -1,3 +1,5 @@
+<button><mat-icon>refresh</mat-icon></button>
+
 <div class="example-header">
   <mat-form-field>
   <input matInput #filterInput (keyup)="applyFilter(filterInput.value)" placeholder="Filter">
@@ -50,10 +52,28 @@
 
 
 
+    <h2 class="py-4">Logs</h2>
 
-  <table>
-  <tr *ngFor="let sublist of data.reverse()">
+    <div class="form-group mb-4">
+      <input class="form-control" type="text" [(ngModel)]="searchText" placeholder="Search">
+    </div>
+  <table class="table" *ngIf="(data | filter: searchText).length > 0; else noResults">
+    <tr >
+      <th >Date</th>
+      <th >RequestURI
+      </th>
+      <th >Method</th>
+      <th >
+        ResponseStatus
+        </th>
+      <th >Level</th>
+      <th >User</th>
+  <tr *ngFor="let sublist of data| filter: searchText; let i = index">
     <td *ngFor="let item of sublist">{{ item }}</td>
+    <td >Info</td>
+    <td >{{currentUser.username}}</td>
   </tr>
 </table>
-
+<ng-template #noResults>
+  <p>No results found for "{{searchText}}".</p>
+</ng-template>

@@ -8,8 +8,8 @@ export class ConnectorJDBC extends Connector{
   className?:string;
   tableName?:string;
   initialQuery?:string;
-checkpointColumn?:string;
+  checkpointColumn?:string;
   incrementalVariable?:string;
- incrementalQuery?:string;
+  incrementalQuery?:string;
  mode?: string;
  }

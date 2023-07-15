@@ -37,6 +37,7 @@ scheduler: Scheduler = {
   scanMode:'',
   startsTime:'',
   cronExpression:'',
+  endTime:'',
   published: false
 };
 @Input() currentScheduler: Scheduler = {
@@ -45,6 +46,7 @@ scheduler: Scheduler = {
   scanMode:'',
   startsTime:'',
   cronExpression:'',
+  endTime:'',
   published: false
 };
 
@@ -91,6 +93,7 @@ message: string;
        name: data.name,
        scanMode:data.scanMode,
        startsTime:data.startsTime,
+       endTime:data.endTime,
        cronExpression:data.cronExpression,
        connectorDAO:this.currentConnector,
        published: false
@@ -117,15 +120,17 @@ message: string;
        name: this.scheduler.name,
        scanMode:this.scheduler.scanMode,
        startsTime:this.scheduler.startsTime,
+       endTime:this.scheduler.endTime,
        cronExpression:this.scheduler.cronExpression,
        published: false
      };
      const data2 = {
-       timeZone:"Europe/Paris",
+      timeZone:"Europe/Paris",
       dateTime:this.scheduler.startsTime,
       name: this.scheduler.name,
       scanMode:this.scheduler.scanMode,
       startsTime:this.scheduler.startsTime,
+      endTime:this.scheduler.endTime,
       cronExpression:this.scheduler.cronExpression,
       connectorDAO:this.currentConnector,
       published: false
@@ -232,8 +237,7 @@ message: string;
 
 }
 
-
-    removeAllSchedulers(): void {
+removeAllSchedulers(): void {
       alertify.confirm("Remove schedulers","do you want remove all these schedulers?",()=>{this.schedulerService.deleteAll(this.currentConnector.id)
         .subscribe({
           next: (res) => {

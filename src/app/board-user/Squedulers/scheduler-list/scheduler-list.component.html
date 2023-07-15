@@ -55,7 +55,11 @@
      <label for=""> Starts time </label>
      <input type="text"  [(ngModel)]="scheduler.startsTime"><br>
 
+
+
      <div class="field" *ngIf="scheduler.scanMode=='Cron'">
+      <label for=""> End time </label>
+      <input type="text"  [(ngModel)]="scheduler.endTime"><br>
       <label>Cron expression</label>
       <br>
       <input type="text" placeholder="cronExpression" [(ngModel)]="scheduler.cronExpression" name="cron">
@@ -136,7 +140,10 @@
                   <label for=""> Starts time </label>
                   <input type="text"  [(ngModel)]="Scheduler.startsTime"><br>
 
+
                   <div class="field" *ngIf="Scheduler.scanMode=='Cron'">
+                    <label for=""> End time </label>
+                  <input type="text"  [(ngModel)]="Scheduler.endTime"><br>
                    <label>Cron expression</label>
                    <br>
                    <input type="text" placeholder="cronExpression" [(ngModel)]="Scheduler.cronExpression" name="cron">

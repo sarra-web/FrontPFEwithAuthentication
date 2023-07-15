@@ -1,11 +1,24 @@
   <div class="register-form">
-    <form class="aa"
+    <form
       name="connector"
       #f="ngForm"
       (ngSubmit)="f.form.valid && onSubmit()"
       novalidate
-
     >
+    <div class="form-group">
+      <label>Project name</label>
+      <select  class="select-text"  [(ngModel)]="connector.projectName" name="projectName" #projectName="ngModel"
+      [ngClass]="{ 'is-invalid': f.submitted && projectName.errors}" required>
+      <option class="dropdown-item" value="undefined" selected>Select an Option</option>
+        <option class="dropdown-item" *ngFor="let project of projects">{{project.name}}</option>
+
+      </select>
+
+
+      <div *ngIf="f.submitted && projectName.errors" class="invalid-feedback">
+        <div *ngIf="projectName.errors['required']">Project name is required</div>
+      </div>
+    </div>
         <div class="form-group">
           <label>Name</label>
           <input type="text" class="form-control" id="aa" [(ngModel)]="connector.name" name="name" required
@@ -13,25 +26,25 @@
           [ngClass]="{ 'is-invalid': f.submitted && name.errors }"/>
 
           <div *ngIf="f.submitted && name.errors" class="invalid-feedback">
-            <div *ngIf="name.errors['required']">name is required</div>
+            <div *ngIf="name.errors['required']">Name is required</div>
           </div>
         </div>
         <div class="form-group">
           <label>Column Delimiter</label>
           <input type="text" id="bb" class="form-control" [(ngModel)]="connector.separator" name="separator" required
-          #separator="ngModel"   [ngClass]="{ 'is-invalid': f.submitted && name.errors }"/>
+          #separator="ngModel"   [ngClass]="{ 'is-invalid': f.submitted && separator.errors }"/>
 
           <div *ngIf="f.submitted && separator.errors" class="invalid-feedback">
-            <div *ngIf="name.errors['required']">separator is required</div>
+            <div *ngIf="separator.errors['required']">Separator is required</div>
           </div>
         </div>
         <div class="form-group">
           <label>Encoding</label>
           <input type="text" id="cc" class="form-control" [(ngModel)]="connector.encoding" name="encoding" required
-          #encoding="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.errors }"/>
+          #encoding="ngModel" [ngClass]="{ 'is-invalid': f.submitted && encoding.errors }"/>
 
           <div *ngIf="f.submitted && encoding.errors" class="invalid-feedback">
-            <div *ngIf="name.errors['required']">encoding is required</div>
+            <div *ngIf="encoding.errors['required']">Encoding is required</div>
           </div>
         </div>
         <div class="form-group">
@@ -91,7 +104,7 @@
                 <div class="ui fluid search dropdown selection">
                   <select id="select_{{i}}" [(ngModel)]="field.fieldType" name="fieldType{{i}}"
                   [disabled]="!field.included" >
-                    <option value="Identifiant">Identifier</option>
+                    <option value="Identifier">Identifier</option>
                     <option value="Title">Title</option>
                     <option value="Text">Text</option>
                     <option value="Date">Date</option>
@@ -104,13 +117,13 @@
               <div class="field" *ngIf="field.fieldType=='Meta'">
                 <label>Name of meta</label>
                 <br>
-                <input type="text" placeholder="Nom du meta" [(ngModel)]="field.meta" [disabled]="!field.included" name="meta name{{i}}">
+                <input type="text" placeholder="Name of meta" [(ngModel)]="field.meta" [disabled]="!field.included" name="meta name{{i}}">
               </div>
               <div class="field">
                 <label>Name of column</label>
                 <br>
                 <input type="text" [disabled]="!field.included"
-                placeholder="Nom de la colonne" [(ngModel)]="field.name" name="name{{i}}">
+                placeholder="Name of column" [(ngModel)]="field.name" name="name{{i}}">
               </div>
               <div class="field">
                 <label>Overview:</label>
@@ -127,7 +140,7 @@
         </div>
         <div class="form-group">
         <button type="submit" name="reg"  (click)="onSubmit()" class="btn btn-primary" ><!-- [disabled]="disabled"-->
-          Register</button>
+          Save</button>
 
         <button name="Can" type="button" (click)="changementDePage()" class="btn btn-danger">Cancel</button>
 

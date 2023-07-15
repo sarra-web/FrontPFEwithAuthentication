@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { FormsModule } from '@angular/forms'
+import { StorageService } from 'src/app/_services/storage.service';
 /**
  * @title Data table with sorting, pagination, and filtering.
  */
@@ -15,6 +16,8 @@ import { FormsModule } from '@angular/forms'
   styleUrls: ['./log.component.css']
 })
 export class LogComponent implements OnInit {
+ // cars: Car[] = CARS;
+  searchText: string;
 
   files: { name: string }[] = []; // Replace this with your actual file data structure
   fileData: string[];
@@ -22,12 +25,13 @@ export class LogComponent implements OnInit {
   result:Data[];
   result2: string[][] = [];
   data: string[][] = [];
+  currentUser:any;
   displayedColumns = ['Date', 'RequestURI', 'Method', 'ResponseStatus','Level'];
   dataSource: MatTableDataSource<Data>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private logService: LogService) {
+  constructor(private logService: LogService,private storageService:StorageService) {
 
     const users: Data[] = [];
 
@@ -52,6 +56,7 @@ export class LogComponent implements OnInit {
    red=COLORS[1];
    a=COLORS[0];
   ngOnInit(): void {
+    this.currentUser=this.storageService.getUser()
 
 }
 

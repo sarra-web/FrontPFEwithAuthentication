@@ -5,6 +5,8 @@ import { ConnectorJDBC } from 'src/app/model/ConnectorJDBC';
 import { Field } from 'src/app/model/FieldDAO';
 import * as alertify from 'alertifyjs'
 import { ConnectorJDBCService } from 'src/app/_services/connector-jdbc.service';
+import { ProjectServiceService } from 'src/app/_services/project.service';
+import { Project } from 'src/app/model/Project';
 @Component({
   selector: 'app-jdbcconnector',
   templateUrl: './jdbcconnector.component.html',
@@ -18,6 +20,7 @@ export class JDBCconnectorComponent {
   @Input() currentConnector: ConnectorJDBC = {
   id:'',
   name:'',
+  projectName:'',
   jdbcUrl: '',
   username: '',
   password:'',
@@ -39,13 +42,23 @@ export class JDBCconnectorComponent {
   incrementalVariable='';
   fileInfos?: Observable<any>;
   data: string[][] = [];
+  submitted = false;
+  form: any;
   result: Field[] = [];
+  projects:Project[];
   constructor(
     private connectorService: ConnectorJDBCService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,private projectService:ProjectServiceService) { }
 
   ngOnInit(): void {
+    this.projectService.getAll().subscribe({
+      next:(data) =>{
+        this.projects = data;
+        console.log(data);
+      },
+      error: (e) => console.error(e)
+    });
     if (!this.viewMode) {
       this.message = '';
       this.getConnector(this.route.snapshot.params["id"]);
@@ -127,6 +140,7 @@ this.connectorService.update(data)
     const data = {
       id:this.currentConnector.id,
       name:this.currentConnector.name,
+      projectName:this.currentConnector.projectName,
       className:this.currentConnector.className,
       jdbcUrl:this.currentConnector.jdbcUrl,
       password:this.currentConnector.password,
@@ -168,6 +182,7 @@ console.log(data)
     const data = {
       id:this.currentConnector.id,
       name:this.currentConnector.name,
+      projectName:this.currentConnector.projectName,
       className:this.currentConnector.className,
       jdbcUrl:this.currentConnector.jdbcUrl,
       password:this.currentConnector.password,

@@ -5,6 +5,7 @@ export class Connector {
   id?:string;
   name?:string;
   fields: Field[] = [];
+  projectName?:string;
   published?: boolean;
 
 

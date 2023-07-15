@@ -6,6 +6,8 @@ import { ConnectorJDBCService } from 'src/app/_services/connector-jdbc.service';
 import { ConnectorJDBC } from 'src/app/model/ConnectorJDBC';
 import { Field } from 'src/app/model/FieldDAO';
 import * as alertify from 'alertifyjs'
+import { Project } from 'src/app/model/Project';
+import { ProjectServiceService } from 'src/app/_services/project.service';
 
 @Component({
   selector: 'app-add-jdbcconnector',
@@ -25,6 +27,7 @@ export class AddJDBCconnectorComponent implements OnInit{
   fileInfos?: Observable<any>;
   data: string[][] = [];
   result: Field[] = [];
+  type:string[]=[];
   headers: string[] = [];
   http: any;
   buttonText = 'Egnored x';
@@ -35,6 +38,7 @@ export class AddJDBCconnectorComponent implements OnInit{
   positions:number[]=[];
   connector:ConnectorJDBC={
     name:'',
+    projectName:'',
     jdbcUrl:'',
     username:'',
     password:'',
@@ -47,14 +51,24 @@ export class AddJDBCconnectorComponent implements OnInit{
     mode:"Full",
     fields: []
 }
+projects:Project[];
 isChecked:boolean;
   form: any;
 v:any;
 
   constructor(private fb: FormBuilder, private router: Router,
-   private connectorService:ConnectorJDBCService) { }
+   private connectorService:ConnectorJDBCService,private projectService:ProjectServiceService) { }
 
-ngOnInit(): void {}
+ngOnInit(): void {
+
+this.projectService.getAll().subscribe({
+  next:(data) =>{
+    this.projects = data;
+    console.log(data);
+  },
+  error: (e) => console.error(e)
+});
+}
 
 onReset(connector: NgForm): void {
   connector.reset();
@@ -63,12 +77,13 @@ newConnector(): void {
       this.submitted = false;
       this.connector = {
         name: '',
+        projectName:'',
         jdbcUrl: '',
         username: '',
         password:'',
         className:'',
         tableName:'',
-           initialQuery:'',
+        initialQuery:'',
     checkpointColumn:'',
     incrementalVariable:'',
     incrementalQuery:'',
@@ -125,37 +140,45 @@ newConnector(): void {
               this.result[i].meta=this.result[i].content?.at(0);
               this.result[i].partOfDocumentIdentity=true;
            }
-
-
-
-
           //this.headers = this.data.shift() || [];
         },
         (error) => {
           console.log('Erreur lors de la récupération des données CSV :', error);
-
-
-        }
+          }
 
       );
   }
+  changementDePage =  () => {
 
+    this.router.navigateByUrl('user/connectors');
+
+    };
 onSubmit(){
-
+this.type=[];
  console.log(JSON.stringify(this.connector, null, 2));
 // this.fields= this.result;
 for (let i = 0; i < this.result.length; i++) {
-
-  this.fields.push({ name:this.result[i].name,
-  fieldType:this.result[i].fieldType,position:this.result[i].position,
-  included:this.result[i].included,meta:this.result[i].meta,
-  partOfDocumentIdentity:this.result[i].partOfDocumentIdentity });
+this.type.push(this.result[i].fieldType)
 }
+
+console.log("list types",this.type)
 console.log(this.fields)
-    console.log(this.result)
-    const data = {
+console.log(this.result)
+if((this.type.includes("Text")) &&(this.type.includes("Title")) ){
+
+
+  for (let i = 0; i < this.result.length; i++) {
+
+    this.fields.push({ name:this.result[i].name,
+    fieldType:this.result[i].fieldType,position:this.result[i].position,
+    included:this.result[i].included,meta:this.result[i].meta,
+    partOfDocumentIdentity:this.result[i].partOfDocumentIdentity });
+
+  }
+      const data = {
       id:this.connector.name,
       name:this.connector.name,
+      projectName:this.connector.projectName,
       jdbcUrl:this.connector.jdbcUrl,
       username:this.connector.username,
       password:this.connector.password,
@@ -178,7 +201,11 @@ this.connectorService.create(data)
        },
        error: (e) => console.error(e)
      });
+    }
+    else{
+      alertify.confirm("The fields must include at least one of type 'Text' and one of type 'Title'.")
 
+    }
    }
 
   selectFile(event: any): void {

@@ -7,6 +7,8 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Field } from '../../model/FieldDAO';
 import * as alertify from 'alertifyjs'
+import { Project } from 'src/app/model/Project';
+import { ProjectServiceService } from 'src/app/_services/project.service';
 
 
 @Component({
@@ -22,6 +24,7 @@ export class ConnectorDetailsComponent {
   @Input() currentConnector: ConnectorCSV = {
   id:'',
   name:'',
+  projectName:'',
   encoding:'',
   separator:'',
   quotingCaracter:'"',
@@ -36,14 +39,24 @@ export class ConnectorDetailsComponent {
   message = '';
   fileName = '';
   fileInfos?: Observable<any>;
+  submitted = false;
+  form: any;
   data: string[][] = [];
   result: Field[] = [];
+  projects:Project[];
   constructor(
     private connectorService: ConnectorServiceService,
     private route: ActivatedRoute,
-    private router: Router,private uploadService: FileUploadService) { }
+    private router: Router,private uploadService: FileUploadService,private projectService:ProjectServiceService) { }
 
   ngOnInit(): void {
+    this.projectService.getAll().subscribe({
+      next:(data) =>{
+        this.projects = data;
+        console.log(data);
+      },
+      error: (e) => console.error(e)
+    });
     if (!this.viewMode) {
       this.message = '';
       this.getConnector(this.route.snapshot.params["id"]);
@@ -157,6 +170,7 @@ this.connectorService.update(data)
     const data = {
       id:this.currentConnector.id,
       name:this.currentConnector.name,
+      projectName:this.currentConnector.projectName,
       separator:this.currentConnector.separator,
       encoding:this.currentConnector.encoding,
       path:this.currentConnector.path,

@@ -24,6 +24,7 @@ import { AddSchedulerComponent } from './board-user/Squedulers/add-scheduler/add
 import { LogComponent } from './board-admin/log/log.component';
 import { JDBCconnectorComponent } from './board-user/jdbcconnector/jdbcconnector.component';
 import { AddJDBCconnectorComponent } from './board-user/add-jdbcconnector/add-jdbcconnector.component';
+import { UserDetailsComponent } from './board-admin/user-management/user-details/user-details.component';
 
 
 const routes: Routes = [
@@ -46,12 +47,13 @@ const routes: Routes = [
   { path: 'user/connectors', component: ConnectorsComponent },
   { path: 'upload', component: FileUploadComponent },
   { path: 'addjdbc', component: AddJDBCconnectorComponent },
-  { path: 'connectors/connecteurCSV/:id', component: ConnectorDetailsComponent },
-  { path: 'connectors/connecteurJDBC/:id', component: JDBCconnectorComponent },
+  { path: 'connectors/connectorCSV/:id', component: ConnectorDetailsComponent },
+  { path: 'connectors/connectorJDBC/:id', component: JDBCconnectorComponent },
   {path: 'squeduler/:id', component:SquedulerComponent},
   {path: 'squeduler/:id/squedulers', component:SchedulerListComponent},
   {path: 'squeduler/:id/squedulers/:id', component:SchedulerDetailsComponent},
   {path: 'squeduler/:id/AddS', component:AddSchedulerComponent},
+  {path: 'user/:id', component:UserDetailsComponent}
   //{ path: 'user/squeduler/:id', component: SquedulerComponent },
 
 

@@ -5,7 +5,7 @@
 
     <ng-container matColumnDef="userid">
       <th mat-header-cell *matHeaderCellDef> UserId </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      <td mat-cell *matCellDef="let element let i = index"[class.active]="i == currentIndex"> {{element.id}} </td>
     </ng-container>
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -13,7 +13,7 @@
     </ng-container>
     <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      <td mat-cell *matCellDef="let element "> {{element.email}} </td>
     </ng-container>
 
     <ng-container matColumnDef="isActive">
@@ -33,7 +33,15 @@
       <ng-container matColumnDef="Action">
         <th mat-header-cell *matHeaderCellDef> Action </th>
         <td mat-cell *matCellDef="let element">
-            <button mat-raised-button color="primary" (click)="FunctionUpdate(element.id)">Change</button> |
+            <button mat-raised-button color="primary" >
+<a
+      (click)="setActiveUser(currentUser)"
+      routerLink="/user/{{element.id}}"><!-- -->
+      Change
+      </a>
+
+
+              </button> |
    <button mat-raised-button color="accent" (click)="FunctionDelete(element.id)">Delete</button>
         </td>
       </ng-container>
@@ -93,6 +101,70 @@
             [(ngModel)]="user.password"
             name="password" placeholder="password"
           />
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button (click)="saveUser()" class="btn btn-success">Submit</button>
+    <div *ngIf="submitted">
+      <h4>User was registred successfully!</h4>
+    </div>
+    <button type="button" class="btn btn-danger" (click)="cancel()" data-bs-dismiss="modal" >Cancel</button>
+  </div>
+</div></div></div>
+<div class="modal" id="myModal2">
+  <div class="modal-dialog">
+  <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+      </div>
+  <div class="modal-body">
+
+    <div class="submit-form">
+      <div *ngIf="!submitted">
+        <div class="form-group">
+          <label for="name">username</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+
+            [(ngModel)]="currentUser.username"
+            name="name" required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="proxemToken">Email</label>
+          <input type="email" placeholder="user@gamil.com"
+
+            id="email"
+            required
+            [(ngModel)]="currentUser.email"
+            name="email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password"
+
+            id="password"
+            required
+            [(ngModel)]="currentUser.password"
+            name="password" placeholder="password"
+          />
+          <div appearance="fill">
+            <label>Role</label>
+            <select name="role"  [(ngModel)]="currentUser.roles[0]">
+              <option *ngFor="let role of roledata" [value]="role.id">
+                {{role.name}}
+              </option>
+            </select>
+          </div>
         </div>
 
 

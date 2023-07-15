@@ -5,18 +5,31 @@
         type="text"
         class="form-control"
         placeholder="Search by name"
-        [(ngModel)]="name"
-        />
+        [(ngModel)]="name"/>
 
       <div class="input-group-append">
         <button
           class="btn btn-outline-secondary"
-          (click)="searchByNameIgnoreCase2()"
-        >
+          (click)="searchByNameIgnoreCase2()">
           Search
         </button> </div> </div>
 <div class="row">
+
+
+  <div class="form-group">
+    <label>Filter by project name</label>
+    <select  class="select-text" (change)="searchByProjectName($event)"  [(ngModel)]="projectName" name="projectName"
+    required>
+    <option class="dropdown-item" value="undefined" selected>Select one project</option>
+      <option class="dropdown-item" *ngFor="let project of projects">{{project.name}}</option>
+
+    </select>
+
+
+
+
         <div class="col-md-4">
+          <!--
 <div  class="dropdown">
             <button (click)="myFunction()" class="dropbtn">Projects</button>
             <div id="myDropdown" class="dropdown-content">
@@ -29,7 +42,7 @@
               <a href="#support"></a>
               <a href="#tools"></a>
             </div>
-          </div>
+          </div>-->
         </div>
         <div class="col-md-7"></div>
           <div class="col-md-1">

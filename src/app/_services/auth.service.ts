@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 const AUTH_API = 'http://localhost:8082/api/auth/';
+const AUTH_API2 = 'http://localhost:8082/api/auth';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -34,6 +35,9 @@ export class AuthService {
         password,
       }, httpOptions
       );
+    }
+    update(data: any): Observable<any> {
+      return this.http.put(`${AUTH_API2}`, data);
     }
     logout(): Observable<any> {
       return this.http.post(AUTH_API + 'signout', { }, httpOptions);

@@ -11,10 +11,10 @@ const baseUrl2 = 'http://localhost:8080';
 })
 export class SchedulerService {
   planifierCSV(data:any) {
-    return this.http.post(`${baseUrl2}/scheduleCSVScan`, data);
+    return this.http.post(`${baseUrl2}/ScheduleScanCSV`, data);
   }
   planifierJDBC(data:any) {
-    return this.http.post(`${baseUrl2}/scheduleJDBCScan`, data);
+    return this.http.post(`${baseUrl2}/ScheduleScanJDBC`, data);
   }
 
   constructor(private http: HttpClient) { }

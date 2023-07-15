@@ -15,7 +15,6 @@ import { ActivatedRoute } from '@angular/router';
 export class ModalpopupComponent implements OnInit {
   @Input() viewMode = false;
   @Input() user:User={
-
 username:'',
 email:'',
 password:'',
@@ -26,7 +25,7 @@ roles:[]
   private ref:MatDialogRef<ModalpopupComponent>,private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
-    if (!this.viewMode) {
+    if (this.viewMode) {
 
       this.getUser(this.route.snapshot.params["id"]);
 
@@ -34,7 +33,7 @@ roles:[]
     this.GetAllRole();
     this.GetExistdata(this.data.id);
   }
-roles:Role[]=[];
+  roles:Role[]=[];
   roledata: any;
   editdata: any;
   savedata: any;

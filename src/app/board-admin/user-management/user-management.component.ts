@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { BoardAdminService } from '../board-admin.service';
 import { User } from 'src/app/model/User';
 
@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import * as alertify from 'alertifyjs'
 import { MatDialog } from '@angular/material/dialog';
 import { ModalpopupComponent } from '../modalpopup/modalpopup.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'src/app/_services/storage.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { elementAt } from 'rxjs';
@@ -41,12 +41,48 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./user-management.component.css']
 })
 export class  UserManagementComponent implements OnInit {
-
-  constructor(private router:Router,private service: BoardAdminService,private dialog :MatDialog,private userService:AuthService) { }
+  @Input() viewMode = false;
+  @Input() currentUser:User={
+username:'',
+email:'',
+password:'',
+roles:[]
+  };
+  currentIndex = -1;
+  roledata: any;
+  constructor(private route: ActivatedRoute,private router:Router,private service: BoardAdminService,private dialog :MatDialog,private userService:AuthService) { }
 user:User={}
 submitted=false;
   ngOnInit(): void {
     this.GetAllUser();
+    if (!this.viewMode) {
+
+      this.getUser(this.route.snapshot.params["id"]);
+
+    }
+    this.GetAllRole();
+   // this.GetExistdata(this.data.id);
+  }
+
+  GetAllRole() {
+    this.service.GetAllRoles().subscribe(item => {
+      this.roledata = item;
+    });
+  }
+  getUser(id: any): void {
+    this.service.GetUserbyId(id)
+      .subscribe({
+        next: (data) => {
+          this.currentUser = data;
+          console.log(data);
+        },
+        error: (e) => console.error(e)
+      });
+
+  }
+  setActiveUser(user: User): void {
+    this.currentUser= user;
+   // this.currentIndex = index;
   }
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   pageSizes = [3, 6, 9];
@@ -80,7 +116,10 @@ submitted=false;
     this.CloseModel()
    }
    saveUser(): void {
-     this.userService.register(this.user.username,this.user.email,this.user.password).subscribe({
+     this.userService.register
+
+
+     (this.user.username,this.user.email,this.user.password).subscribe({
       next: (res) => {
         console.log(res);
         this.submitted = true;
@@ -108,6 +147,12 @@ submitted=false;
   }
 
 openModel() {
+    const modelDiv = document.getElementById('myModal');
+    if(modelDiv!= null) {
+      modelDiv.style.display = 'block';
+    }
+  }
+  openModel2() {
     const modelDiv = document.getElementById('myModal');
     if(modelDiv!= null) {
       modelDiv.style.display = 'block';

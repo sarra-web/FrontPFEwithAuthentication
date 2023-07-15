@@ -9,7 +9,14 @@ import { ConnectorServiceService } from 'src/app/_services/connector-service.ser
 import * as alertify from 'alertifyjs'
 import { Connector } from 'src/app/model/Connector';
 import { ConnectorJDBCService } from 'src/app/_services/connector-jdbc.service';
-
+import { FormBuilder } from '@angular/forms';
+import { Location } from '@angular/common';
+import {  ActivatedRoute, Params, NavigationEnd, UrlSegment } from '@angular/router';
+import { merge,  Subscribable, Subject } from 'rxjs';
+import {filter,  switchMap, tap,takeUntil, debounceTime
+} from 'rxjs/operators';
+import { Project } from 'src/app/model/Project';
+import { ProjectServiceService } from 'src/app/_services/project.service';
 
 @Component({
   selector: 'app-connectors',
@@ -17,6 +24,9 @@ import { ConnectorJDBCService } from 'src/app/_services/connector-jdbc.service';
   styleUrls: ['./connectors.component.css']
 })
 export class ConnectorsComponent implements OnInit{
+  form = this.fb.group({ name: [], type: [], completed: [], });
+
+
   connectorsState$: Observable<{ appState: string; appData?: ApiResponse<Page>; error?: HttpErrorResponse; }>;
   responseSubject = new BehaviorSubject<ApiResponse<Page>>(null);
   private currentPageSubject = new BehaviorSubject<number>(0);
@@ -28,6 +38,7 @@ export class ConnectorsComponent implements OnInit{
   };
   currentIndex = -1;
   name = '';
+  projectName='';
   input:any;
   page = 1;
   count = 0;
@@ -35,11 +46,21 @@ export class ConnectorsComponent implements OnInit{
   pageSizes = [3, 6, 9];
   title = 'angular-mateiral';
   selectedValue: string = '';
-  constructor(private router: Router,
+  projects:Project[];
+  constructor(private projectService:ProjectServiceService,private router: Router,private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private location: Location,
     private connectorService:ConnectorServiceService,
     private connectorJDBCService:ConnectorJDBCService ) { }
 
   ngOnInit(): void {
+    this.projectService.getAll().subscribe({
+      next:(data) =>{
+        this.projects = data;
+        console.log(data);
+      },
+      error: (e) => console.error(e)
+    });
     this.retrieveConnectors();
 
         this.connectorsState$ = this.connectorService.connectors$().pipe(
@@ -257,7 +278,7 @@ removeAllConnectors(): void {
   searchByNameIgnoreCase(): void {
     this.currentConnector = {fields:[]};
     this.currentIndex = -1;
-    this.connectorService.findByNameIgnoreCase(this.name)
+    this.connectorService.findByNameIgnoreCase(this.projectName)
       .subscribe({
         next: (data) => {
           this.connectors = data;
@@ -285,6 +306,26 @@ removeAllConnectors(): void {
       }
     });
   }
+  searchByProjectName(event:any): void {
+    const params = this.getRequestParams(this.projectName, this.page, this.pageSize);
+
+    this.currentConnector = {fields:[]};
+    this.currentIndex = -1;
+
+    this.connectorService.findByProjectName(params)
+    .subscribe({
+      next: (data) => {
+        const {connectors, totalItems } = data;
+        this.connectors = connectors;
+        this.count = totalItems;
+        console.log(data);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
 
   searchName(): void {
     this.currentConnector = {fields:[]};

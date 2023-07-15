@@ -55,6 +55,7 @@ import { JDBCconnectorComponent } from './board-user/jdbcconnector/jdbcconnector
 import { AddJDBCconnectorComponent } from './board-user/add-jdbcconnector/add-jdbcconnector.component';
 import { LogComponent } from './board-admin/log/log.component';
 import { MatIconModule } from '@angular/material/icon';
+import { FilterPipe } from './board-admin/log/filter.pipe';
 
 const materialModules = [
   MatCardModule,
@@ -94,7 +95,7 @@ const materialModules = [
      JDBCconnectorComponent,
     AddJDBCconnectorComponent,
     LogComponent
-    ,HomeComponent
+    ,HomeComponent,FilterPipe
 
   ],
   imports: [

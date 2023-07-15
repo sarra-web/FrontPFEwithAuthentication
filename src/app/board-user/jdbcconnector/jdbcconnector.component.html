@@ -11,7 +11,7 @@
 <ng-template #editable>
   <div *ngIf="currentConnector.id" class="edit-form">
     <h4>Connector</h4>
-
+    <div class="register-form">
     <form
     name="currentConnector"
     #f="ngForm"
@@ -19,36 +19,68 @@
     novalidate
 
     >
-      <div class="form-group">
+    <div class="form-group">
+      <label>Project name</label>
+      <select  class="select-text"  [(ngModel)]="currentConnector.projectName" name="projectName" #projectName="ngModel"
+      [ngClass]="{ 'is-invalid': f.submitted && projectName.errors}" required>
+      <option class="dropdown-item" value="undefined" selected>Select an Option</option>
+        <option class="dropdown-item" *ngFor="let project of projects">{{project.name}}</option>
+
+      </select>
+
+
+      <div *ngIf="f.submitted && projectName.errors" class="invalid-feedback">
+        <div *ngIf="projectName.errors['required']">Project name is required</div>
+      </div>
+    </div>
+
+    <div class="form-group">
         <label>Name</label>
         <input type="text" class="form-control" id="nameId" [(ngModel)]="currentConnector.name" name="name" required  #name="ngModel"
         [ngClass]="{ 'is-invalid': f.submitted && name.errors }"/>
 
         <div *ngIf="f.submitted && name.errors" class="invalid-feedback">
-          <div *ngIf="name.errors['required']">name is required</div>
+          <div *ngIf="name.errors['required']">Name is required</div>
         </div>
       </div>
       <div class="form-group">
-        <label>jdbcUrl</label>
-        <input type="text" class="form-control" [(ngModel)]="currentConnector.jdbcUrl" name="jdbcUrl" required />
+        <label>JDBC url</label>
+        <input type="text" class="form-control" [(ngModel)]="currentConnector.jdbcUrl" name="jdbcUrl" required #jdbcUrl="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && jdbcUrl.errors }" />
+        <div *ngIf="f.submitted && jdbcUrl.errors" class="invalid-feedback">
+          <div *ngIf="jdbcUrl.errors['required']">JDBC url is required</div>
+        </div>
       </div>
       <div class="form-group">
-        <label>username</label>
-        <input type="text" class="form-control" [(ngModel)]="currentConnector.username" name="encoding" required />
+        <label>Username</label>
+        <input type="text" class="form-control" [(ngModel)]="currentConnector.username" name="username" required  #username="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && username.errors }" />
+        <div *ngIf="f.submitted && username.errors" class="invalid-feedback">
+          <div *ngIf="username.errors['required']">Username  is required</div>
+        </div>
       </div>
       <div class="form-group">
-        <label>password</label>
-        <input id="myInput" type="password" class="form-control" [(ngModel)]="currentConnector.password" name="password" required />
+        <label>Password</label>
+        <input id="myInput" type="password" class="form-control" [(ngModel)]="currentConnector.password" name="password" required
+        #password="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && password.errors }"  />
+        <div *ngIf="f.submitted && password.errors" class="invalid-feedback">
+          <div *ngIf="password.errors['required']">Password is required</div>
+        </div>
       <!-- An element to toggle between password visibility -->
            <input type="checkbox" (click)="myFunction()">Show Password
       </div>
       <div class="form-group">
-        <label>className</label>
-        <input id="class" type="text" name="class" class="form-control" required [(ngModel)]="currentConnector.className" />
+        <label>Class name</label>
+        <input id="class" type="text" name="class" class="form-control" required [(ngModel)]="currentConnector.className" #class="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && class.errors }"  />
+        <div *ngIf="f.submitted && class.errors" class="invalid-feedback">
+          <div *ngIf="class.errors['required']">Class name is required</div>
+        </div>
       </div>
       <div class="form-group">
-        <label>tableName</label>
-        <input id="table" name="table" type="text" class="form-control" required [(ngModel)]="currentConnector.tableName" />
+        <label>Table name</label>
+        <input id="table" name="table" type="text" class="form-control"  [(ngModel)]="currentConnector.tableName" />
       </div>
       <div class="form-group" *ngIf="message" class="message">
         {{ message }}
@@ -57,6 +89,7 @@
 -->
 
 <div class="ui fluid search dropdown selection">
+  <Label>Query mode</Label>
   <select  [(ngModel)]="currentConnector.mode" name="mode"
   >
   <option value="Full">Full</option>
@@ -66,7 +99,13 @@
 </div>
 <div class="form-group">
   <label for="comment">Initial query:</label>
-  <textarea name="query" (input)="handleKeyDown($event)" [(ngModel)]="currentConnector.initialQuery" class="form-control" rows="5" id="comment"></textarea>
+  <textarea name="query" (input)="handleKeyDown($event)" [(ngModel)]="currentConnector.initialQuery" class="form-control" rows="5" id="comment"
+
+  #query="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && query.errors }" ></textarea>
+        <div *ngIf="f.submitted && query.errors" class="invalid-feedback">
+          <div *ngIf="query.errors['required']">Query  is required</div>
+        </div>
 </div>
 
 
@@ -101,14 +140,14 @@
               <!-- <app-button></app-button>[(ngModel)]="connector.headers[i].field_type"-->
             </div>
             <div class="field">
-              <label>Type de colonne</label>
+              <label>Type of column</label>
               <br style="display: none;">
               <div class="ui fluid search dropdown selection">
                 <select [(ngModel)]="field.fieldType" name="fieldType{{i}}"
 
                 [disabled]="!field.included">
-                  <option value="Identifiant">Identifiant</option>
-                  <option value="Title">Titre</option>
+                  <option value="Identifier">Identifier</option>
+                  <option value="Title">Title</option>
                   <option value="Text">Text</option>
                   <option value="Date">Date</option>
                   <option value="Meta">Meta</option>
@@ -118,14 +157,14 @@
               </div>
             </div>
             <div class="field" *ngIf="field.fieldType=='Meta'">
-              <label>Nom du meta</label>
+              <label>Name of meta</label>
               <br>
-              <input [disabled]="!field.included" type="text" placeholder="Nom du meta" [(ngModel)]="field.meta" name="meta name{{i}}">
+              <input [disabled]="!field.included" type="text" placeholder="Name of meta" [(ngModel)]="field.meta" name="meta name{{i}}">
             </div>
             <div class="field">
-              <label>Nom de la colonne</label>
+              <label>Name of column</label>
               <br>
-              <input [disabled]="!field.included" type="text" placeholder="Nom de la colonne" [(ngModel)]="field.name" name="name{{i}}">
+              <input [disabled]="!field.included" type="text" placeholder="Name of column" [(ngModel)]="field.name" name="name{{i}}">
             </div>
             <!--
        <div class="inline fields"><div class="field"><div class="ui checkbox" style="margin-right: 1em;"><input type="checkbox" tabindex="0" class="hidden"><label>
@@ -171,6 +210,7 @@
       </div>
      -->
     </form>
+    </div>
     <!--
       <button
       class="badge badge-primary mr-2"
@@ -190,7 +230,7 @@
 
     <button class="btn btn-info" (click)=" scan()"> Scan </button>
     <button class="btn btn-success" (click)=" clear()"> Clear </button>
-    <button class="btn btn-light" > <a routerLink="/squeduler/{{currentConnector.id}}">
+    <button class="btn btn-light" > <a routerLink="/squeduler/{{currentConnector.id}}/squedulers">
       Operation
     </a>  </button>
     <p>{{ message }}</p>

@@ -6,7 +6,7 @@ export class Scheduler {
   scanMode?:string
   startsTime?:string
   cronExpression?:string
-
+  endTime?:string
   published?: boolean;
 
 

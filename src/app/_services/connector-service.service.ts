@@ -72,5 +72,9 @@ export class ConnectorServiceService {
   findByNameContaining(params: any): Observable<any> {
     return this.http.get<any>(`${baseUrl}/connectors`,{params});
   }
+  findByProjectName(params: any): Observable<any> {
+    return this.http.get<any>(`${baseUrl}/connectorsByProjectName`,{params});
+  }
+
 }
 
