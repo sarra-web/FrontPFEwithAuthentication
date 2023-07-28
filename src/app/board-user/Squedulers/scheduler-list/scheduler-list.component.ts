@@ -144,7 +144,9 @@ message: string;
            this.CloseModel()
            //this.submitted = true;
          },
-         error: (e) => console.error(e)
+         error: (e) => {console.error(e)
+
+        }
        });
 
     this.planifier(data2)
@@ -152,6 +154,10 @@ message: string;
    }
    planifier(data:any){
      console.log("planification en cours")
+     const now = new Date();
+     if((data.startsTime<=now)||((data.endTime<=now)&&(data.endTime!=''))){
+      alertify.confirm("date must be after current date")
+     }
 
      console.log("avant",this.currentConnector.typeConnector)
    if(this.currentConnector.typeConnector==='connectorCSV')
@@ -161,7 +167,7 @@ message: string;
      .subscribe({
        next: (res) => {
          console.log("resJob",res);
-         alertify.success("yor connector was Scheduled successfelly")
+         alertify.success("your connector was Scheduled successfelly")
 
          //this.submitted = true;
        },

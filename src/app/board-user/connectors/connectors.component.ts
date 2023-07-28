@@ -34,6 +34,7 @@ export class ConnectorsComponent implements OnInit{
   connectors?: Connector[];
   connector?: Connector;
   currentConnector: Connector = {
+    projectName:'',
     fields: []
   };
   currentIndex = -1;
@@ -57,7 +58,8 @@ export class ConnectorsComponent implements OnInit{
     this.projectService.getAll().subscribe({
       next:(data) =>{
         this.projects = data;
-        console.log(data);
+
+          console.log(data);
       },
       error: (e) => console.error(e)
     });
@@ -65,6 +67,7 @@ export class ConnectorsComponent implements OnInit{
 
         this.connectorsState$ = this.connectorService.connectors$().pipe(
         map((response: ApiResponse<Page>) => {
+        this.responseSubject.next(response);
         this.responseSubject.next(response);
         this.currentPageSubject.next(response.data.page.number);
         console.log(response);
@@ -124,6 +127,11 @@ export class ConnectorsComponent implements OnInit{
           const {connectors, totalItems } = data;
           this.connectors = connectors;
           this.count = totalItems;
+          for (let i = 0; i < totalItems; i = i + 1){
+            connectors[i].projectName=connectors[i].project.name
+            console.log(connectors[i].projectName)
+          }
+
           console.log(data);
         },
         error: (err) => {
@@ -140,9 +148,8 @@ export class ConnectorsComponent implements OnInit{
     this.retrieveConnectors();
   }
   scan(): void {
-
     if(this.currentConnector.typeConnector==="connectorCSV"){
-    console.log(this.currentConnector)
+    console.log("currentConnector"+this.currentConnector.projectName)
     this.connectorService.updateProx(this.currentConnector).subscribe({
       next: (res) => {
         const now = new Date();
@@ -157,7 +164,7 @@ export class ConnectorsComponent implements OnInit{
         if(!res[1].Errors ===false){
           alertify.success ('You data was pushed to proxem successfully! but not accepted');
         }
-        else{
+        if(res.lenght===0){
           alertify.success ('You data does not pushed to proxem successfully!');
         }
 
@@ -181,7 +188,7 @@ export class ConnectorsComponent implements OnInit{
           if(!res[1].Errors ===false){
             alertify.success ('You data was pushed to proxem successfully! but not accepted');
           }
-          else{
+          if(res.lenght===0){
             alertify.success ('You data does not pushed to proxem successfully!');
           }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UserService } from '../_services/user.service';
 
 @Component({
@@ -8,7 +8,8 @@ import { UserService } from '../_services/user.service';
 })
 export class HomeComponent implements OnInit {
   content?: string;
-
+@Input() collapsed=false;
+@Input() screenWidth=0;
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
@@ -25,4 +26,17 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
+
+  getHomeClass():string{
+    let styleClass='';
+    if(this.collapsed && this.screenWidth>768){
+      styleClass='body-trimmed';
+
+    }else if(this.collapsed && this.screenWidth<=768 && this.screenWidth>0)
+  {styleClass='body-md-screen'
+
+  }
+return styleClass
+}
 }

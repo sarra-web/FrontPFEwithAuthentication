@@ -1,4 +1,11 @@
-<button><mat-icon>refresh</mat-icon></button>
+<div class="row">
+<button (click)="refrech()"><mat-icon>refresh</mat-icon></button>
+
+<button class="badge badge-danger mr-2" (click)="deleteLogs()">
+  Delete
+</button>
+
+</div>
 
 <div class="example-header">
   <mat-form-field>

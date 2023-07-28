@@ -10,6 +10,7 @@ import { Field } from 'src/app/model/FieldDAO';
 import * as alertify from 'alertifyjs'
 import { Project } from 'src/app/model/Project';
 import { ProjectServiceService } from 'src/app/_services/project.service';
+import { StorageService } from 'src/app/_services/storage.service';
 
 
 @Component({
@@ -53,12 +54,14 @@ export class FileUploadComponent implements OnInit {
 isChecked:boolean;
   form: any;
 v:any;
+currentUser:any;
 
   constructor(private fb: FormBuilder,private uploadService: FileUploadService,
-    private router: Router,
+    private router: Router,private storageService:StorageService,
     connectorService:ConnectorServiceService,private projectService:ProjectServiceService) { }
 
 ngOnInit(): void {
+  this.currentUser=this.storageService.getUser()
   this.projectService.getAll().subscribe({
     next:(data) =>{
       this.projects = data;
@@ -118,6 +121,7 @@ for (let i = 0; i < this.result.length; i++) {
 console.log(this.fields)
     console.log(this.result)
     const data = {
+      userId:this.currentUser.id,
       id:this.connector.name,
       name:this.connector.name,
       projectName:this.connector.projectName,
@@ -129,8 +133,8 @@ console.log(this.fields)
       containsHeaders:this.connector.containsHeaders,
       fields:this.fields
 };
-console.log("data")
-console.log(data);
+console.log("userId")
+console.log(data.userId);
     this.uploadService.create(data)
      .subscribe({
        next: (res) => {

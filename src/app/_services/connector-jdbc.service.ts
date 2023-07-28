@@ -34,6 +34,10 @@ export class ConnectorJDBCService {
   updateProx(data: any): Observable<any> {
     return this.http.put(`${baseUrl}/pushToProxem`, data);
   }
+  updateProxPlusCheck(data: any): Observable<any> {
+    return this.http.put(`${baseUrl}/pushToProxemFromcheckPoint`, data);
+  }
+
 
   appelerAPIAvecMethodePersonnalisee(data:any): Observable<any> {
 

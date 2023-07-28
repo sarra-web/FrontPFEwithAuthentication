@@ -21,7 +21,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ConfigComponent } from './config/config.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SignUpLogComponent } from './sign-up-log/sign-up-log.component';
 import { UserManagementComponent } from './board-admin/user-management/user-management.component';
 import { AddProjectComponent } from './board-admin/projects/add-project/add-project.component';
 import { ProjectComponent } from './board-admin/projects/project/project.component';
@@ -56,6 +55,9 @@ import { AddJDBCconnectorComponent } from './board-user/add-jdbcconnector/add-jd
 import { LogComponent } from './board-admin/log/log.component';
 import { MatIconModule } from '@angular/material/icon';
 import { FilterPipe } from './board-admin/log/filter.pipe';
+import { ExampleComponent } from './example/example.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const materialModules = [
   MatCardModule,
@@ -77,7 +79,6 @@ const materialModules = [
     BoardModeratorComponent,
     BoardUserComponent,
     ConfigComponent,
-    SignUpLogComponent,
     UserManagementComponent,
    AddProjectComponent,
     ProjectComponent
@@ -95,7 +96,7 @@ const materialModules = [
      JDBCconnectorComponent,
     AddJDBCconnectorComponent,
     LogComponent
-    ,HomeComponent,FilterPipe
+    ,HomeComponent,FilterPipe, ExampleComponent, SidenavComponent, DashboardComponent
 
   ],
   imports: [

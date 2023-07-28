@@ -1,0 +1,99 @@
+
+mat-sidenav {
+  width: 280px;
+  padding:15px;
+}
+.mat-drawer {
+  background-color: white;
+  color:#fff
+}
+.main-content {
+  padding:20px;
+}
+.toolbar-spacer {
+  flex: 1 1 auto;
+
+}
+.toolbar{
+  background-color: white;
+}
+/* .mat-sidenav-content{
+  background-color: white;
+
+} */
+
+.example-card {
+  max-width: 300px;
+}
+
+.box {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 15px 2em;
+  margin-top: 50px;
+  margin-left: 70px;
+}
+
+.box :first-child {
+    align-self: center;
+}
+
+.grid1{
+  background-image: url(../../assets/img/register.jpg);
+  background-repeat: no-repeat;
+  background-size: 979px;
+
+}
+.example-container{
+  text-align: center;
+}
+
+.title{
+  color: black;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.form-container{
+  width: 500px;
+
+
+}
+
+.form-field{
+  display: block;
+  margin-top: -5px;
+
+}
+
+.log{
+  text-decoration: none;
+  text-align: center;
+  color: black;
+  padding: 10px ;
+  margin-top: 20px;
+  font-family: 'Poppins', sans-serif;
+  border-style: solid;
+  border-color: black;
+  background-color: white;
+  border-width: 1px;
+  width: 100%;
+  font-size: 18px;
+  transition: 0.2s;
+  text-transform: uppercase;
+}
+.log:hover{
+  transition: 0.5s;
+  background-color:rgb(2, 88, 2);
+  color: white;
+  font-size: 19px;
+  border-style: solid;
+  border-color: white;
+  border-radius: 10px
+}
+
+.dejaFait{
+  text-decoration: none;
+  color: gray;
+}

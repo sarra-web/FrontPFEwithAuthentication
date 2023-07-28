@@ -69,6 +69,15 @@ submitted=false;
       this.roledata = item;
     });
   }
+  myFunction():void {
+    var x = document.getElementById("password") as HTMLInputElement;
+    if (x.type === "password") {
+       console.log("pass")
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
   getUser(id: any): void {
     this.service.GetUserbyId(id)
       .subscribe({

@@ -23,7 +23,7 @@
       <label>Project name</label>
       <select  class="select-text"  [(ngModel)]="currentConnector.projectName" name="projectName" #projectName="ngModel"
       [ngClass]="{ 'is-invalid': f.submitted && projectName.errors}" required>
-      <option class="dropdown-item" value="undefined" selected>Select an Option</option>
+      <option class="dropdown-item"  selected>Select an Option</option>
         <option class="dropdown-item" *ngFor="let project of projects">{{project.name}}</option>
 
       </select>
@@ -111,14 +111,14 @@
 
 <div class="if" *ngIf="currentConnector.mode=='Incremental'">
   <label>Checkpoint Column</label>
-  <input type="text" placeholder="checkpointColumn" [(ngModel)]="currentConnector.checkpointColumn" >
+  <input type="text" placeholder="checkpointColumn" [(ngModel)]="currentConnector.checkpointColumn" name="checkP"/>
 <br>
   <label>Incremental variable</label>
 
-  <input type="text" placeholder="incrementalVariable" [(ngModel)]="currentConnector.incrementalVariable"  >
+  <input type="text" placeholder="incrementalVariable" [(ngModel)]="currentConnector.incrementalVariable" name="incrV" />
   <div class="form-group">
     <label for="comment">Incremental query:</label>
-    <textarea name="query" (input)="handleKeyDown($event)" [(ngModel)]="currentConnector.incrementalQuery" class="form-control" rows="5" id="comment"></textarea>
+    <textarea name="query2" (input)="handleKeyDown($event)" [(ngModel)]="currentConnector.incrementalQuery" class="form-control" rows="5" id="comment"></textarea>
   </div>
 
 </div>
@@ -132,7 +132,7 @@
             <div class="ui grid">
               <div class="sixteen wide right aligned column">
                 <div class="ui checkbox" style="margin-right: 1em;">
-                  <input class="form-check-input" type="checkbox" id="flexCheckChecked" checked name="includ" [(ngModel)]="field.included" value="true" />
+                  <input class="form-check-input" type="checkbox" id="flex_{{i}}"  name="zz_{{i}}" [(ngModel)]="field.included"  />
                   <label class="form-check-label" for="flexCheckChecked"> Included </label>
                 </div>
                 <!--<button class="boutton"  (click)="changeButton()" [ngStyle]="{ 'background-color': buttonColor }"  >{{ buttonText }}</button>-->
@@ -247,10 +247,10 @@
         <h4 class="modal-title">Modal Heading</h4>
       </div>
   <div class="modal-body">
-  <div class="type" [(ngModel)]="incrementalVariable">
+  <div class="type">
     <label>Checkpoint</label>
               <br>
-  <input type="text">
+  <input type="text"  [(ngModel)]="checkPoint">
   </div>
 
     </div>

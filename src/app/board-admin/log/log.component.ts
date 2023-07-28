@@ -59,10 +59,24 @@ export class LogComponent implements OnInit {
     this.currentUser=this.storageService.getUser()
 
 }
+refrech(){
+  window.location.reload();
+}
 
 ngAfterViewInit() {
   this.dataSource.paginator = this.paginator;
   this.dataSource.sort = this.sort;
+}
+deleteLogs(){
+  this.logService.deleteLog("myLog.csv").subscribe(
+    (response) => {
+      console.log("deleted successfully")
+
+    },
+    (error) => {
+      console.log('Erreur lors de la suppression des données CSV :', error);
+    });
+
 }
 
 applyFilter(filterValue: string) {

@@ -35,6 +35,7 @@ export class JDBCconnectorComponent {
   published: false
   };
   currentFile?: File;
+  checkPoint:string;
   progress = 0;
   message = '';
   messageQuery='';
@@ -170,7 +171,7 @@ console.log(data)
         if(!res[1].Errors ===false){
           alertify.success ('You data was pushed to proxem successfully! but not accepted');
         }
-        else{
+        if(res.lenght===0){
           alertify.success ('You data does not pushed to proxem successfully!');
         }
 
@@ -179,6 +180,7 @@ console.log(data)
     });
   }
   scanFromCheckPoint(): void {
+
     const data = {
       id:this.currentConnector.id,
       name:this.currentConnector.name,
@@ -190,14 +192,18 @@ console.log(data)
       username:this.currentConnector.username,
       initialQuery:this.currentConnector.initialQuery,
       checkpointColumn:this.currentConnector.checkpointColumn,
-        incrementalVariable:this.incrementalVariable,
+        incrementalVariable:this.currentConnector.incrementalVariable,
        incrementalQuery:this.currentConnector.incrementalQuery,
        mode: this.currentConnector.mode,
       fields: this.currentConnector.fields,
 
 };
-console.log(data)
-    this.connectorService.updateProx(data).subscribe({
+const data2={
+  check:this.checkPoint,
+  connectorJDBCDTO:data
+}
+console.log(data2)
+    this.connectorService.updateProxPlusCheck(data2).subscribe({
       next: (res) => {
         console.log("res",res,"lenght",res.length);
         const now = new Date();
@@ -206,13 +212,13 @@ console.log(data)
           if(res[i].UpsertSuccessful===true){
                 j=j+1;
           }}
-        if(res[1].UpsertSuccessful===true){
+        if(res[0].UpsertSuccessful===true){
           alertify.success (j+' documents are pushed to proxem successfully! \n start time: '+now);
         }
-        if(!res[1].Errors ===false){
+        if(!res[0].Errors ===null){
           alertify.success ('You data was pushed to proxem successfully! but not accepted');
         }
-        else{
+        if(res.lenght===0){
           alertify.success ('You data does not pushed to proxem successfully!');
         }
 

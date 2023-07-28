@@ -1,0 +1,97 @@
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed': ''">
+  <div class="logo-container">
+ <button class="logo" (click)="toggleCollapse()">A</button>
+    <div class="logo-text" *ngIf="collapsed">Angular</div>
+    <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
+
+      <i class="fal fa-times close-icon"></i>
+    </button>
+  </div>
+  <ul class="sidenav-nav">
+    <li class="sidenav-nav-item" >
+      <a href="" class="sidenav-nav-link" routerLink="ex"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{exact:true}">
+
+        <i class="sidenav-link-icon" [class]="navData[0].icon"></i>
+        <span class="sidenav-link-text" *ngIf="collapsed">Home</span>
+      </a>
+      <li *ngIf="showAdminBoard" class="sidenav-nav-item" >
+        <a href="" class="sidenav-nav-link" routerLink="log"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}">
+
+          <i class="sidenav-link-icon"  [class]="navData[1].icon"></i>
+          <span class="sidenav-link-text" *ngIf="collapsed">Log File</span>
+        </a>
+      </li>
+      <li class="sidenav-nav-item" *ngIf="showAdminBoard" >
+        <a href="" class="sidenav-nav-link" routerLink="admin/user"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}">
+
+          <i class="sidenav-link-icon" [class]="navData[2].icon"></i>
+          <span class="sidenav-link-text" *ngIf="collapsed">Users management</span>
+        </a>
+      </li>
+      <li *ngIf="showAdminBoard" class="sidenav-nav-item" >
+        <a href="" class="sidenav-nav-link" routerLink="admin/project/projects"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}">
+
+          <i class="sidenav-link-icon"  [class]="navData[3].icon"></i>
+          <span class="sidenav-link-text" *ngIf="collapsed">Project management</span>
+        </a>
+      </li>
+      <li class="sidenav-nav-item" >
+        <a href="" class="sidenav-nav-link"   *ngIf="isLoggedIn" routerLink="user/connectors"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}">
+
+          <i class="sidenav-link-icon"  [class]="navData[4].icon"></i>
+          <span class="sidenav-link-text" *ngIf="collapsed">Connectors</span>
+        </a>
+      </li>
+      <li class="sidenav-nav-item" >
+        <a href="" class="sidenav-nav-link"   *ngIf="!isLoggedIn" routerLink="register"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}">
+
+          <i class="sidenav-link-icon"  [class]="navData[5].icon"></i>
+          <span class="sidenav-link-text" *ngIf="collapsed">Sign Up</span>
+        </a>
+      </li>
+      <li class="sidenav-nav-item" >
+        <a href="" class="sidenav-nav-link"   *ngIf="!isLoggedIn" routerLink="login"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}">
+
+          <i class="sidenav-link-icon"  [class]="navData[6].icon"></i>
+          <span class="sidenav-link-text" *ngIf="collapsed">Login</span>
+        </a>
+      </li>
+      <li class="sidenav-nav-item" >
+        <a href="" class="sidenav-nav-link"   *ngIf="isLoggedIn" routerLink="profile"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}">
+
+          <i class="sidenav-link-icon"  [class]="navData[7].icon"></i>
+          <span class="sidenav-link-text" *ngIf="collapsed">{{ username }}</span>
+        </a>
+      </li>
+      <li class="sidenav-nav-item" >
+        <a href="" class="sidenav-nav-link"   *ngIf="isLoggedIn"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}" (click)="logout()">
+
+          <i (click)="logout()" class="sidenav-link-icon"  [class]="navData[8].icon"></i>
+          <span (click)="logout()"  class="sidenav-link-text" *ngIf="collapsed">LogOut</span><link  rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        </a>
+
+      </li>
+  </ul>
+
+</div>

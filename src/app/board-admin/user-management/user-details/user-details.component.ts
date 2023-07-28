@@ -50,26 +50,40 @@ saveUser(): void {
  });}
  update(){
   this.message = '';
-  this.userService.register
-
-
-  (this.currentUser.username,this.currentUser.email,this.currentUser.password).subscribe({
+ /* this.userService.register(this.currentUser.username,this.currentUser.email,this.currentUser.password).subscribe({
    next: (res) => {
      console.log(res);
      //this.submitted = true;
    },
    error: (e) => console.error(e)
- });
-  /*this.userService.update(this.currentUser)
+ });*/
+ const data = {
+  id:this.currentUser.id,
+  username: this.currentUser.username,
+  password: this.currentUser.password,
+  email:this.currentUser.email,
+  role:this.currentUser.roles
+};
+console.log(data)
+  this.userService.update(data)
     .subscribe({
       next: (res) => {
         console.log(res);
         this.message = res.message ? res.message : 'This Project was updated successfully!';
       },
       error: (e) => console.error(e)
-    });*/
+    });
 
  }
+ myFunction():void {
+  var x = document.getElementById("b") as HTMLInputElement;
+  if (x.type === "password") {
+     console.log("pass")
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
 getUser(id: any): void {
   this.service.GetUserbyId(id)
     .subscribe({

@@ -101,6 +101,8 @@
             [(ngModel)]="user.password"
             name="password" placeholder="password"
           />
+          <input type="checkbox" (click)="myFunction()">Show Password
+
         </div>
 
 
@@ -157,10 +159,12 @@
             [(ngModel)]="currentUser.password"
             name="password" placeholder="password"
           />
-          <div appearance="fill">
+          <input type="checkbox" (click)="myFunction()">Show Password
+
+          <div class="form-group">
             <label>Role</label>
-            <select name="role"  [(ngModel)]="currentUser.roles[0]">
-              <option *ngFor="let role of roledata" [value]="role.id">
+            <select  class="select-text" name="role"  [(ngModel)]="currentUser.roles[0]">
+              <option class="dropdown-item" *ngFor="let role of roledata"><!-- [value]="role.id"-->
                 {{role.name}}
               </option>
             </select>

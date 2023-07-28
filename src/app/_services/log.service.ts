@@ -30,4 +30,8 @@ getFile2(filename: any): Observable<any> {
   return this.http.get(`${this.backendUrl2}/${filename}`)
 
 }
+deleteLog(filename: any): Observable<any> {
+ return this.http.get(`${this.backendUrl2}/delete/${filename}`)
+
+}
 }

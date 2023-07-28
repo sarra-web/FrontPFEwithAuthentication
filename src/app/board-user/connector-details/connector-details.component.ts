@@ -195,7 +195,7 @@ console.log(data)
         if(!res[1].Errors ===false){
           alertify.success ('You data was pushed to proxem successfully! but not accepted');
         }
-        else{
+        if(res.lenght===0){
           alertify.success ('You data does not pushed to proxem successfully!');
         }
 

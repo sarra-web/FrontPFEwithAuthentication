@@ -2,14 +2,27 @@ import { Component,OnInit } from '@angular/core';
 import { StorageService } from './_services/storage.service';
 import { AuthService } from './_services/auth.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { User } from './model/User';
+import { Router } from '@angular/router';
+type Tabs = 'Sidebar' | 'Header' | 'Toolbar';
+interface SidenavToggle{
+  screenWidth:number;
+  collapsed:boolean;
+}
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  isSideNavCollapsed=false;
+  screenWidth=0;
+  activeTab: Tabs = 'Sidebar';
+
   isExpanded = false;
-  router: any;
+  currentUser: any;
+
 
   title(title: any) {
     throw new Error('Method not implemented.');
@@ -21,10 +34,16 @@ export class AppComponent {
   username?: string;
   selectedCity:any;
   cities:string[]=["sarra","rim","ahlem"];
+  private userSubject: BehaviorSubject<User | null>;
+  public user: Observable<User | null>;
+  constructor( private router: Router,private storageService: StorageService, private authService: AuthService) {
+    this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
+    this.user = this.userSubject.asObservable();
 
-  constructor(private storageService: StorageService, private authService: AuthService) { }
+   }
 
   ngOnInit(): void {
+
     this.isLoggedIn = this.storageService.isLoggedIn();
 
     if (this.isLoggedIn) {
@@ -54,12 +73,22 @@ ngOnDestroy(){
     var navbar = document.getElementsByTagName('nav')[0];
     navbar.classList.remove('navbar-transparent');
 }
+setActiveTab(tab: Tabs) {
+  this.activeTab = tab;
+}
+onToggleSideNav(data:SidenavToggle):void{
+this.screenWidth=data.screenWidth;
+this.isSideNavCollapsed=data.collapsed;
 
+}
 
   logout2() {
     // Removes the jwt token from the local storage, so the user gets logged out & then navigate back to the "public" routes
    // localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
-    this.router.navigate(['../../']);
+   // this.router.navigate(['../../']);
+   localStorage.removeItem('user');
+   this.userSubject.next(null);
+   this.router.navigate(['/login']);
   }
   logout(): void {
     this.authService.logout().subscribe({

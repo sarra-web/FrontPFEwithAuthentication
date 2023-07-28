@@ -176,6 +176,7 @@ if((this.type.includes("Text")) &&(this.type.includes("Title")) ){
 
   }
       const data = {
+        userId:20,
       id:this.connector.name,
       name:this.connector.name,
       projectName:this.connector.projectName,

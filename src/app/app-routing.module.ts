@@ -7,7 +7,6 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
-import { SignUpLogComponent } from './sign-up-log/sign-up-log.component';
 import { BoardAdminComponent } from './board-admin/board-admin/board-admin.component';
 import { ProjectsListComponent } from './board-admin/projects/projects-list/projects-list.component';
 import { ProjectDetailsComponent } from './board-admin/projects/project-details/project-details.component';
@@ -25,9 +24,13 @@ import { LogComponent } from './board-admin/log/log.component';
 import { JDBCconnectorComponent } from './board-user/jdbcconnector/jdbcconnector.component';
 import { AddJDBCconnectorComponent } from './board-user/add-jdbcconnector/add-jdbcconnector.component';
 import { UserDetailsComponent } from './board-admin/user-management/user-details/user-details.component';
+import { ExampleComponent } from './example/example.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 const routes: Routes = [
+  {path:'',redirectTo:'ex',pathMatch:'full'},
+  {path:'dashbord',component:DashboardComponent},
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -36,10 +39,10 @@ const routes: Routes = [
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
   { path: 'log', component: LogComponent },
-  { path: 'Sl', component: SignUpLogComponent },
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'admin/project', component: ProjectComponent }
+  { path: 'admin/project', component: ProjectComponent },
+  { path: 'ex', component: ExampleComponent }
   ,{ path: 'admin/project/projects', component: ProjectsListComponent },
   { path: 'projects/:id', component: ProjectDetailsComponent },
   { path: 'admin/project/addP', component: AddProjectComponent }
