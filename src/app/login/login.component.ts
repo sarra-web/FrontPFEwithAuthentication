@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit {
         this.roles = this.storageService.getUser().roles;
         this.reloadPage();
                 // get return url from query parameters or default to home page
-                const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+                const returnUrl = this.route.snapshot.queryParams['ex'] || 'ex';
                 this.router.navigateByUrl(returnUrl);
             },
             error: error => {
@@ -89,6 +89,7 @@ export class LoginComponent implements OnInit {
                 this.loading = false;
             }
         });
+        this.router.navigate(['/ex']);
   }
 
   reloadPage(): void {

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { User } from '../model/User';
 import { Router } from '@angular/router';
+import { ERole } from '../model/ERole';
 
 const AUTH_API = 'http://localhost:8082/api/auth/';
 const AUTH_API2 = 'http://localhost:8082/api/auth';
@@ -15,13 +16,21 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class AuthService {
+  currentUserSubject: BehaviorSubject<User>;
+
   private userSubject: BehaviorSubject<User | null>;
   public user: Observable<User | null>;
   constructor(private router: Router,private http: HttpClient) {
     this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
     this.user = this.userSubject.asObservable();
   }
+  get currentUserValue(): User {
+    return this.currentUserSubject.value;
+  }
 
+  set currentUserValue(user: User) {
+    this.currentUserSubject.next(user);
+  }
   login(username: string, password: string): Observable<any> {
     return this.http.post(
       AUTH_API + 'signin',
@@ -49,6 +58,17 @@ export class AuthService {
       }, httpOptions
       );
     }
+    register2(username: string, email: string, password: string,role:string[]): Observable<any> {
+      return this.http.post(
+        AUTH_API + 'signup',
+        {
+          username,
+          email,
+          password,
+          role
+        }, httpOptions
+        );
+      }
     update(data: any): Observable<any> {
       return this.http.put(AUTH_API2+"/a", data, httpOptions);
     }

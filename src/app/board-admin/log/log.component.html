@@ -39,6 +39,10 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header> ResponseStatus </mat-header-cell>
       <mat-cell *matCellDef="let row" [style.color]="red"> {{row.ResponseStatus}} </mat-cell>
     </ng-container>
+    <ng-container matColumnDef="Info">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Info </mat-header-cell>
+      <mat-cell *matCellDef="let row" [style.color]="a"> {{row.info}} </mat-cell>
+    </ng-container>
     <ng-container matColumnDef="Level">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Level </mat-header-cell>
       <mat-cell *matCellDef="let row" [style.color]="a"> info </mat-cell>
@@ -62,7 +66,7 @@
     <h2 class="py-4">Logs</h2>
 
     <div class="form-group mb-4">
-      <input class="form-control" type="text" [(ngModel)]="searchText" placeholder="Search">
+      <input class="form-control" type="text" [(ngModel)]="searchText" placeholder="Filter">
     </div>
   <table class="table" *ngIf="(data | filter: searchText).length > 0; else noResults">
     <tr >
@@ -73,6 +77,9 @@
       <th >
         ResponseStatus
         </th>
+        <th >
+          Info
+          </th>
       <th >Level</th>
       <th >User</th>
   <tr *ngFor="let sublist of data| filter: searchText; let i = index">

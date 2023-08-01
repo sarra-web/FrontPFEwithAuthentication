@@ -158,10 +158,10 @@ export class ConnectorsComponent implements OnInit{
           if(res[i].UpsertSuccessful===true){
                 j=j+1;
           }}
-        if(res[1].UpsertSuccessful===true){
+        if(res[0].UpsertSuccessful===true){
           alertify.success (j+' documents are pushed to proxem successfully! \n start time: '+now);
         }
-        if(!res[1].Errors ===false){
+        if(!res[0].Errors ===false){
           alertify.success ('You data was pushed to proxem successfully! but not accepted');
         }
         if(res.lenght===0){
@@ -169,23 +169,26 @@ export class ConnectorsComponent implements OnInit{
         }
 
       },
-      error: (e) => console.error(e)
+      error: (e) => {console.error(e)
+        alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
+      }
     });}
     if(this.currentConnector.typeConnector==="connectorJDBC"){
       console.log(this.currentConnector)
 
       this.connectorJDBCService.updateProx(this.currentConnector).subscribe({
         next: (res) => {
+          console.log("res",res);
           const now = new Date();
           let j=0;
           for (let i = 0; i < res.length; i = i + 1){
             if(res[i].UpsertSuccessful===true){
                   j=j+1;
             }}
-          if(res[1].UpsertSuccessful===true){
+          if(res[0].UpsertSuccessful===true){
             alertify.success (j+' documents are pushed to proxem successfully! \n start time: '+now);
           }
-          if(!res[1].Errors ===false){
+          if(!res[0].Errors ===false){
             alertify.success ('You data was pushed to proxem successfully! but not accepted');
           }
           if(res.lenght===0){
@@ -193,7 +196,10 @@ export class ConnectorsComponent implements OnInit{
           }
 
         },
-        error: (e) => console.error(e)
+        error: (e) => {console.error(e)
+          alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
+
+        }
       });}
 
 

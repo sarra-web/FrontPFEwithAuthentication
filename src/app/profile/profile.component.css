@@ -1,0 +1,109 @@
+/* Styles for the container */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the header */
+.jumbotron {
+  background-color: #007bff;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Styles for the profile information */
+p {
+  margin-bottom: 15px;
+}
+
+strong {
+  font-weight: bold;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li {
+  list-style-type: disc;
+}
+
+/* Styles for the loggedOut message */
+[loggedOut] {
+  text-align: center;
+  font-style: italic;
+  color: #777;
+  margin-top: 20px;
+}
+
+/* Styles for the Change link */
+a {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f2f2f2;
+}
+
+.jumbotron {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+h3 strong {
+  font-weight: bold;
+}
+
+p strong {
+  font-weight: bold;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+.logged-out {
+  margin-top: 20px;
+}
+
+.logged-out::before {
+  content: "Please login.";
+  font-weight: bold;
+}
+*/

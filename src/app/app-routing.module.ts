@@ -26,6 +26,7 @@ import { AddJDBCconnectorComponent } from './board-user/add-jdbcconnector/add-jd
 import { UserDetailsComponent } from './board-admin/user-management/user-details/user-details.component';
 import { ExampleComponent } from './example/example.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileDetailsComponent } from './profile/profile-details/profile-details.component';
 
 
 const routes: Routes = [
@@ -57,6 +58,8 @@ const routes: Routes = [
   {path: 'squeduler/:id/squedulers/:id', component:SchedulerDetailsComponent},
   {path: 'squeduler/:id/AddS', component:AddSchedulerComponent},
   {path: 'user/:id', component:UserDetailsComponent}
+  ,{path: 'profile/:id', component:ProfileDetailsComponent}
+
   //{ path: 'user/squeduler/:id', component: SquedulerComponent },
 
 

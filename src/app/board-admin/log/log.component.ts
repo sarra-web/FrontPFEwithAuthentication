@@ -26,7 +26,7 @@ export class LogComponent implements OnInit {
   result2: string[][] = [];
   data: string[][] = [];
   currentUser:any;
-  displayedColumns = ['Date', 'RequestURI', 'Method', 'ResponseStatus','Level'];
+  displayedColumns = ['Date', 'RequestURI', 'Method', 'ResponseStatus','Info','Level'];
   dataSource: MatTableDataSource<Data>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

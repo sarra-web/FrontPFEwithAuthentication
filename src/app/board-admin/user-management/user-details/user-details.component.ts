@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/_services/auth.service';
 import { User } from 'src/app/model/User';
 import { BoardAdminService } from '../../board-admin.service';
+import * as alertify from 'alertifyjs'
 
 @Component({
   selector: 'app-user-details',
@@ -57,12 +58,16 @@ saveUser(): void {
    },
    error: (e) => console.error(e)
  });*/
+ const s=[];
+ s.push(this.currentUser.roles[0].name);
+ console.log("sssssss",s)
  const data = {
+
   id:this.currentUser.id,
   username: this.currentUser.username,
   password: this.currentUser.password,
   email:this.currentUser.email,
-  role:this.currentUser.roles
+  roles:s
 };
 console.log(data)
   this.userService.update(data)
@@ -70,6 +75,8 @@ console.log(data)
       next: (res) => {
         console.log(res);
         this.message = res.message ? res.message : 'This Project was updated successfully!';
+        alertify.success("updated Successfully");
+
       },
       error: (e) => console.error(e)
     });

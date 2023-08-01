@@ -1,5 +1,196 @@
+<div class="container">
+  <!-- Rest of the HTML code remains the same -->
+
+  <div class="list row">
+    <div class="col-md-8">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by name"
+          [(ngModel)]="name"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" (click)="searchByNameIgnoreCase2()">
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label>Filter by project name</label>
+        <select
+          class="select-text"
+          (change)="searchByProjectName($event)"
+          [(ngModel)]="projectName"
+          name="projectName"
+          required
+        >
+          <option class="dropdown-item" value="undefined" selected>Select one project</option>
+          <option class="dropdown-item" *ngFor="let project of projects">{{ project.name }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-7"></div>
+    <div class="col-md-1">
+      <button class="btn btn-success" (click)="openModel()">Add</button>
+    </div>
+  </div>
+  <div>
+    <div class="modal" id="myModal">
+    <div class="modal-dialog">
+    <div class="modal-content">
+
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+        </div>
+    <div class="modal-body">
+    body
+    <div class="type"><label>Type of connector</label>
+      <div class="ui fluid search dropdown selection">
+        <select [(ngModel)]="selectedValue">
+          <option value="JDBC">JDBC</option>
+          <option value="CSV">CSV</option>
+          <option value="XML">XML</option>
+        </select><i class="dropdown icon"></i></div>
+    </div>
+    <div class="mode"><label>Creation mode </label>
+      <div class="ui fluid search dropdown selection"><select >
+          <option value="">New</option>
+          <option value="Id">Copy</option>
+        </select><i class="dropdown icon"></i></div>
+    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="changementDePageWithCondition()" data-bs-dismiss="modal">Continue</button>
+
+        <button type="button" class="btn btn-danger" (click)="cancel()" data-bs-dismiss="modal" >Cancel</button>
+      </div>
+    </div>
+
+
+    </div>
+    </div>
+  </div>
+</div>
+
+<table class="table">
+<thead>
+<tr>
+<th scope="col">#</th>
+<th scope="col">Type</th>
+<th scope="col">Name</th>
+<th scope="col">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr    *ngFor="
+let connector of connectors | paginate : {
+    itemsPerPage: pageSize,
+    currentPage: page,
+    totalItems: count
+  };
+let i = index
+"
+[class.active]="i == currentIndex"
+>
+<th scope="row">{{i}}</th>
+<td> {{connector.typeConnector}}</td>
+<td> {{ connector.name}}</td>
+
+<td (click)="setActiveConnector(connector, i)">
+
+<a
+(click)="setActiveConnector(connector, i)"
+routerLink="/connectors/{{currentConnector.typeConnector}}/{{currentConnector.id}}">
+Edit
+</a>
+<button (click)="setActiveConnector(connector, i)"  (click)="deletethisConnector(currentConnector.id)">Delete</button>
+<button (click)="setActiveConnector(connector, i)"  (click)="scan()">Scan</button>
+<button (click)="setActiveConnector(connector, i)"  (click)="clearFromProxem()">Clear</button>
+
+
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="col-md-6">
+<app-connector-details
+[viewMode]="true"
+[currentConnector]="currentConnector"
+></app-connector-details>
+</div>
+<div class="mt-3">
+<button class="m-3 btn btn-sm btn-danger" (click)="removeAllConnectors()">
+Remove All
+</button>
+Items per Page:
+<select (change)="handlePageSizeChange($event)">
+<option *ngFor="let size of pageSizes" [ngValue]="size">
+{{ size }}
+</option>
+</select>
+</div>
+
+<div class="col-md-12">
+<pagination-controls
+previousLabel="Prev"
+nextLabel="Next"
+[responsive]="true"
+(pageChange)="handlePageChange($event)"
+></pagination-controls>
+</div>
+
+<div *ngIf="currentConnector.id">
+<div class="modal" id="myModal2">
+<div class="modal-dialog">
+<div class="modal-content">
+
+  <div class="modal-header">
+    <h4 class="modal-title">Connector</h4>
+  </div>
+
+
+<div class="modal-body">
+
+<h4>Connector</h4>
+<div>
+  <label>
+    <strong>Name:</strong>
+  </label> {{ currentConnector.name }}
+</div>
+<div>
+  <label>
+    <strong>Status:</strong>
+  </label>
+  {{ currentConnector.published? "Published" : "Pending" }}
+</div>
+</div>
+<div class="modal-footer">
+  <a routerLink="/connectors/{{currentConnector.id}}"> Edit </a>
+</div>
+</div>
+</div>
+</div></div>
+
+  <!-- Rest of the HTML code remains the same -->
+
+
+
+
+
+
+
+
+
+<!--
 <div class="list row">
-  <div class="col-md-8">
+
     <div class="input-group mb-3">
       <input
         type="text"
@@ -13,79 +204,62 @@
           (click)="searchByNameIgnoreCase2()">
           Search
         </button> </div> </div>
-<div class="row">
 
-
-  <div class="form-group">
-    <label>Filter by project name</label>
-    <select  class="select-text" (change)="searchByProjectName($event)"  [(ngModel)]="projectName" name="projectName"
-    required>
-    <option class="dropdown-item" value="undefined" selected>Select one project</option>
-      <option class="dropdown-item" *ngFor="let project of projects">{{project.name}}</option>
-
-    </select>
-
-
-
-
-        <div class="col-md-4">
-          <!--
-<div  class="dropdown">
-            <button (click)="myFunction()" class="dropbtn">Projects</button>
-            <div id="myDropdown" class="dropdown-content">
-              <input [(ngModel)]="input" type="text" placeholder="Search.." id="myInput" (keyup)="filterFunction()">
-              <a href="#about"></a>
-              <a href="#base"></a>
-              <a href="#blog"></a>
-              <a href="#contact"></a>
-              <a href="#custom"></a>
-              <a href="#support"></a>
-              <a href="#tools"></a>
-            </div>
-          </div>-->
-        </div>
-        <div class="col-md-7"></div>
-          <div class="col-md-1">
-            <button class="btn btn-success" (click)="openModel()">Add</button>
-          </div></div>
-          <div>
-          <div class="modal" id="myModal">
-          <div class="modal-dialog">
-          <div class="modal-content">
-
-              <div class="modal-header">
-                <h4 class="modal-title">Modal Heading</h4>
-              </div>
-          <div class="modal-body">
-          body
-          <div class="type"><label>Type of connector</label>
-            <div class="ui fluid search dropdown selection">
-              <select [(ngModel)]="selectedValue">
-                <option value="JDBC">JDBC</option>
-                <option value="CSV">CSV</option>
-                <option value="XML">XML</option>
-              </select><i class="dropdown icon"></i></div>
-          </div>
-          <div class="mode"><label>Creation mode </label>
-            <div class="ui fluid search dropdown selection"><select >
-                <option value="">New</option>
-                <option value="Id">Copy</option>
-              </select><i class="dropdown icon"></i></div>
-          </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" (click)="changementDePageWithCondition()" data-bs-dismiss="modal">Continue</button>
-
-              <button type="button" class="btn btn-danger" (click)="cancel()" data-bs-dismiss="modal" >Cancel</button>
-            </div>
-          </div>
-
-
-          </div>
-          </div>
-        </div>
-      </div>
   </div>
+  <div class="row">
+
+
+    <div class="form-group">
+      <label>Filter by project name</label>
+      <select  class="select-text" (change)="searchByProjectName($event)"  [(ngModel)]="projectName" name="projectName"
+      required>
+      <option class="dropdown-item" value="undefined" selected>Select one project</option>
+        <option class="dropdown-item" *ngFor="let project of projects">{{project.name}}</option>
+
+      </select>
+ <div class="col-md-4">
+          </div>
+          <div class="col-md-7"></div>
+            <div class="col-md-1">
+              <button class="btn btn-success" (click)="openModel()">Add</button>
+            </div></div>
+            <div>
+            <div class="modal" id="myModal">
+            <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                  <h4 class="modal-title">Modal Heading</h4>
+                </div>
+            <div class="modal-body">
+            body
+            <div class="type"><label>Type of connector</label>
+              <div class="ui fluid search dropdown selection">
+                <select [(ngModel)]="selectedValue">
+                  <option value="JDBC">JDBC</option>
+                  <option value="CSV">CSV</option>
+                  <option value="XML">XML</option>
+                </select><i class="dropdown icon"></i></div>
+            </div>
+            <div class="mode"><label>Creation mode </label>
+              <div class="ui fluid search dropdown selection"><select >
+                  <option value="">New</option>
+                  <option value="Id">Copy</option>
+                </select><i class="dropdown icon"></i></div>
+            </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="changementDePageWithCondition()" data-bs-dismiss="modal">Continue</button>
+
+                <button type="button" class="btn btn-danger" (click)="cancel()" data-bs-dismiss="modal" >Cancel</button>
+              </div>
+            </div>
+
+
+            </div>
+            </div>
+          </div>
+        </div>
 
 <table class="table">
   <thead>
@@ -115,7 +289,7 @@
 
       <a
       (click)="setActiveConnector(connector, i)"
-      routerLink="/connectors/{{currentConnector.typeConnector}}/{{currentConnector.id}}"><!-- -->
+      routerLink="/connectors/{{currentConnector.typeConnector}}/{{currentConnector.id}}">
         Edit
       </a>
 <button (click)="setActiveConnector(connector, i)"  (click)="deletethisConnector(currentConnector.id)">Delete</button>
@@ -127,6 +301,7 @@
     </tr>
   </tbody>
 </table>
+
 <div class="col-md-6">
   <app-connector-details
     [viewMode]="true"
@@ -185,176 +360,6 @@ Items per Page:
 </div>
   </div>
       </div></div>
+    -->
 
-
-
-
-<!--
-<div class="list row">
-  <div class="col-md-8">
-    <div class="input-group mb-3">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Search by name"
-        [(ngModel)]="name"
-      />
-      <div class="input-group-append">
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          (click)="searchByNameIgnoreCase()"
-        >
-          Search
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-12">
-    <pagination-controls
-      previousLabel="Prev"
-      nextLabel="Next"
-      [responsive]="true"
-      (pageChange)="handlePageChange($event)"
-    ></pagination-controls>
-  </div>
-
-<div class="col-md-6">
-    <h4>Connectors List</h4>
-
-    <ul class="list-group">
-      <li
-        class="list-group-item"
-        *ngFor="
-        let connector of connectors | paginate : {
-                itemsPerPage: pageSize,
-                currentPage: page,
-                totalItems: count
-              };
-        let i = index
-      "
-        [class.active]="i == currentIndex"
-        (click)="setActiveConnector(connector, i)"
-      >
-        {{ connector.name }}
-      </li>
-    </ul>
-
-
-  </div>
-
-  <div class="col-md-6">
-    <app-connector-details
-      [viewMode]="true"
-      [currentConnector]="currentConnector"
-    ></app-connector-details>
-  </div>
-  <div class="mt-3">
-  <button class="m-3 btn btn-sm btn-danger" (click)="removeAllConnectors()">
-    Remove All
-  </button>
-  Items per Page:
-  <select (change)="handlePageSizeChange($event)">
-    <option *ngFor="let size of pageSizes" [ngValue]="size">
-      {{ size }}
-    </option>
-  </select>
-</div>-->
-<!--<div class="list row">
-  <div class="col-md-8">
-    <div class="input-group mb-3">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Search by name"
-        [(ngModel)]="name"
-        />
-
-      <div class="input-group-append">
-        <button
-          class="btn btn-outline-secondary"
-          (click)="searchByNameIgnoreCase()"
-        >
-          Search
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <h4>Connectors List</h4>
-
-    <ul class="list-group">
-      <li
-        class="list-group-item"
-        *ngFor="let connector of connectors; let i = index"
-        [class.active]="i == currentIndex"
-        (click)="setActiveConnector(connector, i)"
-      >
-        {{ connector.name }}
-      </li>
-    </ul>
-
-    <button class="m-3 btn btn-sm btn-danger" (click)="removeAllConnectors()">
-      Remove All
-    </button>
-  </div>
-
-  <div class="col-md-6">
-    <app-connector-details
-      [viewMode]="true"
-      [currentConnector]="currentConnector"
-    ></app-connector-details>
-  </div>
-
-  <nav aria-label="Page navigation example">
-    <ul class="pagination">
-      <li class="page-item"><a class="page-link" href="#">&laquo; Previous</a></li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link" href="#">Next &raquo;</a></li>
-    </ul>
-  </nav>
-
-
-
-</div>
-
-
-
-
-
-
-<div class="list row">
-  <div class="col-md-8">
-    <div class="input-group mb-3">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Search by name"
-        [(ngModel)]="name"
-        />
-
-      <div class="input-group-append">
-        <button
-          class="btn btn-outline-secondary"
-          (click)="searchByNameIgnoreCase()"
-        >
-          Search
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-12">
-    <pagination-controls
-      previousLabel="Prev"
-      nextLabel="Next"
-      [responsive]="true"
-      (pageChange)="handlePageChange($event)"
-    ></pagination-controls>
-  </div>
-
--->
 

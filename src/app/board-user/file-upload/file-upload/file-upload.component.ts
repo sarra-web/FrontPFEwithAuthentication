@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { FileUploadService } from 'src/app/_services/file-upload.service';
 import { Router } from '@angular/router';
 import { ConnectorServiceService } from 'src/app/_services/connector-service.service';
-import { FormBuilder, NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, NgForm, Validators } from '@angular/forms';
 import { ConnectorCSV } from 'src/app/model/ConnectorCSV copy';
 import { Field } from 'src/app/model/FieldDAO';
 import * as alertify from 'alertifyjs'
@@ -19,6 +19,8 @@ import { StorageService } from 'src/app/_services/storage.service';
   styleUrls: ['./file-upload.component.css']
 })
 export class FileUploadComponent implements OnInit {
+
+  selectFormControl = new FormControl('', Validators.required);
   public disabled = true;
   a:string="";
   sep:any=",";
@@ -121,7 +123,7 @@ for (let i = 0; i < this.result.length; i++) {
 console.log(this.fields)
     console.log(this.result)
     const data = {
-      userId:this.currentUser.id,
+      //userId:this.currentUser.id,
       id:this.connector.name,
       name:this.connector.name,
       projectName:this.connector.projectName,
@@ -134,7 +136,7 @@ console.log(this.fields)
       fields:this.fields
 };
 console.log("userId")
-console.log(data.userId);
+//console.log(data.userId);
     this.uploadService.create(data)
      .subscribe({
        next: (res) => {

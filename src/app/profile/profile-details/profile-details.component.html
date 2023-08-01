@@ -49,22 +49,20 @@
           <input type="checkbox" (click)="myFunction()">Show Password
 
       </div>
-      <div class="form-group">
-        <label >Role</label>
+
+        <!--
+
+<div class="form-group">
+        <label for="description">Role</label>
         <select class="select-text" name="role"  [(ngModel)]="currentUser.roles[0].name">
           <option class="dropdown-item"  selected>Select an Option</option>
           <option class="dropdown-item" *ngFor="let role of roledata" >
             {{role.name}}
           </option>
         </select>
-        <!--<input
-          type="text"
-          class="form-control"
-          id="description"
-          [(ngModel)]="currentUser.roles[0].name"
-          name="description"
-        />-->
-      </div>
+</div>
+        -->
+
 
 
     </form>
@@ -85,3 +83,4 @@
     <p>Cannot access this User...</p>
   </div>
 </ng-template>
+

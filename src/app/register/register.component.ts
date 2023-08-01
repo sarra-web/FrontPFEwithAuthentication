@@ -5,13 +5,40 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AlertService } from '../_services/alert.service';
 
+export interface Food {
+  value: string;
+  viewValue: string;
+}
 
+export interface Car {
+  value: string;
+  viewValue: string;
+}
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+
+
+  selectedValue: string;
+  selectedCar: string;
+
+  foods: Food[] = [
+    {value: 'steak-0', viewValue: 'Steak'},
+    {value: 'pizza-1', viewValue: 'Pizza'},
+    {value: 'tacos-2', viewValue: 'Tacos'}
+  ];
+
+  cars: Car[] = [
+    {value: 'volvo', viewValue: 'Volvo'},
+    {value: 'saab', viewValue: 'Saab'},
+    {value: 'mercedes', viewValue: 'Mercedes'}
+  ];
+
+
+
   form!: FormGroup;
     loading = false;
     submitted = false;

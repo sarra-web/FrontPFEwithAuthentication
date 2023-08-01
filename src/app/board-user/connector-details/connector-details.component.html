@@ -27,7 +27,7 @@
 
     >
 
-    <div class="form-group">
+  <!--  <div class="form-group">
       <label>Project name</label>
       <select  class="select-text"  [(ngModel)]="currentConnector.projectName" name="projectName" #projectName="ngModel"
       [ngClass]="{ 'is-invalid': f.submitted && projectName.errors}" required>
@@ -40,8 +40,22 @@
       <div *ngIf="f.submitted && name.errors" class="invalid-feedback">
         <div *ngIf="name.errors['required']">Project name is required</div>
       </div>
-    </div>
+    </div>-->
 
+    <label>Project name</label>
+    <mat-form-field>
+      <mat-label>Project</mat-label>
+      <select matNativeControl [(ngModel)]="currentConnector.projectName" name="projectName" #projectName="ngModel"
+      [ngClass]="{ 'is-invalid': f.submitted && projectName.errors}" required>
+        <option value="" selected></option>
+        <option *ngFor="let project of projects">
+          {{project.name}}
+        </option>
+      </select>
+      <div *ngIf="f.submitted && projectName.errors" class="invalid-feedback">
+        <div *ngIf="projectName.errors['required']">Project name is required</div>
+      </div>
+    </mat-form-field>
 
 
       <div class="form-group">

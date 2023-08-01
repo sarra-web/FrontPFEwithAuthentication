@@ -15,7 +15,7 @@ interface SidenavToggle{
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   isSideNavCollapsed=false;
   screenWidth=0;
   activeTab: Tabs = 'Sidebar';

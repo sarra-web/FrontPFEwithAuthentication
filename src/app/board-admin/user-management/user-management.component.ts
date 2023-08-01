@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'src/app/_services/storage.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { elementAt } from 'rxjs';
+import { Signup } from 'src/app/model/signup';
 
 
 
@@ -40,7 +41,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.css']
 })
-export class  UserManagementComponent implements OnInit {
+export class  UserManagementComponent  {
+  constructor(private route: ActivatedRoute,private router:Router,private service: BoardAdminService,private dialog :MatDialog,private userService:AuthService) { }
+
   @Input() viewMode = false;
   @Input() currentUser:User={
 username:'',
@@ -48,25 +51,35 @@ email:'',
 password:'',
 roles:[]
   };
+  role:''
+user:Signup={
+username:'',
+email:'',
+password:'',
+    roles:[]
+  };
   currentIndex = -1;
   roledata: any;
-  constructor(private route: ActivatedRoute,private router:Router,private service: BoardAdminService,private dialog :MatDialog,private userService:AuthService) { }
-user:User={}
+
+
 submitted=false;
-  ngOnInit(): void {
+ngOnInit(){
+    console.log(this.roledata)
+    this.GetAllRole();
+    console.log(this.roledata)
     this.GetAllUser();
     if (!this.viewMode) {
 
       this.getUser(this.route.snapshot.params["id"]);
 
     }
-    this.GetAllRole();
-   // this.GetExistdata(this.data.id);
+// this.GetExistdata(this.data.id);
   }
 
   GetAllRole() {
     this.service.GetAllRoles().subscribe(item => {
       this.roledata = item;
+
     });
   }
   myFunction():void {
@@ -125,10 +138,11 @@ submitted=false;
     this.CloseModel()
    }
    saveUser(): void {
-     this.userService.register
-
-
-     (this.user.username,this.user.email,this.user.password).subscribe({
+    const s=[];
+    console.log("role",this.role)
+    s.push(this.role);
+    console.log("ss",s)
+     this.userService.register2(this.user.username,this.user.email,this.user.password,s).subscribe({
       next: (res) => {
         console.log(res);
         this.submitted = true;
@@ -136,6 +150,7 @@ submitted=false;
       error: (e) => console.error(e)
     });
 }
+
 
 
   GetAllUser() {

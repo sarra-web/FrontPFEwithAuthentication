@@ -58,6 +58,7 @@ import { FilterPipe } from './board-admin/log/filter.pipe';
 import { ExampleComponent } from './example/example.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileDetailsComponent } from './profile/profile-details/profile-details.component';
 
 const materialModules = [
   MatCardModule,
@@ -96,7 +97,7 @@ const materialModules = [
      JDBCconnectorComponent,
     AddJDBCconnectorComponent,
     LogComponent
-    ,HomeComponent,FilterPipe, ExampleComponent, SidenavComponent, DashboardComponent
+    ,HomeComponent,FilterPipe, ExampleComponent, SidenavComponent, DashboardComponent, ProfileDetailsComponent
 
   ],
   imports: [

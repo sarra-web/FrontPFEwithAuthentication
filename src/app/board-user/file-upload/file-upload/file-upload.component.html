@@ -5,7 +5,7 @@
       (ngSubmit)="f.form.valid && onSubmit()"
       novalidate
     >
-    <div class="form-group">
+    <!--<div class="form-group">
       <label>Project name</label>
       <select  class="select-text"  [(ngModel)]="connector.projectName" name="projectName" #projectName="ngModel"
       [ngClass]="{ 'is-invalid': f.submitted && projectName.errors}" required>
@@ -13,12 +13,28 @@
         <option class="dropdown-item" *ngFor="let project of projects">{{project.name}}</option>
 
       </select>
-
-
-      <div *ngIf="f.submitted && projectName.errors" class="invalid-feedback">
+ <div *ngIf="f.submitted && projectName.errors" class="invalid-feedback">
         <div *ngIf="projectName.errors['required']">Project name is required</div>
       </div>
     </div>
+    -->
+
+
+    <label>Project name</label>
+    <mat-form-field>
+      <mat-label>Project</mat-label>
+      <select matNativeControl [(ngModel)]="connector.projectName" name="projectName" #projectName="ngModel"
+      [ngClass]="{ 'is-invalid': f.submitted && projectName.errors}" required>
+        <option value="" selected></option>
+        <option *ngFor="let project of projects">
+          {{project.name}}
+        </option>
+      </select>
+      <div *ngIf="f.submitted && projectName.errors" class="invalid-feedback">
+        <div *ngIf="projectName.errors['required']">Project name is required</div>
+      </div>
+    </mat-form-field>
+
         <div class="form-group">
           <label>Name</label>
           <input type="text" class="form-control" id="aa" [(ngModel)]="connector.name" name="name" required

@@ -19,3 +19,8 @@
 <ng-template #loggedOut>
   Please login.
 </ng-template>
+<button type="button" class="btn btn-primary"
+      (click)="setActiveUser(currentUser)"
+      routerLink="/profile/{{currentUser.id}}"><!-- -->
+      Change
+      </button>

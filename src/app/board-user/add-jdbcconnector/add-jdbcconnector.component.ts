@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ConnectorJDBCService } from 'src/app/_services/connector-jdbc.service';
@@ -8,6 +8,7 @@ import { Field } from 'src/app/model/FieldDAO';
 import * as alertify from 'alertifyjs'
 import { Project } from 'src/app/model/Project';
 import { ProjectServiceService } from 'src/app/_services/project.service';
+import { StorageService } from 'src/app/_services/storage.service';
 
 @Component({
   selector: 'app-add-jdbcconnector',
@@ -15,7 +16,7 @@ import { ProjectServiceService } from 'src/app/_services/project.service';
   styleUrls: ['./add-jdbcconnector.component.css']
 })
 export class AddJDBCconnectorComponent implements OnInit{
-
+  selectFormControl = new FormControl('', Validators.required);
   public disabled = true;
   a:string="";
   sep:any=",";
@@ -36,8 +37,10 @@ export class AddJDBCconnectorComponent implements OnInit{
   submitted = false;
    fields: any[] = [];
   positions:number[]=[];
+  currentUser:any;
   connector:ConnectorJDBC={
     name:'',
+   // userId:26,
     projectName:'',
     jdbcUrl:'',
     username:'',
@@ -56,11 +59,13 @@ isChecked:boolean;
   form: any;
 v:any;
 
-  constructor(private fb: FormBuilder, private router: Router,
+  constructor(private fb: FormBuilder,private storageService:StorageService, private router: Router,
    private connectorService:ConnectorJDBCService,private projectService:ProjectServiceService) { }
 
 ngOnInit(): void {
-
+  this.currentUser=this.storageService.getUser()
+  this.connector.userId=this.currentUser.id;
+  console.log("userid",this.connector.userId)
 this.projectService.getAll().subscribe({
   next:(data) =>{
     this.projects = data;
@@ -175,8 +180,9 @@ if((this.type.includes("Text")) &&(this.type.includes("Title")) ){
     partOfDocumentIdentity:this.result[i].partOfDocumentIdentity });
 
   }
+
       const data = {
-        userId:20,
+     // userId:this.connector.userId,
       id:this.connector.name,
       name:this.connector.name,
       projectName:this.connector.projectName,
