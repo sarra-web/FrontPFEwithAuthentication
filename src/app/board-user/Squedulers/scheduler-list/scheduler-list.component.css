@@ -1,0 +1,105 @@
+#im{
+  height: 55px;
+  width: 55px;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap; /* permet aux éléments de passer à la ligne lorsque l'espace est insuffisant */
+  justify-content: center; /* centre les éléments horizontalement */
+  align-items: flex-start; /* aligne les éléments en haut de la boîte */
+}
+.product-area {
+  position: relative;
+  z-index: 1;
+}
+.product-card {
+  border-radius: 25px;
+  background-color: #ffffff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+
+  a {
+      display: block;
+
+      img {
+          max-width: 100%;
+      }
+  }
+  .product-content {
+      padding: 24px  20px;
+      position: relative;
+
+      a {
+          display: block;
+
+          h3 {
+              font-size: 24px;
+              line-height: 1;
+          }
+      }
+      p {
+          color: #2d3652;
+          margin: 0;
+          font-weight: 600;
+          span {
+              color: #ff743c;
+              font-size: 20px;
+          }
+      }
+      .product-cart {
+          position: absolute;
+          right: 20px;
+          top: 38px;
+
+          ul {
+              margin: 0;
+              padding: 0;
+              list-style: none;
+
+              li {
+                  display: inline-block;
+                  margin-left: 15px;
+
+                  a {
+                      width: 40px;
+                      height: 40px;
+                      line-height: 45px;
+                      font-size: 24px;
+                      border-radius: 5px;
+                      color: #2d3652;
+                      background-color: #ffffff;
+                      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+                      text-align: center;
+                      transition: 0.7s;
+
+                      &:hover {
+                          background-color: #2d3652;
+                          color: #ffffff;
+                      }
+                  }
+              }
+          }
+      }
+  }
+}
+.product-shape {
+  position: absolute;
+  top: 500px;
+  z-index: -1;
+  left: 0 ;
+  right: 0;
+  margin: 0 auto;
+}
+#cross{
+  margin-top: 0px;
+  margin-left: 190px;
+
+}
+
+
+
+
+
+
+

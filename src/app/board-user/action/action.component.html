@@ -1,0 +1,23 @@
+<div *ngIf="viewMode; else editable">
+  <div *ngIf="currentConnector.id">
+
+    <a routerLink="/connectorsAction/{{currentConnector.typeConnector}}/{{currentConnector.id}}"> Edit </a>
+  </div>
+  <div *ngIf="!currentConnector">
+    <br />
+    <p>Please click on a Connector...</p>
+  </div>
+</div>
+<ng-template #editable>
+  
+    <div class="register-form">
+    <button class="btn btn-light" > <a routerLink="/squeduler/{{currentConnector.id}}/squedulers">
+      Operation
+    </a>  </button>
+    <p>{{ message }}</p>
+  </div>
+<div *ngIf="!currentConnector.id">
+    <br />
+    <p>Cannot access this connector...</p>
+  </div>
+</ng-template>

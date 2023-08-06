@@ -139,7 +139,7 @@ message: string;
        .subscribe({
          next: (res) => {
            console.log("res",res);
-           alertify.success("yor Scheduler was saved successfelly")
+           alertify.success("your Scheduler was saved successfelly")
            this.refreshList()
            this.CloseModel()
            //this.submitted = true;
@@ -160,18 +160,16 @@ message: string;
      }
 
      console.log("avant",this.currentConnector.typeConnector)
-   if(this.currentConnector.typeConnector==='connectorCSV')
+     if(this.currentConnector.typeConnector==='connectorCSV')
      {console.log("aprés",this.currentConnector.typeConnector)
      console.log("data",data)
        this.schedulerService.planifierCSV(data)
      .subscribe({
        next: (res) => {
-         console.log("resJob",res);
-         alertify.success("your connector was Scheduled successfelly")
-
-         //this.submitted = true;
+        alertify.success("your connector was Scheduled successfelly")
+        console.log("resJob",res);
        },
-       error: (e) => console.error("erreur",e)
+    error: (e) => console.error("erreur",e)
 
      });}
      if(this.currentConnector.typeConnector==='connectorJDBC')
@@ -224,7 +222,7 @@ message: string;
   }
 
   setActiveScheduler(scheduler: Scheduler, index: number): void {
-    this.currentScheduler = scheduler;
+   scheduler=  this.currentScheduler;
     this.currentIndex = index;
   }
 

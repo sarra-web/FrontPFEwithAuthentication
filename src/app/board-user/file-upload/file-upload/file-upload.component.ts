@@ -22,6 +22,8 @@ export class FileUploadComponent implements OnInit {
 
   selectFormControl = new FormControl('', Validators.required);
   public disabled = true;
+  currentUser:any;
+
   a:string="";
   sep:any=",";
   currentFile?: File;
@@ -56,7 +58,6 @@ export class FileUploadComponent implements OnInit {
 isChecked:boolean;
   form: any;
 v:any;
-currentUser:any;
 
   constructor(private fb: FormBuilder,private uploadService: FileUploadService,
     private router: Router,private storageService:StorageService,
@@ -123,7 +124,7 @@ for (let i = 0; i < this.result.length; i++) {
 console.log(this.fields)
     console.log(this.result)
     const data = {
-      //userId:this.currentUser.id,
+      userName:this.currentUser.username,
       id:this.connector.name,
       name:this.connector.name,
       projectName:this.connector.projectName,
@@ -135,8 +136,8 @@ console.log(this.fields)
       containsHeaders:this.connector.containsHeaders,
       fields:this.fields
 };
-console.log("userId")
-//console.log(data.userId);
+console.log("userName")
+console.log(data.userName);
     this.uploadService.create(data)
      .subscribe({
        next: (res) => {

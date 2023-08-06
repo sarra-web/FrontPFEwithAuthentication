@@ -32,11 +32,11 @@ export class ConnectorServiceService {
   }
 
   create(data: any): Observable<any> {
-    return this.http.post(baseUrl, data);
+    return this.http.post(baseUrl+"/CreateCSVConnector", data);
   }
 
   update(data: any): Observable<any> {
-    return this.http.put(`${baseUrl}`, data);
+    return this.http.put(`${baseUrl}/UpadateCSVconnector`, data);
   }
   updateProx(data: any): Observable<any> {
     return this.http.put(`${baseUrl}/pushToProxem`, data);
@@ -72,8 +72,14 @@ export class ConnectorServiceService {
   findByNameContaining(params: any): Observable<any> {
     return this.http.get<any>(`${baseUrl}/connectors`,{params});
   }
+  findByUserName(params: any): Observable<any> {
+    return this.http.get<any>(`${baseUrl}/connectorsUser`,{params});
+  }
   findByProjectName(params: any): Observable<any> {
     return this.http.get<any>(`${baseUrl}/connectorsByProjectName`,{params});
+  }
+  findByProjectNameAndUserName(params: any): Observable<any> {
+    return this.http.get<any>(`${baseUrl}/connectorsByProjectNameAndUser`,{params});
   }
 
 }

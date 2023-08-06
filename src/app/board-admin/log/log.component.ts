@@ -26,7 +26,7 @@ export class LogComponent implements OnInit {
   result2: string[][] = [];
   data: string[][] = [];
   currentUser:any;
-  displayedColumns = ['Date', 'RequestURI', 'Method', 'ResponseStatus','Info','Level'];
+  displayedColumns = ['Date', 'RequestURI', 'Method', 'ResponseStatus','Info','User','Level'];
   dataSource: MatTableDataSource<Data>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -116,7 +116,7 @@ applyFilter(filterValue: string) {
     );
 }
 }
-function createNewUser(id: number): Data {
+/*function createNewUser(id: number): Data {
   const name =
       NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
       NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
@@ -127,7 +127,7 @@ function createNewUser(id: number): Data {
     Method: Math.round(Math.random() * 100).toString(),
     ResponseStatus: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
   };
-}
+}*/
 
 /** Constants used to fill up our data base. */
 const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
@@ -140,10 +140,14 @@ export class Data {
   RequestURI: string;
   Method: string;
   ResponseStatus: string;
+  Info:string;
+  User:string;
   constructor( a:string[]) {
     this.Date =a[0] ;
     this.RequestURI =a[1] ;
     this. Method= a[2];
     this. ResponseStatus= a[3];
+    this.Info=a[4];
+    this.User=a[5];
   }
 }

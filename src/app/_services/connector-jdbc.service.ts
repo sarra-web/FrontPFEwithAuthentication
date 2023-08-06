@@ -6,10 +6,14 @@ import { Page } from '../model/page';
 import { ConnectorJDBC } from '../model/ConnectorJDBC';
 
 const baseUrl = 'http://localhost:8080/configurationJDBC';
-
+const baseUrl2 = 'http://localhost:8080/configurationJDBC/testConnection';
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 @Injectable({
   providedIn: 'root'
 })
+
 export class ConnectorJDBCService {
   constructor(private http: HttpClient) { }
 
@@ -23,13 +27,22 @@ export class ConnectorJDBCService {
   get(id: any): Observable<any> {
     return this.http.get<any>(`${baseUrl}/findById/${id}`);
   }
+  testConnection(data:any): Observable<any> {
+    return this.http.post(baseUrl2,data);
+  }
+ /* testConnection(data:any): Observable<any> {
+    return this.http.post(
+      baseUrl + '/testConnection',
+      data, httpOptions
+      );
+    }*/
 
   create(data: any): Observable<any> {
-    return this.http.post(baseUrl, data);
+    return this.http.post(baseUrl+"/CreateJDBCConnector", data);
   }
 
   update(data: any): Observable<any> {
-    return this.http.put(`${baseUrl}`, data);
+    return this.http.put(`${baseUrl}/UpadateJDBCconnector`, data);
   }
   updateProx(data: any): Observable<any> {
     return this.http.put(`${baseUrl}/pushToProxem`, data);

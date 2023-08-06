@@ -1,4 +1,11 @@
 /* Global styles */
+mat-icon{
+  color: #000;
+}
+#edit{
+  color: #000;
+  margin-right: 16px;
+}
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;

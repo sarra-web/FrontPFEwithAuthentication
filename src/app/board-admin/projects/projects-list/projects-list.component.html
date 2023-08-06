@@ -13,15 +13,19 @@
     >
       Search
     </button> </div> </div>
-<div class="col-md-1">
-  <button class="btn btn-success" (click)="openModel()">Add</button>
-</div>
+<div class="row">
+
+  <button class="btn btn-outline-secondary" (click)="openModel()">Add project
+
+    <i class="fa fa-plus-circle"></i>
+  </button>
+</div><br>
 <div class="modal" id="myModal">
   <div class="modal-dialog">
   <div class="modal-content">
 
       <div class="modal-header">
-        <h4 class="modal-title">Modal Heading</h4>
+        <h4 class="modal-title">Add project</h4>
       </div>
   <div class="modal-body">
 
@@ -59,11 +63,11 @@
     </div>
     </div>
     <div class="modal-footer">
-      <button (click)="saveProject()" class="btn btn-success">Submit</button>
+      <button (click)="saveProject()" class="btn btn-dark">Save</button>
       <div *ngIf="submitted">
-        <h4>project was submitted successfully!</h4>
+        <h4>project was saved successfully!</h4>
       </div>
-      <button type="button" class="btn btn-danger" (click)="cancel()" data-bs-dismiss="modal" >Cancel</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()" data-bs-dismiss="modal" >Cancel</button>
     </div>
   </div>
 
@@ -72,16 +76,30 @@
   </div>
 
 
-<table class="table">
-  <thead class="table-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr    *ngFor="
+
+
+  <section class="work-process-area">
+    <div class="shape1">
+        <img src="assets/img/shape/round-box.png" alt="">
+    </div>
+    <div class="shape2 rotate-me">
+        <img src="assets/img/shape/round-box-2.png" alt="">
+    </div>
+    <div class="shape3 rotate-me">
+        <img src="assets/img/shape/shape-1.png" alt="">
+    </div>
+    <div class="container">
+        <div class="sec-title center text-center">
+            <div class="title">
+                <h5> OUR PROJECTS</h5>
+                <div class="border-box"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="work-process-box">
+
+    <div *ngFor="
     let project of projects | paginate : {
             itemsPerPage: pageSize,
             currentPage: page,
@@ -89,34 +107,38 @@
           };
     let i = index
   "
-    [class.active]="i == currentIndex"
-    >
-      <th scope="row">{{i}}</th>
-      <td> {{project.name}}</td>
+    [class.active]="i == currentIndex" class="single-work-process text-center wow fadeInUp animated" data-wow-delay="0.5s" data-wow-duration="1200ms">
+      <div class="icon-holder">
+          <span class="flaticon-communications thm-clr1"></span>
+          <div class="count-box"><p>{{i+1}}</p></div>
+      </div>
 
+      <div  class="text-holder">
+          <h3><a routerLink="/projects/{{currentproject.id}}" (click)="setActiveproject(project, i)" href="" >{{project.name}}</a></h3>
+          <i
+      (click)="deletethisproject(currentproject.id,i)"
+ id="cross" class="fa fa-times"></i>
+          <p> </p>
+      </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</section>
 
-      <td (click)="setActiveproject(project, i)">
-
-      <a
-      (click)="setActiveproject(project, i)"
-      routerLink="/projects/{{currentproject.id}}"><!-- -->
-        Edit
-      </a>
-
-
-      <button
+     <!--
+       <button
       (click)="setActiveproject(project, i)"
       (click)="deletethisproject(currentproject.id,i)">  <svg
       xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
         <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
       </svg>
 </button>
+     -->
 
 
-    </td>
-    </tr>
-  </tbody>
-</table>
+
 <div class="col-md-6">
   <app-project-details
     [viewMode]="true"
@@ -143,4 +165,3 @@ Items per Page:
       (pageChange)="handlePageChange($event)"
     ></pagination-controls>
   </div>
-

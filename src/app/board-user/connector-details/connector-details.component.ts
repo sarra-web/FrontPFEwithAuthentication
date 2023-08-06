@@ -25,6 +25,7 @@ export class ConnectorDetailsComponent {
   @Input() currentConnector: ConnectorCSV = {
   id:'',
   name:'',
+  userName:'',
   projectName:'',
   encoding:'',
   separator:'',
@@ -173,6 +174,7 @@ this.connectorService.update(data)
       id:this.currentConnector.id,
       name:this.currentConnector.name,
       projectName:this.currentConnector.projectName,
+      userName:this.currentConnector.userName,
       separator:this.currentConnector.separator,
       encoding:this.currentConnector.encoding,
       path:this.currentConnector.path,

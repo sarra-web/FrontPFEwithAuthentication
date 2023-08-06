@@ -1,1 +1,86 @@
-<p>scheduler-details works!</p>
+<div *ngIf="viewMode; else editable">
+  <div *ngIf="currentScheduler.id">
+    <h4>currentScheduler</h4>
+
+
+  </div>
+
+  <div *ngIf="!currentScheduler">
+    <br />
+    <p>Please click on a currentScheduler...</p>
+  </div>
+</div>
+
+<ng-template #editable>
+  <div *ngIf="currentScheduler.id" class="edit-form">
+    <h4>currentScheduler</h4>
+    <form>
+      <div class="form-group">
+        <label for="description">Name</label>
+        <input
+          class="form-control"
+          id="description"
+          required
+          [(ngModel)]="currentScheduler.name"
+          name="description"
+        />
+        <label for=""> Scan mode </label>
+        <select  [(ngModel)]="currentScheduler.scanMode" class="form-select" aria-label="Default select example">
+         <option selected>Open this select menu</option>
+         <option value="Once">Once</option>
+         <option value="Cron">Cron</option>
+
+       </select> <br>
+
+        <label for=""> Starts time </label>
+        <input type="text"  [(ngModel)]="currentScheduler.startsTime"><br>
+
+
+        <div class="field" *ngIf="currentScheduler.scanMode=='Cron'">
+          <label for=""> End time </label>
+        <input type="text"  [(ngModel)]="currentScheduler.endTime"><br>
+         <label>Cron expression</label>
+         <br>
+         <input type="text" placeholder="cronExpression" [(ngModel)]="currentScheduler.cronExpression" name="cron">
+         <br>
+       </div>
+
+      </div>
+      <button type="button" class="btn btn-dark" (click)=" updateScheduler(currentScheduler,currentScheduler.id)" data-bs-dismiss="modal">Run<i class="fa fa-play"></i><i class="bi bi-play"></i></button>
+
+
+        <!--
+
+<div class="form-group">
+        <label for="description">Role</label>
+        <select class="select-text" name="role"  [(ngModel)]="currentcurrentScheduler.roles[0].name">
+          <option class="dropdown-item"  selected>Select an Option</option>
+          <option class="dropdown-item" *ngFor="let role of roledata" >
+            {{role.name}}
+          </option>
+        </select>
+</div>
+        -->
+
+
+
+    </form>
+
+
+    <button
+      type="submit"
+      class="badge badge-success mb-2"
+      (click)="updateScheduler(currentScheduler,currentScheduler.id)"
+    >
+      Update
+    </button>
+    <p>{{ message }}</p>
+  </div>
+
+  <div *ngIf="!currentScheduler.id">
+    <br />
+    <p>Cannot access this currentScheduler...</p>
+  </div>
+</ng-template>
+
+

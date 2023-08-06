@@ -19,6 +19,8 @@ export class AddJDBCconnectorComponent implements OnInit{
   selectFormControl = new FormControl('', Validators.required);
   public disabled = true;
   a:string="";
+  color='';
+  currentUser:any;
   sep:any=",";
   currentFile?: File;
   progress = 0;
@@ -37,10 +39,10 @@ export class AddJDBCconnectorComponent implements OnInit{
   submitted = false;
    fields: any[] = [];
   positions:number[]=[];
-  currentUser:any;
+msg='';
   connector:ConnectorJDBC={
     name:'',
-   // userId:26,
+    userName:'',
     projectName:'',
     jdbcUrl:'',
     username:'',
@@ -64,8 +66,8 @@ v:any;
 
 ngOnInit(): void {
   this.currentUser=this.storageService.getUser()
-  this.connector.userId=this.currentUser.id;
-  console.log("userid",this.connector.userId)
+  this.connector.userName=this.currentUser.username;
+  console.log("userName",this.connector.userName)
 this.projectService.getAll().subscribe({
   next:(data) =>{
     this.projects = data;
@@ -182,7 +184,7 @@ if((this.type.includes("Text")) &&(this.type.includes("Title")) ){
   }
 
       const data = {
-     // userId:this.connector.userId,
+      userName:this.currentUser.username,
       id:this.connector.name,
       name:this.connector.name,
       projectName:this.connector.projectName,
@@ -214,7 +216,34 @@ this.connectorService.create(data)
 
     }
    }
+   testConnection(){
+    const data={
+      jdbcURL:this.connector.jdbcUrl,
+      username:this.connector.username,
+      password:this.connector.password,
+      className:this.connector.className,
+   }
+   console.log("dataaaaaaa",data);
+    this.connectorService.testConnection(data)
+     .subscribe({
+      next: (res) => {
+        console.log("yeeeeee");
+        console.log(res);
+        if(res[0]==='Database connection successful!'){
+         this.msg="Connection is ok"
+         this.color="green";
+        }
+        else{
+          this.msg= "Connection is failed";
+          this.color="red"
+        }
 
+        //alertify.success("")
+      },
+      error: (e) => console.error(e)
+    });
+
+   }
   selectFile(event: any): void {
     if (event.target.files && event.target.files[0]) {
       const file: File = event.target.files[0];

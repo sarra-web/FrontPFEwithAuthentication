@@ -17,6 +17,7 @@ import {filter,  switchMap, tap,takeUntil, debounceTime
 } from 'rxjs/operators';
 import { Project } from 'src/app/model/Project';
 import { ProjectServiceService } from 'src/app/_services/project.service';
+import { StorageService } from 'src/app/_services/storage.service';
 
 @Component({
   selector: 'app-connectors',
@@ -33,6 +34,7 @@ export class ConnectorsComponent implements OnInit{
   currentPage$ = this.currentPageSubject.asObservable();
   connectors?: Connector[];
   connector?: Connector;
+  checkPoint:string;
   currentConnector: Connector = {
     projectName:'',
     fields: []
@@ -45,6 +47,7 @@ export class ConnectorsComponent implements OnInit{
   count = 0;
   pageSize = 3;
   pageSizes = [3, 6, 9];
+  currentUser:any;
   title = 'angular-mateiral';
   selectedValue: string = '';
   projects:Project[];
@@ -52,9 +55,11 @@ export class ConnectorsComponent implements OnInit{
     private activatedRoute: ActivatedRoute,
     private location: Location,
     private connectorService:ConnectorServiceService,
-    private connectorJDBCService:ConnectorJDBCService ) { }
+    private connectorJDBCService:ConnectorJDBCService ,private storageService:StorageService,) { }
 
   ngOnInit(): void {
+    this.currentUser=this.storageService.getUser()
+
     this.projectService.getAll().subscribe({
       next:(data) =>{
         this.projects = data;
@@ -98,6 +103,27 @@ export class ConnectorsComponent implements OnInit{
 
     return params;
   }
+  getRequestParams2(userName:string,name: string, page: number, pageSize: number): any {
+    let params: any = {};
+
+    if (userName) {
+      params[`userName`] = userName;
+    }
+    if (name) {
+      params[`name`] = name;
+    }
+
+    if (page) {
+      params[`page`] = page - 1;
+    }
+
+    if (pageSize) {
+      params[`size`] = pageSize;
+    }
+
+    return params;
+  }
+
 
   gotToPage(pageNumber: number = 0): void {
 
@@ -119,9 +145,9 @@ export class ConnectorsComponent implements OnInit{
      this.gotToPage( direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1);
    }
    retrieveConnectors(): void {
-    const params = this.getRequestParams(this.name, this.page, this.pageSize);
+    const params = this.getRequestParams(this.currentUser.username, this.page, this.pageSize);
 
-    this.connectorService.findByNameContaining(params)
+    this.connectorService.findByUserName(params)
       .subscribe({
         next: (data) => {
           const {connectors, totalItems } = data;
@@ -203,6 +229,45 @@ export class ConnectorsComponent implements OnInit{
       });}
 
 
+  }
+  openModelCheck() {
+    const modelDiv = document.getElementById('myModalChek');
+    if(modelDiv!= null) {
+      modelDiv.style.display = 'block';
+    }
+  }
+  scanFromCheckPoint(): void {
+
+const data2={
+  check:this.checkPoint,
+  connectorJDBCDTO:this.currentConnector
+}
+console.log(data2)
+    this.connectorJDBCService.updateProxPlusCheck(data2).subscribe({
+      next: (res) => {
+        console.log("res",res,"lenght",res.length);
+        const now = new Date();
+        let j=0;
+        for (let i = 0; i < res.length; i = i + 1){
+          if(res[i].UpsertSuccessful===true){
+                j=j+1;
+          }}
+        if(res[0].UpsertSuccessful===true){
+          alertify.success (j+' documents are pushed to proxem successfully! \n start time: '+now);
+        }
+        if(!res[0].Errors ===null){
+          alertify.success ('You data was pushed to proxem successfully! but not accepted');
+        }
+        if(res.lenght===0){
+          alertify.success ('You data does not pushed to proxem successfully!');
+        }
+
+      },
+      error: (e) => {console.error(e)
+        alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
+
+      }
+    });
   }
   handlePageSizeChange(event: any): void {
     this.pageSize = event.target.value;
@@ -319,6 +384,25 @@ removeAllConnectors(): void {
       }
     });
   }
+  searchByUserName(): void {
+    const params = this.getRequestParams(this.currentUser.username, this.page, this.pageSize);
+
+    this.currentConnector = {fields:[]};
+    this.currentIndex = -1;
+
+    this.connectorService.findByUserName(params)
+    .subscribe({
+      next: (data) => {
+        const {connectors, totalItems } = data;
+        this.connectors = connectors;
+        this.count = totalItems;
+        console.log(data);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
   searchByProjectName(event:any): void {
     const params = this.getRequestParams(this.projectName, this.page, this.pageSize);
 
@@ -326,6 +410,25 @@ removeAllConnectors(): void {
     this.currentIndex = -1;
 
     this.connectorService.findByProjectName(params)
+    .subscribe({
+      next: (data) => {
+        const {connectors, totalItems } = data;
+        this.connectors = connectors;
+        this.count = totalItems;
+        console.log(data);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+  searchByProjectNameAndUser(event:any): void {
+    const params = this.getRequestParams2(this.currentUser.username,this.projectName, this.page, this.pageSize);
+
+    this.currentConnector = {fields:[]};
+    this.currentIndex = -1;
+
+    this.connectorService.findByProjectNameAndUserName(params)
     .subscribe({
       next: (data) => {
         const {connectors, totalItems } = data;
@@ -368,6 +471,12 @@ removeAllConnectors(): void {
       modelDiv.style.display = 'none';
     }
   }
+  CloseModel2() {
+    const modelDiv = document.getElementById('myModalChek');
+    if(modelDiv!= null) {
+      modelDiv.style.display = 'none';
+    }
+  }
 
    changementDePageWithCondition():void{
     if (this.selectedValue==='CSV')
@@ -397,6 +506,10 @@ removeAllConnectors(): void {
    cancel():void{
     this.router.navigateByUrl('/connectors');
     this.CloseModel()
+   }
+   cancel2():void{
+    this.router.navigateByUrl('/connectors');
+    this.CloseModel2()
    }
   myFunction() {
   //document.getElementById("myDropdown").classList.toggle("show");

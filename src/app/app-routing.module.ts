@@ -27,6 +27,8 @@ import { UserDetailsComponent } from './board-admin/user-management/user-details
 import { ExampleComponent } from './example/example.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileDetailsComponent } from './profile/profile-details/profile-details.component';
+import { ActionComponent } from './board-user/action/action.component';
+import { ActionJDBCComponent } from './board-user/action-jdbc/action-jdbc.component';
 
 
 const routes: Routes = [
@@ -38,6 +40,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
+  { path: 'sched/:id', component: SchedulerDetailsComponent },
+
   { path: 'admin', component: BoardAdminComponent },
   { path: 'log', component: LogComponent },
   { path: 'home', component: HomeComponent },
@@ -53,6 +57,8 @@ const routes: Routes = [
   { path: 'addjdbc', component: AddJDBCconnectorComponent },
   { path: 'connectors/connectorCSV/:id', component: ConnectorDetailsComponent },
   { path: 'connectors/connectorJDBC/:id', component: JDBCconnectorComponent },
+  { path: 'connectorsAction/connectorCSV/:id', component: ActionComponent },
+  { path: 'connectorsAction/connectorJDBC/:id', component: ActionJDBCComponent },
   {path: 'squeduler/:id', component:SquedulerComponent},
   {path: 'squeduler/:id/squedulers', component:SchedulerListComponent},
   {path: 'squeduler/:id/squedulers/:id', component:SchedulerDetailsComponent},

@@ -1,3 +1,26 @@
+
+
+.content-box {
+  box-sizing: content-box;
+  width: 50%;
+  border: solid #5B6DCD 10px;
+  padding: 5px;
+
+  padding: 20px;
+
+  /* Total width: 160px + (2 * 20px) + (2 * 8px) = 216px
+     Total height: 80px + (2 * 20px) + (2 * 8px) = 136px
+     Content box width: 160px
+     Content box height: 80px */
+}
+
+.border-box {
+  box-sizing: border-box;
+  /* Total width: 160px
+     Total height: 80px
+     Content box width: 160px - (2 * 20px) - (2 * 8px) = 104px
+     Content box height: 80px - (2 * 20px) - (2 * 8px) = 24px */
+}
 .mat-toolbar-single-row {
   height: auto !important;
   background: transparent;

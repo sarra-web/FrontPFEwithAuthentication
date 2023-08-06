@@ -12,8 +12,8 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f2f2f2;
-  background-image: url('./background.jpg');
+  background-color: #F1F5F9;
+ /* background-image: url('./background.jpg');*/
 }
 
 /* Style the card container */
@@ -28,7 +28,7 @@ body {
 
 /* Style the card header */
 .card-header {
-  background-color: #f18847;
+  background-color: #0A66C2;
   color: #fff;
   padding: 10px;
   border-top-left-radius: 5px;
@@ -61,7 +61,7 @@ body {
 
 /* Style the login button */
 .btn-primary {
-  background-color: #f18847;
+  background-color: #0A66C2;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -71,7 +71,7 @@ body {
 
 /* Style the register link */
 .btn-link {
-  color: #f18847;
+  color: #0A66C2;
   text-decoration: none;
   margin-left: 10px;
 }

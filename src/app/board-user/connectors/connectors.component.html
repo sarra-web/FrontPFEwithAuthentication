@@ -35,9 +35,11 @@
         </select>
       </div>
     </div>
-    <div class="col-md-7"></div>
-    <div class="col-md-1">
-      <button class="btn btn-success" (click)="openModel()">Add</button>
+    <div class="col-md-5"></div>
+    <div class="col-md-3">
+      <button class="btn btn-outline-secondary" (click)="openModel()">Add
+        <i class="fa fa-plus-circle"></i>
+      </button>
     </div>
   </div>
   <div>
@@ -46,24 +48,28 @@
     <div class="modal-content">
 
         <div class="modal-header">
-          <h4 class="modal-title">Modal Heading</h4>
+          <h4 class="modal-title">Add connector</h4>
         </div>
     <div class="modal-body">
-    body
+
     <div class="type"><label>Type of connector</label>
       <div class="ui fluid search dropdown selection">
         <select [(ngModel)]="selectedValue">
           <option value="JDBC">JDBC</option>
           <option value="CSV">CSV</option>
-          <option value="XML">XML</option>
+          <!--
+            <option value="XML">XML</option>
+          -->
         </select><i class="dropdown icon"></i></div>
     </div>
-    <div class="mode"><label>Creation mode </label>
+   <!--
+     <div class="mode"><label>Creation mode </label>
       <div class="ui fluid search dropdown selection"><select >
           <option value="">New</option>
           <option value="Id">Copy</option>
         </select><i class="dropdown icon"></i></div>
     </div>
+   -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="changementDePageWithCondition()" data-bs-dismiss="modal">Continue</button>
@@ -104,21 +110,57 @@ let i = index
 
 <td (click)="setActiveConnector(connector, i)">
 
-<a
+<a id="edit"
 (click)="setActiveConnector(connector, i)"
 routerLink="/connectors/{{currentConnector.typeConnector}}/{{currentConnector.id}}">
-Edit
+Edit <i class="fa fa-pencil"></i>
 </a>
-<button (click)="setActiveConnector(connector, i)"  (click)="deletethisConnector(currentConnector.id)">Delete</button>
+<i class="fa fa-trash"
+(click)="setActiveConnector(connector, i)"  (click)="deletethisConnector(currentConnector.id)"
+></i>
+
 <button (click)="setActiveConnector(connector, i)"  (click)="scan()">Scan</button>
-<button (click)="setActiveConnector(connector, i)"  (click)="clearFromProxem()">Clear</button>
+<!--
+  <button (click)="setActiveConnector(connector, i)"  (click)="clearFromProxem()">Clear</button>
+
+-->
+<a
+(click)="setActiveConnector(connector, i)"
+routerLink="/connectorsAction/{{currentConnector.typeConnector}}/{{currentConnector.id}}">
+<mat-icon>more_vert</mat-icon>
+
+</a>
 
 
 </td>
 </tr>
 </tbody>
 </table>
+<div class="modal" id="myModalChek">
+  <div class="modal-dialog">
+  <div class="modal-content">
 
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+      </div>
+  <div class="modal-body">
+  <div class="type">
+    <label>Checkpoint</label>
+              <br>
+  <input type="text"  [(ngModel)]="checkPoint">
+  </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="scanFromCheckPoint()" data-bs-dismiss="modal">Run</button>
+
+      <button type="button" class="btn btn-danger" (click)="cancel2()" data-bs-dismiss="modal" >Cancel</button>
+    </div>
+  </div>
+
+
+  </div>
+  </div>
 <div class="col-md-6">
 <app-connector-details
 [viewMode]="true"

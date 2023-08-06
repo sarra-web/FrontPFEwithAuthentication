@@ -51,7 +51,7 @@ export class FileUploadService {
     return this.http.get(`${this.baseUrl}/csv/${name}`);
 }
 create(data: any): Observable<any> {
-  return this.http.post(this.baseUrl2, data);
+  return this.http.post(this.baseUrl2+"/CreateCSVConnector", data);
 }
 
 

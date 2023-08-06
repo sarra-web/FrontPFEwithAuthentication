@@ -59,6 +59,8 @@ import { ExampleComponent } from './example/example.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileDetailsComponent } from './profile/profile-details/profile-details.component';
+import { ActionComponent } from './board-user/action/action.component';
+import { ActionJDBCComponent } from './board-user/action-jdbc/action-jdbc.component';
 
 const materialModules = [
   MatCardModule,
@@ -97,7 +99,7 @@ const materialModules = [
      JDBCconnectorComponent,
     AddJDBCconnectorComponent,
     LogComponent
-    ,HomeComponent,FilterPipe, ExampleComponent, SidenavComponent, DashboardComponent, ProfileDetailsComponent
+    ,HomeComponent,FilterPipe, ExampleComponent, SidenavComponent, DashboardComponent, ProfileDetailsComponent, ActionComponent, ActionJDBCComponent
 
   ],
   imports: [

@@ -6,3 +6,166 @@
 .pointer {
   cursor: pointer;
 }
+#edit{
+  color: black;
+  margin-right: 16px;
+}
+
+/* Work Process Area Css */
+.work-process-area {
+  padding: 120px 0 10px;
+}
+.work-process-box {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.single-work-process {
+  padding: 0 30px;
+  max-width: 400px;
+  margin-bottom: 101px;
+}
+.single-work-process:nth-child(1):before {
+  display: none;
+}
+.single-work-process:nth-child(3):before {
+  display: none;
+}
+.work-process-area{
+  position: relative;
+  display: block;
+  background: #ffffff;
+  padding: 120px 0 70px;
+}
+.work-process-area .shape1{
+  position: absolute;
+  top: 220px;
+  right: 165px;
+-webkit-animation: service_hexagon_2 15s infinite linear;
+  -moz-animation: service_hexagon_2 15s infinite linear;
+  -o-animation: service_hexagon_2 15s infinite linear;
+  animation: service_hexagon_2 15s infinite linear;
+}
+.work-process-area .shape2{
+  position: absolute;
+  top: 250px;
+  right: 60px;
+}
+.work-process-area .shape3{
+  position: absolute;
+  left: 90px;
+  bottom: 200px;
+}
+
+
+
+.work-process-area .sec-title {
+  padding-bottom: 97px;
+}
+.work-process-box{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.single-work-process {
+  position: relative;
+  display: block;
+  padding: 0 65px;
+  -ms-flex: 0 0 33.333333%;
+  flex: 0 0 33.333333%;
+  max-width: 33.333333%;
+  width: 100%;
+  margin-bottom: 41px;
+}
+.single-work-process:nth-child(1):before {
+  position: absolute;
+  top: 40px;
+  right: -58px;
+  width: 117px;
+  height: 51px;
+  background: url(../../../../assets/img/shape/arrow-top.png);
+  content: "";
+}
+.single-work-process:nth-child(3):before {
+  position: absolute;
+  top: 40px;
+  left: -58px;
+  width: 117px;
+  height: 51px;
+ background: url(../../../../assets/img/shape/arrow-bottom.png);
+  content: "";
+}
+
+
+.single-work-process .icon-holder{
+  position: relative;
+  display: block;
+  width: 130px;
+  height: 130px;
+  background: #ffffff;
+  margin: 0 auto;
+  z-index: 1;
+}
+.single-work-process .icon-holder:before{
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  bottom: -6px;
+  right: -6px;
+  background: #dadada;
+  content: "";
+  transform: rotate(45deg);
+  z-index: -1;
+}
+.single-work-process .icon-holder span:before {
+  position: relative;
+  display: block;
+  background: #ffffff;
+  font-size: 70px;
+  line-height: 130px;
+  border-bottom-right-radius: 30px;
+  -webkit-box-shadow: 0px 0px 5px 2px rgba(232,232,232,0.7);
+  box-shadow: 0px 0px 5px 2px rgba(232,232,232,0.7);
+}
+.single-work-process .icon-holder .count-box {
+  position: absolute;
+  top: -50px;
+  left: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background: #222222;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+.single-work-process .icon-holder .count-box p{
+  position: relative;
+  display: block;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 30px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+  font-family: 'Hind Siliguri', sans-serif;
+}
+
+.single-work-process .text-holder {
+  position: relative;
+  display: block;
+  padding-top: 73px;
+}
+.single-work-process .text-holder h3{
+  color: #222222;
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 700;
+  margin: 0 0 18px;
+}
+.single-work-process .text-holder p{
+  margin: 0;
+}

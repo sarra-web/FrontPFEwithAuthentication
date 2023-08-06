@@ -1,0 +1,61 @@
+/* Réinitialisation des marges et des rembourrages */
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+/* Style pour centrer le contenu */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Style pour le formulaire éditable */
+.edit-form {
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+/* Style pour les éléments de formulaire */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.select-text {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Style pour le bouton de mise à jour */
+button {
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Style pour le message */
+p {
+  margin-top: 10px;
+}

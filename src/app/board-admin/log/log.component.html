@@ -1,7 +1,7 @@
 <div class="row">
-<button (click)="refrech()"><mat-icon>refresh</mat-icon></button>
-
-<button class="badge badge-danger mr-2" (click)="deleteLogs()">
+<mat-icon (click)="refrech()">refresh</mat-icon>
+<i class="fa fa-refresh"></i>
+<button class="btn btn-danger" (click)="deleteLogs()">
   Delete
 </button>
 
@@ -41,12 +41,17 @@
     </ng-container>
     <ng-container matColumnDef="Info">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Info </mat-header-cell>
-      <mat-cell *matCellDef="let row" [style.color]="a"> {{row.info}} </mat-cell>
+      <mat-cell *matCellDef="let row" [style.color]="a"> {{row.Info}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="User">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> User </mat-header-cell>
+      <mat-cell *matCellDef="let row" [style.color]="a"> {{row.User}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="Level">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Level </mat-header-cell>
       <mat-cell *matCellDef="let row" [style.color]="a"> info </mat-cell>
     </ng-container>
+
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;">
@@ -65,8 +70,13 @@
 
     <h2 class="py-4">Logs</h2>
 
-    <div class="form-group mb-4">
+    <!--<div class="form-group mb-4">
       <input class="form-control" type="text" [(ngModel)]="searchText" placeholder="Filter">
+    </div>-->
+    <div class="example-header">
+      <mat-form-field>
+      <input type="text" matInput #filterInput [(ngModel)]="searchText" (keyup)="applyFilter(filterInput.value)" placeholder="Filter">
+      </mat-form-field>
     </div>
   <table class="table" *ngIf="(data | filter: searchText).length > 0; else noResults">
     <tr >
@@ -80,12 +90,12 @@
         <th >
           Info
           </th>
-      <th >Level</th>
+
       <th >User</th>
+      <th >Level</th>
   <tr *ngFor="let sublist of data| filter: searchText; let i = index">
     <td *ngFor="let item of sublist">{{ item }}</td>
     <td >Info</td>
-    <td >{{currentUser.username}}</td>
   </tr>
 </table>
 <ng-template #noResults>
