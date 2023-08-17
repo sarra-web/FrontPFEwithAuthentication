@@ -18,7 +18,6 @@ import {filter,  switchMap, tap,takeUntil, debounceTime
 import { Project } from 'src/app/model/Project';
 import { ProjectServiceService } from 'src/app/_services/project.service';
 import { StorageService } from 'src/app/_services/storage.service';
-
 @Component({
   selector: 'app-connectors',
   templateUrl: './connectors.component.html',
@@ -39,6 +38,7 @@ export class ConnectorsComponent implements OnInit{
     projectName:'',
     fields: []
   };
+  afficherTexte=false;
   currentIndex = -1;
   name = '';
   projectName='';
@@ -48,6 +48,7 @@ export class ConnectorsComponent implements OnInit{
   pageSize = 3;
   pageSizes = [3, 6, 9];
   currentUser:any;
+  //geek=false
   title = 'angular-mateiral';
   selectedValue: string = '';
   projects:Project[];
@@ -174,8 +175,22 @@ export class ConnectorsComponent implements OnInit{
     this.retrieveConnectors();
   }
   scan(): void {
+    const a=this.currentConnector.projectName
+    console.log("currentConnector"+a)
+    this.projectService.findByName2(a).subscribe({
+      next: (res) => {
+        console.log("les info de"+a+res.proxemToken)
+       if(res.proxemToken!="a0e04a5f-ab7c-4b0e-97be-af263a61ba49"){
+        alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
+
+       }
+      },
+
+      error: (e) => {console.error(e)
+      }
+    });
     if(this.currentConnector.typeConnector==="connectorCSV"){
-    console.log("currentConnector"+this.currentConnector.projectName)
+
     this.connectorService.updateProx(this.currentConnector).subscribe({
       next: (res) => {
         const now = new Date();
@@ -223,7 +238,7 @@ export class ConnectorsComponent implements OnInit{
 
         },
         error: (e) => {console.error(e)
-          alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
+        //  alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
 
         }
       });}
@@ -237,6 +252,20 @@ export class ConnectorsComponent implements OnInit{
     }
   }
   scanFromCheckPoint(): void {
+    const a=this.currentConnector.projectName
+    console.log("currentConnector"+a)
+    this.projectService.findByName2(a).subscribe({
+      next: (res) => {
+        console.log("les info de"+a+res.proxemToken)
+       if(res.proxemToken!="a0e04a5f-ab7c-4b0e-97be-af263a61ba49"){
+        alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
+
+       }
+      },
+
+      error: (e) => {console.error(e)
+      }
+    });
 
 const data2={
   check:this.checkPoint,
@@ -375,7 +404,8 @@ removeAllConnectors(): void {
     .subscribe({
       next: (data) => {
         const {connectors, totalItems } = data;
-        this.connectors = connectors;
+        this.connectors =connectors
+       //this.connectors =this.connectors.filter(element => this.connectors.includes(element));
         this.count = totalItems;
         console.log(data);
       },
@@ -414,6 +444,8 @@ removeAllConnectors(): void {
       next: (data) => {
         const {connectors, totalItems } = data;
         this.connectors = connectors;
+        //this.connectors =this.connectors.filter(element => this.connectors.includes(element));;
+
         this.count = totalItems;
         console.log(data);
       },

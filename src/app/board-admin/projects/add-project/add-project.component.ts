@@ -37,6 +37,8 @@ export class AddProjectComponent implements OnInit{
         },
         error: (e) => console.error(e)
       });
+      window.location.reload();
+
   }
 
   newproject(): void {

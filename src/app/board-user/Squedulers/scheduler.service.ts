@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Scheduler } from '../../model/Scheduler';
+import { ApiResponse } from '../../model/api-response';
+import { Page } from '../../model/page';
 
 const baseUrl = 'http://localhost:8080/squeduler';
 const baseUrl2 = 'http://localhost:8080';
@@ -21,6 +23,11 @@ export class SchedulerService {
   getAllByConnectorDAOId(idConnector:any): Observable<Scheduler[]> {
     return this.http.get<Scheduler[]>(`${baseUrl}/ConnectorDAOs/${idConnector}/SquedulerDAOs`);
   }
+
+  getAllByConnectorDAOIdWithPagination(params:any): Observable<any> {
+    return this.http.get<any>(`${baseUrl}/pagination/ConnectorDAOs/${params.id}/SquedulerDAOs`);
+  }
+  schedulers$ = (id:string,page: number = 0, size: number = 10): Observable<ApiResponse<Page>> =>    this.http.get<any>(`${baseUrl}/pagination/ConnectorDAOs/${id}/SquedulerDAOs?page=${page}&size=${size}`);
 
   getById(id: any): Observable<Scheduler> {
     return this.http.get<Scheduler>(`${baseUrl}/SquedulerDAOs/${id}`);

@@ -3,11 +3,14 @@
 
 <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed': ''">
   <div class="logo-container">
- <button class="logo" (click)="toggleCollapse()">A</button>
-    <div class="logo-text" *ngIf="collapsed">Angular</div>
+ <button class="logo" (click)="toggleCollapse()"><img src="../../assets/img/logo-proxem.png" alt="" width="42"></button>
+    <div class="logo-text" *ngIf="collapsed">Proxem connectors</div>
     <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
 
-      <i class="fal fa-times close-icon"></i>
+      <!--<i class="fal fa-times close-icon"></i>-->
+      <span  class="material-icons" id="an" style="color: aliceblue;">
+        close
+        </span>
     </button>
   </div>
   <ul class="sidenav-nav">
@@ -15,17 +18,45 @@
       <a href="" class="sidenav-nav-link" routerLink="ex"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{exact:true}">
+<span id="sidenav-link-icon" class="material-icons" [class]="navData[0].icon">
 
-        <i class="sidenav-link-icon" [class]="navData[0].icon"></i>
+</span>
+        <!--<i class="sidenav-link-icon" [class]="navData[0].icon"></i>-->
         <span class="sidenav-link-text" *ngIf="collapsed">Home</span>
       </a>
+    </li>
+      <li *ngIf="showAdminBoard" class="sidenav-nav-item" >
+        <a href="" class="sidenav-nav-link" routerLink="admin/project/projects"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}">
+        <span id="sidenav-link-icon4" class="material-icons">
+          fact_check
+          </span>
+          <!--<i class="sidenav-link-icon"  [class]="navData[3].icon"></i>-->
+          <span class="sidenav-link-text" *ngIf="collapsed">Projects</span>
+        </a>
+      </li>
+      <li class="sidenav-nav-item" >
+        <a href="" class="sidenav-nav-link"   *ngIf="isLoggedIn" routerLink="user/connectors"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}">
+        <span id="sidenav-link-icon5" class="material-icons">
+          settings_input_component
+          </span>
+
+          <!--<i class="sidenav-link-icon"  [class]="navData[4].icon"></i>-->
+          <span class="sidenav-link-text" *ngIf="collapsed">Connectors</span>
+        </a>
+      </li>
       <li *ngIf="showAdminBoard" class="sidenav-nav-item" >
         <a href="" class="sidenav-nav-link" routerLink="log"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{exact:true}">
-
-          <i class="sidenav-link-icon"  [class]="navData[1].icon"></i>
-          <span class="sidenav-link-text" *ngIf="collapsed">Log File</span>
+        <span id="sidenav-link-icon2" class="material-icons">
+          history
+          </span>
+          <!--<i class="sidenav-link-icon"  [class]="navData[1].icon"></i>-->
+          <span class="sidenav-link-text" *ngIf="collapsed">Logs</span>
         </a>
       </li>
       <li class="sidenav-nav-item" *ngIf="showAdminBoard" >
@@ -33,34 +64,25 @@
         routerLinkActive="active"
         [routerLinkActiveOptions]="{exact:true}">
 
-          <i class="sidenav-link-icon" [class]="navData[2].icon"></i>
-          <span class="sidenav-link-text" *ngIf="collapsed">Users management</span>
+        <span id="sidenav-link-icon3" class="material-icons">
+          people
+          </span>
+          <!--<i class="sidenav-link-icon" [class]="navData[2].icon"></i>-->
+          <span class="sidenav-link-text" *ngIf="collapsed">Users</span>
         </a>
       </li>
-      <li *ngIf="showAdminBoard" class="sidenav-nav-item" >
-        <a href="" class="sidenav-nav-link" routerLink="admin/project/projects"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact:true}">
 
-          <i class="sidenav-link-icon"  [class]="navData[3].icon"></i>
-          <span class="sidenav-link-text" *ngIf="collapsed">Project management</span>
-        </a>
-      </li>
-      <li class="sidenav-nav-item" >
-        <a href="" class="sidenav-nav-link"   *ngIf="isLoggedIn" routerLink="user/connectors"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact:true}">
 
-          <i class="sidenav-link-icon"  [class]="navData[4].icon"></i>
-          <span class="sidenav-link-text" *ngIf="collapsed">Connectors</span>
-        </a>
-      </li>
       <li class="sidenav-nav-item" >
         <a href="" class="sidenav-nav-link"   *ngIf="!isLoggedIn" routerLink="register"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{exact:true}">
 
-          <i class="sidenav-link-icon"  [class]="navData[5].icon"></i>
+
+          <span id="sidenav-link-icon6" class="material-icons">
+            group_add
+            </span>
+          <!--<i class="sidenav-link-icon"  [class]="navData[5].icon"></i>-->
           <span class="sidenav-link-text" *ngIf="collapsed">Sign Up</span>
         </a>
       </li>
@@ -68,8 +90,10 @@
         <a href="" class="sidenav-nav-link"   *ngIf="!isLoggedIn" routerLink="login"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{exact:true}">
-
-          <i class="sidenav-link-icon"  [class]="navData[6].icon"></i>
+        <span id="sidenav-link-icon7" class="material-icons">
+          login
+          </span>
+          <!--<i class="sidenav-link-icon"  [class]="navData[6].icon"></i>-->
           <span class="sidenav-link-text" *ngIf="collapsed">Login</span>
         </a>
       </li>
@@ -77,8 +101,10 @@
         <a href="" class="sidenav-nav-link"   *ngIf="isLoggedIn" routerLink="profile"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{exact:true}">
-
-          <i class="sidenav-link-icon"  [class]="navData[7].icon"></i>
+ <span class="material-icons" id="sidenav-link-icon9">
+              account_circle
+              </span>
+ <!--<i class="sidenav-link-icon"  [class]="navData[7].icon"></i>-->
           <span class="sidenav-link-text" *ngIf="collapsed">{{ username }}</span>
         </a>
       </li>
@@ -86,8 +112,10 @@
         <a href="" class="sidenav-nav-link"   *ngIf="isLoggedIn"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{exact:true}" (click)="logout()">
-
-          <i (click)="logout()" class="sidenav-link-icon"  [class]="navData[8].icon"></i>
+        <span id="sidenav-link-icon8" class="material-icons">
+          logout
+          </span>
+          <!--<i (click)="logout()" class="sidenav-link-icon"  [class]="navData[8].icon"></i>-->
           <span (click)="logout()"  class="sidenav-link-text" *ngIf="collapsed">LogOut</span><link  rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         </a>
 

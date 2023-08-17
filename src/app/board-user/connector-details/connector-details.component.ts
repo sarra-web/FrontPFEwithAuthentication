@@ -170,6 +170,20 @@ this.connectorService.update(data)
       });
   }
   pushActiveConnector(): void {
+    const a=this.currentConnector.projectName
+    console.log("currentConnector"+a)
+    this.projectService.findByName2(a).subscribe({
+      next: (res) => {
+        console.log("les info de"+a+res.proxemToken)
+       if(res.proxemToken!="a0e04a5f-ab7c-4b0e-97be-af263a61ba49"){
+        alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
+
+       }
+      },
+
+      error: (e) => {console.error(e)
+      }
+    });
     const data = {
       id:this.currentConnector.id,
       name:this.currentConnector.name,

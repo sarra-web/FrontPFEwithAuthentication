@@ -5,7 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ConnectorServiceService } from 'src/app/_services/connector-service.service';
 import { Connector } from 'src/app/model/Connector';
 import { ConnectorJDBCService } from 'src/app/_services/connector-jdbc.service';
-
+import { ProjectServiceService } from 'src/app/_services/project.service';
+import * as alertify from 'alertifyjs'
 @Component({
   selector: 'app-add-scheduler',
   templateUrl: './add-scheduler.component.html',
@@ -34,7 +35,7 @@ export class AddSchedulerComponent implements OnInit{
   message: string;
 
   constructor(private connectorService: ConnectorServiceService,private serviceJDBC:ConnectorJDBCService,
-    private route: ActivatedRoute,private schedulerService: SchedulerService) { }
+    private route: ActivatedRoute,private projectService:ProjectServiceService,private schedulerService: SchedulerService) { }
   ngOnInit(): void {
     if (!this.viewMode) {
       this.message = '';
@@ -113,6 +114,20 @@ export class AddSchedulerComponent implements OnInit{
 
   }
   planifier(){
+    const a=this.currentConnector.projectName
+    console.log("currentConnector"+a)
+    this.projectService.findByName2(a).subscribe({
+      next: (res) => {
+        console.log("les info de"+a+res.proxemToken)
+       if(res.proxemToken!="a0e04a5f-ab7c-4b0e-97be-af263a61ba49"){
+        alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
+
+       }
+      },
+
+      error: (e) => {console.error(e)
+      }
+    });
     console.log("planification en cours")
     const data = {
       timeZone:"Europe/Paris",

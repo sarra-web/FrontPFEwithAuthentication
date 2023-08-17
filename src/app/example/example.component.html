@@ -1,4 +1,6 @@
 
+<app-login  *ngIf="!isLoggedIn"></app-login>
+
 <mat-sidenav-container fullscreen>
   <mat-sidenav mode="side" #sidenav opened position="start" #drawer class="sidenav" fixedInViewport>
 
@@ -6,39 +8,89 @@
           <h2 id="a" style="color:rgb(6, 7, 6); ">Connector Module </h2>
        </mat-toolbar>
 
-
-
-
-
   <div class="box">
-  <mat-card class="example-card" [routerLink]="['/login']">
-      <img mat-card-image src="../../assets/img/users.jpg" height="150px">
+    <mat-card class="example-card"
+    *ngIf="isLoggedIn" routerLink="profile"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{exact:true}"
+    >
+      <img mat-card-image src="../../assets/img/editProfile.png" height="150px">
       <mat-card-content>
           <h2 style="text-align: center;">
-          Users management
-          </h2>
+             <a href="" *ngIf="isLoggedIn" routerLink="/profile"
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact:true}"> Edit profile</a>
+              </h2>
       </mat-card-content>
       <mat-card-actions>
       </mat-card-actions>
     </mat-card>
 
-    <mat-card class="example-card" [routerLink]="['/materiel']">
+    <mat-card class="example-card"
+    *ngIf="isLoggedIn" routerLink="user/connectors"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}"
+    >
+      <img mat-card-image src="../../assets/img/conn.png" height="150px">
+      <mat-card-content>
+          <h2 style="text-align: center;">
+            <a href="" *ngIf="isLoggedIn" routerLink="/user/connectors"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact:true}">   Connectors management</a>
+
+          </h2>
+      </mat-card-content>
+      <mat-card-actions>
+      </mat-card-actions>
+    </mat-card>
+    <mat-card class="example-card"
+    *ngIf="isLoggedIn" routerLink="/user/connectors"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}"
+    >
+
+      <img mat-card-image src="../../assets/img/sched.png" height="150px">
+      <mat-card-content>
+          <h2 style="text-align: center;">
+           <a href="" *ngIf="isLoggedIn" routerLink="/user/connectors"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact:true}">Scheduler management</a>
+              </h2>
+      </mat-card-content>
+      <mat-card-actions>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="example-card"
+    *ngIf="showAdminBoard"
+    routerLink="/admin/project/projects"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}"
+    >
       <img mat-card-image src="../../assets/img/project.png"   height="150px" >
       <mat-card-content>
         <h2 style="text-align: center;">
-          Project managment
+       <a href="" routerLink="/admin/project/projects"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact:true}">
+       Project managment
+      </a>
         </h2>
       </mat-card-content>
       <mat-card-actions>
       </mat-card-actions>
     </mat-card>
-
-
-    <mat-card class="example-card">
-      <img mat-card-image src="../../assets/img/conn.png" height="150px">
+    <mat-card class="example-card"
+    *ngIf="showAdminBoard" routerLink="/admin/user"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{exact:true}">
+      <img mat-card-image src="../../assets/img/users.jpg" height="150px">
       <mat-card-content>
           <h2 style="text-align: center;">
-          Connectors management
+      <a href="" routerLink="/admin/user"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{exact:true}">
+      Users management</a>
           </h2>
       </mat-card-content>
       <mat-card-actions>
@@ -49,37 +101,19 @@
 
 
 
-    <mat-card class="example-card">
-      <img mat-card-image src="../../assets/img/conn.png" height="150px">
+    <mat-card class="example-card"
+    routerLink="/log"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}"
+        *ngIf="showAdminBoard"
+        >
+
+      <img mat-card-image src="../../assets/img/log.png" height="150px" >
       <mat-card-content>
           <h2 style="text-align: center;">
-              Connector JDBC management
-              </h2>
-      </mat-card-content>
-      <mat-card-actions>
-      </mat-card-actions>
-    </mat-card>
-
-
-    <mat-card class="example-card">
-
-      <img mat-card-image src="../../assets/img/sched.png" height="150px">
-      <mat-card-content>
-          <h2 style="text-align: center;">
-             Scheduler management
-              </h2>
-      </mat-card-content>
-      <mat-card-actions>
-      </mat-card-actions>
-    </mat-card>
-
-
-    <mat-card class="example-card">
-
-      <img mat-card-image src="../../assets/img/log.png" height="150px">
-      <mat-card-content>
-          <h2 style="text-align: center;">
-             Log file management
+           <a href="" routerLink="/log"
+           routerLinkActive="active"
+           [routerLinkActiveOptions]="{exact:true}"> Log file management </a>
               </h2>
       </mat-card-content>
       <mat-card-actions>

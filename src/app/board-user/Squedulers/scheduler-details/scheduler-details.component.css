@@ -1,0 +1,175 @@
+
+
+/*Profile update*/
+.mat-card {
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05) !important;
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05) !important;
+  margin: 0 15px 30px;
+  padding: 0px !important;
+  border-radius:0%;
+
+  .mat-card-content {
+    font-size: 1rem;
+    line-height: 23px;
+    padding: 24px;
+  }
+  .mat-card-image {
+    width: calc(100% + 0px);
+    margin: 0 0px 0px 0px;
+  }
+  .mat-card-header {
+    padding: 12px;
+    border-radius: 0px 0px 0 0;
+    .mat-card-title {
+      margin-bottom: 2px;
+      font-size: 20px;
+    }
+    .mat-card-subtitle,
+    .mat-card-subtitle:not(:first-child) {
+      margin-bottom: 0px;
+      margin-top: 0px;
+      font-size: 14px;
+    }
+    &.text-white {
+      .mat-card-title {
+        color: white;
+      }
+      .mat-card-subtitle {
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+  }
+  .mat-card-title {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  .mat-card-subtitle {
+    margin-bottom: 20px;
+  }
+  .mat-card-actions {
+    margin: 0px !important;
+  }
+}
+
+.mat-mdc-card{
+  margin-bottom: 30px;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05) !important;
+  -webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05) !important;
+  .mat-mdc-card-content{
+    font-size: 1rem;
+    line-height: 23px;
+    padding: 24px;
+  }
+  .mat-mdc-card-image {
+    width: calc(100% + 0px);
+    margin: 0 0px 0px 0px;
+  }
+  .mat-mdc-card-title {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  .mat-mdc-card-subtitle {
+    margin-bottom: 20px;
+  }
+  .mat-mdc-card-actions {
+    margin: 0px !important;
+  }
+}
+
+
+.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.mat-form-field {
+  width: 100%;
+}
+
+
+@media (min-width: 1650px) {
+  .main-container.boxed {
+    max-width: 1920px;
+    margin: 0 auto;
+  }
+}
+/*==============================================================
+ For Laptop & above all (1370px)
+ ============================================================== */
+
+@media (max-width: 1600px) {
+  .main-container.boxed {
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+}
+
+/*-- ==============================================================
+ Small Desktop & above all (1024px)
+ ============================================================== */
+
+@media (min-width: 1024px) {
+  .card-group {
+    padding: 0 15px;
+    display: flex;
+    flex-flow: row wrap;
+    .mat-card {
+      margin: 15px 0px;
+      flex: 1 0 0%;
+      border-left: 1px solid ;
+      &:first-child {
+        border: 0px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1023px) {
+  .card-group {
+    margin: 15px 0;
+    .mat-card {
+      margin: 0 15px;
+      border-top: 1px solid ;
+      &:first-child {
+        border: 0px;
+      }
+    }
+  }
+}
+
+/*-- ==============================================================
+ Ipad & above all(768px)
+ ============================================================== */
+
+@media (min-width: 768px) {
+  .navbar-header {
+    width: 225px;
+    flex-shrink: 0;
+    .navbar-brand {
+      padding-top: 0px;
+    }
+  }
+}
+
+/*-- ==============================================================
+ Phone and below ipad(767px)
+ ============================================================== */
+
+@media (max-width: 767px) {
+  .mat-toolbar-single-row {
+    height: 64px !important;
+  }
+  .d-flex {
+    display: block;
+  }
+  .no-block {
+    display: flex;
+  }
+  .topbar{
+    .navbar-header{
+      .navbar-brand{
+        .text-logo-icon{
+          display: none;
+        }
+      }
+    }
+  }
+}

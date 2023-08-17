@@ -6,6 +6,8 @@ import { StorageService } from '../_services/storage.service';
 import { AdminInfo, adminlogin } from '../model/administrateur.model';
 import { first } from 'rxjs/operators';
 import { AlertService } from '../_services/alert.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { User } from '../_models';
 //import { JwtHelperService } from '../model/jwthelper.service';
 
 
@@ -16,6 +18,7 @@ import { AlertService } from '../_services/alert.service';
 })
 export class ExampleComponent implements OnInit {
   form!: FormGroup;
+  isLoggedIn = false;
     loading = false;
     submitted = false;
   errorMessage = '';
@@ -48,14 +51,45 @@ export class ExampleComponent implements OnInit {
 
 
   ]
+  showAdminBoard= false;
+  showModeratorBoard = false;
   username:any;
   password:any;
-  constructor( private accountService: AuthService,private formBuilder: FormBuilder,
+  private roles: string[] = [];
+  private userSubject: BehaviorSubject<User | null>;
+  public user: Observable<User | null>;
+  constructor( private storageService: StorageService, private authService: AuthService,private accountService: AuthService,private formBuilder: FormBuilder,
     private route: ActivatedRoute, private alertService: AlertService
 
-   , private router : Router,private serviceAuth: AuthService,serviceStor:StorageService) { }
+   , private router : Router,private serviceAuth: AuthService,serviceStor:StorageService) {
+    this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
+    this.user = this.userSubject.asObservable();
+   }
     get f() { return this.form.controls; }
     ngOnInit(): void {
+
+
+  this.isLoggedIn = this.storageService.isLoggedIn();
+
+  if (this.isLoggedIn) {
+    const user = this.storageService.getUser();
+    this.roles = user.roles;
+
+    this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+    this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
+
+    this.username = user.username;
+  }
+
+  if (this.storageService.isLoggedIn()) {
+    this.isLoggedIn = true;
+    this.roles = this.storageService.getUser().roles;
+  }
+  var body = document.getElementsByTagName('body')[0];
+  body.classList.add('login-page');
+
+  var navbar = document.getElementsByTagName('nav')[0];
+  navbar.classList.add('navbar-transparent');
 
     this.form = this.formBuilder.group({
       username: ['', Validators.required],

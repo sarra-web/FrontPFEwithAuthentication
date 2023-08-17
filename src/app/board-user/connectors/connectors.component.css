@@ -1,3 +1,42 @@
+.hovered-alert {
+  position: relative;
+  display: inline-block;
+}
+
+.hovered-alert .alert-text {
+  display: none;
+  position: absolute;
+  bottom: -20px; /* Ajustez cette valeur selon votre besoin */
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 5px;
+  z-index: 1;
+}
+
+.hovered-alert:hover .alert-text {
+  display: block;
+}
+
+
+
+
+
+
+
+
+/********************************/
+#h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  background-color: #f7f7f7;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 /* Global styles */
 mat-icon{
   color: #000;

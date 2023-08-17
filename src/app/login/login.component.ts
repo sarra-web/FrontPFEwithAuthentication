@@ -38,6 +38,15 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
   });
   }
+  myFunction():void {
+    var x = document.getElementById("myInput") as HTMLInputElement;
+    if (x.type === "password") {
+       console.log("pass")
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
   get f() { return this.form.controls; }
   ff(){
     this.router.navigate(['/ex']);

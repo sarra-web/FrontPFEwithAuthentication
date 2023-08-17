@@ -63,10 +63,12 @@ projectsState$: Observable<{ appState: string; appData?: ApiResponse<Page>; erro
       .subscribe({
         next: (res) => {
           console.log(res);
+          window.location.reload();
           this.submitted = true;
         },
         error: (e) => console.error(e)
       });
+
   }
 
   getRequestParams(name: string, page: number, pageSize: number): any {
@@ -174,7 +176,8 @@ removeAllprojects(): void {
         },
         error: (e) => console.error(e)
       }); */
-  }
+
+    }
   f(){
     const modelDiv = document.getElementById('myModal2');
     if(modelDiv!= null) {
@@ -188,10 +191,12 @@ removeAllprojects(): void {
     .subscribe({
       next: (res) => {
         console.log(res);
+        window.location.reload();
         this.router.navigate(['/projects']);
       },
       error: (e) => console.error(e)
     });},function(){})
+
 }
   searchByNameIgnoreCase(): void {
     const params = this.getRequestParams(this.name, this.page, this.pageSize);

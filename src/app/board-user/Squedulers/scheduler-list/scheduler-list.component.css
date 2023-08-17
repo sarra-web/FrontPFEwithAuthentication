@@ -100,6 +100,208 @@
 
 
 
+.center-absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+/***
+=============================================
+    Pricing Table Area Css
+=============================================
+***/
+.pricing-table-area {
+  position: relative;
+  display: block;
+  padding: 120px 0 80px;
+  background-color: #ffffff;
+}
+.pricing-table-area .pattern-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: repeat;
+  background-color: #ffffff;
+}
+
+.single-price-box{
+position: relative;
+  display: block;
+  padding-left: 50px;
+  background: #ffffff;
+  border: 1px solid #d7d7d7;
+  max-width: 370px;
+  width: 100%;
+  margin: 0 auto 40px;
+}
+.single-price-box:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #18212e;
+  content: "";
+  opacity: 1;
+  transform-origin: right;
+  transform-style: preserve-3d;
+  transform: scaleX(0);
+  transition: all 700ms ease 100ms;
+}
+.single-price-box:hover:before{
+  opacity: 1;
+  transform: scaleX(1.0);
+}
+
+.single-price-box .pattern-bg{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  background-color: #ffffff;
+  background-repeat: repeat;
+  z-index: 1;
+}
+.single-price-box .pattern-bg:before{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0px;
+  /*background-image: url(../images/pattern/pattern-bg-10.png);*/
+  background-repeat: repeat;
+  background-color: #18212e;
+  content: "";
+  z-index: -1;
+  transition: all .4s ease-in-out .1s;
+}
+.single-price-box:hover .pattern-bg:before{
+  width: 50px;
+}
+
+
+.single-price-box .title{
+  position: absolute;
+  top: 90px;
+  left: -1px;
+  width: 250px;
+  height: 70px;
+  background: transparent;
+  overflow: hidden;
+  z-index: 1;
+}
+.single-price-box .title:before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: -35px;
+  bottom: 0;
+  right: 13px;
+  background: #fa9928;
+  -moz-transform: skew(20deg, 0deg);
+  -webkit-transform: skew(20deg, 0deg);
+  -o-transform: skew(20deg, 0deg);
+  -ms-transform: skew(20deg, 0deg);
+  transform: skew(20deg, 0deg);
+  transition: all 700ms ease 100ms;
+}
+.single-price-box:hover .title:before{
+  background: #ffffff;
+  transition: all 700ms ease 500ms;
+}
+.single-price-box .title h3 {
+  position: relative;
+  display: block;
+  padding-left: 30px;
+  color: #222222;
+  font-size: 24px;
+  line-height: 70px;
+  font-weight: 700;
+}
+.single-price-box .icon{
+  position: absolute;
+  top: 30px;
+  right: 30px;
+}
+.single-price-box .icon span:before{
+  color: #cccccc;
+  font-size: 70px;
+  line-height: 70px;
+}
+
+
+.single-price-box .inner-box{
+position: relative;
+  display: block;
+  padding: 217px 40px 70px;
+}
+.single-price-box .inner-box .value {
+  position: relative;
+  display: inline-block;
+}
+.single-price-box .inner-box .value h2 {
+  color: #fa9928;
+  font-size: 72px;
+  line-height: 60px;
+  font-weight: 700;
+  font-family: 'Hind Siliguri', sans-serif;
+}
+.single-price-box .inner-box .value p{
+  line-height: 20px;
+  text-align: right;
+  text-transform: uppercase;
+  margin: 8px 0 0;
+}
+
+.single-price-box .inner-box ul {
+  position: relative;
+  display: block;
+  padding: 23px 0 60px;
+}
+.single-price-box .inner-box ul li{
+position: relative;
+  display: block;
+  border-bottom: 1px solid #e1e1e1;
+  padding-left: 30px;
+color: #777777;
+font-size: 18px;
+  line-height: 60px;
+  font-weight: 400;
+  transition: all 700ms ease 100ms;
+}
+.single-price-box .inner-box ul li:before{
+  position: absolute;
+  top: 0;
+  left: 0px;
+  bottom: 0;
+  font-family: FontAwesome;
+  content: "\f00c";
+  font-size: 16px;
+}
+.single-price-box:hover .inner-box ul li{
+  color: #ffffff;
+  border-color: #ffffff;
+  transition: all 700ms ease 500ms;
+}
+
+.single-price-box .inner-box .btn-box{}
+.single-price-box .inner-box .btn-box a {
+  color: #ffffff;
+  background: #18212e;
+  transition: all 700ms ease 100ms;
+}
+.single-price-box:hover .inner-box .btn-box a{
+  color: #222222;
+  background: #fa9928;
+  transition: all 700ms ease 500ms;
+}
+
 
 
 

@@ -21,6 +21,7 @@ export class SidenavComponent implements OnInit{
   username?: string;
   private userSubject: BehaviorSubject<User | null>;
   public user: Observable<User | null>;
+  router: any;
   constructor(private storageService: StorageService, private authService: AuthService) {
     this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
     this.user = this.userSubject.asObservable();
@@ -40,6 +41,7 @@ export class SidenavComponent implements OnInit{
       next: res => {
         console.log(res);
         this.storageService.clean();
+        this.router.navigate(['/ex']);
 
         window.location.reload();
       },

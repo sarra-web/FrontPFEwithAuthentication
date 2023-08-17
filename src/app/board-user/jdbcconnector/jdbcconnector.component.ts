@@ -17,7 +17,8 @@ export class JDBCconnectorComponent {
 
   selectFormControl = new FormControl('', Validators.required);
   @Input() viewMode = false;
-
+  msg='';
+  color='';
   @Input() currentConnector: ConnectorJDBC = {
   id:'',
   name:'',
@@ -68,7 +69,34 @@ export class JDBCconnectorComponent {
 
     } }
 //adds
+testConnection(){
+  const data={
+    jdbcURL:this.currentConnector.jdbcUrl,
+    username:this.currentConnector.username,
+    password:this.currentConnector.password,
+    className:this.currentConnector.className,
+ }
+ console.log("dataaaaaaa",data);
+  this.connectorService.testConnection(data)
+   .subscribe({
+    next: (res) => {
+      console.log("yeeeeee");
+      console.log(res);
+      if(res[0]==='Database connection successful!'){
+       this.msg="Connection is ok"
+       this.color="green";
+      }
+      else{
+        this.msg= "Connection is failed";
+        this.color="red"
+      }
 
+      //alertify.success("")
+    },
+    error: (e) => console.error(e)
+  });
+
+ }
 selectFile(event: any): void {
   if (event.target.files && event.target.files[0]) {
     const file: File = event.target.files[0];
@@ -140,6 +168,20 @@ this.connectorService.update(data)
       });
   }
   scan(): void {
+    const a=this.currentConnector.projectName
+    console.log("currentConnector"+a)
+    this.projectService.findByName2(a).subscribe({
+      next: (res) => {
+        console.log("les info de"+a+res.proxemToken)
+       if(res.proxemToken!="a0e04a5f-ab7c-4b0e-97be-af263a61ba49"){
+        alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
+
+       }
+      },
+
+      error: (e) => {console.error(e)
+      }
+    });
     const data = {
       id:this.currentConnector.id,
       name:this.currentConnector.name,
@@ -186,7 +228,20 @@ console.log(data)
     });
   }
   scanFromCheckPoint(): void {
+    const a=this.currentConnector.projectName
+    console.log("currentConnector"+a)
+    this.projectService.findByName2(a).subscribe({
+      next: (res) => {
+        console.log("les info de"+a+res.proxemToken)
+       if(res.proxemToken!="a0e04a5f-ab7c-4b0e-97be-af263a61ba49"){
+        alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
 
+       }
+      },
+
+      error: (e) => {console.error(e)
+      }
+    });
     const data = {
       id:this.currentConnector.id,
       name:this.currentConnector.name,

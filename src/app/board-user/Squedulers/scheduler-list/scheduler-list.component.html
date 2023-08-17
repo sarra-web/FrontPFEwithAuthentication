@@ -6,16 +6,7 @@
   <title>Document</title>
 </head>
 <body>
-  <div class="row">
 
-    <button class="btn btn-outline-secondary" (click)="openModel()">Add Scheduler
-      <i class="fa fa-plus-circle"></i>
-    </button>
-
-   <!-- <button class="btn btn-success" (click)="openModel()">Add Scheduler</button>-->
-
-
-</div>
   <div class="modal" id="myModal">
   <div class="modal-dialog">
   <div class="modal-content">
@@ -67,7 +58,7 @@
   </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="savescheduler()" data-bs-dismiss="modal">Schedule</button>
+    <button type="button" class="btn btn-dark" (click)="savescheduler()" data-bs-dismiss="modal">Save</button>
 
     <button type="button" class="btn btn-danger" (click)="cancel()" data-bs-dismiss="modal" >Cancel</button>
   </div>
@@ -80,246 +71,41 @@
 
 
 
-     <!--<div class="">
-       <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search by title"
-          [(ngModel)]="title"
-        />
-        <div class="input-group-append">
-          <button
-            class="btn btn-outline-secondary"
-            (click)="searchTitle()"
-          >
-            Search
-          </button>
-        </div>
-      </div></div>
-     -->
-<!--
+
+
+
+  <div class="row">
+    <p class="col-12 col-md-8">OUR SCHEDULERS</p>
+   <div class="col-6 col-md-4"> <button class="btn btn-outline-secondary" (click)="openModel()">Add Scheduler
+      <i class="fa fa-plus-circle"></i>
+    </button></div>
+
+   <!-- <button class="btn btn-success" (click)="openModel()">Add Scheduler</button>-->
+
+
+</div>
+<!--<section>
+  <div class="big-title"><h2>You can add scheduler or update existing one</h2></div>
     <div class="container">
-      <div class="row">
 
-        <div class="col-md-3 mx-auto my-5"
-          *ngFor="let Scheduler of schedulers; let i = index"
-          >
-            <div class="card" [class.active]="i == currentIndex"
-            (click)="setActiveScheduler(Scheduler, i)">
-            <div class="card-body">
-              <div class="submit-form">
-                <div *ngIf="!submitted">
-                  <div class="form-group">
-                    <label for="description">Name</label>
-                    <input
-                      class="form-control"
-                      id="description"
-                      required
-                      [(ngModel)]="Scheduler.name"
-                      name="description"
-                    />
-                    <label for=""> Scan mode </label>
-                    <select  [(ngModel)]="Scheduler.scanMode" class="form-select" aria-label="Default select example">
-                     <option selected>Open this select menu</option>
-                     <option value="Once">Once</option>
-                     <option value="Cron">Cron</option>
-
-                   </select> <br>
-
-                    <label for=""> Starts time </label>
-                    <input type="text"  [(ngModel)]="Scheduler.startsTime"><br>
-
-
-                    <div class="field" *ngIf="Scheduler.scanMode=='Cron'">
-                      <label for=""> End time </label>
-                    <input type="text"  [(ngModel)]="Scheduler.endTime"><br>
-                     <label>Cron expression</label>
-                     <br>
-                     <input type="text" placeholder="cronExpression" [(ngModel)]="Scheduler.cronExpression" name="cron">
-                   </div>
-                   <button type="button" class="btn btn-danger" (click)=" deletethisScheduler(Scheduler.id)" data-bs-dismiss="modal">Delete</button>
-                   <button type="submit" class="btn btn-primary" (click)="updateScheduler(Scheduler,Scheduler.id)"> Update </button>
-
-          </div>
-          </div>
-            </div></div></div>
-          </div>
-
-      </div> </div>
--->
-
-
-<!--<section class="product-area pb-70">
-  <div class="container">
-      <div class="scetion-title text-center">
-          <span>Schedulers</span>
-          <h2>this is overview of our schedulers</h2>
-          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Non ad dolor voluptas praesentium placeat dolores nisi blanditiis aperiam odit doloremque earum commodi totam dolorum delectus quo, excepturi beatae aspernatur! Voluptate.</p>
-      </div>
-        <div class="row">
-          <div class="col-md-3 mx-auto my-5" *ngFor="let Scheduler of schedulers; let i = index">
-            <div [class.active]="i == currentIndex"
-                  (click)="setActiveScheduler(Scheduler, i)" class="product-card">
-                     <i  (click)=" deletethisScheduler(Scheduler.id)" id="cross" class="fa fa-times"></i>
-
-                      <div class="product-content">
-                          <a routerLink="/product-details"><p>{{Scheduler.name}}</p></a>
-
-                          <div class="form-group">
-                            <label for="description">Name</label>
-                            <input
-                              class="form-control"
-                              id="description"
-                              required
-                              [(ngModel)]="Scheduler.name"
-                              name="description"
-                            />
-                            <label for=""> Scan mode </label>
-                            <select  [(ngModel)]="Scheduler.scanMode" class="form-select" aria-label="Default select example">
-                             <option selected>Open this select menu</option>
-                             <option value="Once">Once</option>
-                             <option value="Cron">Cron</option>
-
-                           </select> <br>
-
-                            <label for=""> Starts time </label>
-                            <input type="text"  [(ngModel)]="Scheduler.startsTime"><br>
-
-
-                            <div class="field" *ngIf="Scheduler.scanMode=='Cron'">
-                              <label for=""> End time </label>
-                            <input type="text"  [(ngModel)]="Scheduler.endTime"><br>
-                             <label>Cron expression</label>
-                             <br>
-                             <input type="text" placeholder="cronExpression" [(ngModel)]="Scheduler.cronExpression" name="cron">
-                             <br>
-                           </div>
-
-                          </div>
-                          <button type="button" class="btn btn-dark" (click)=" updateScheduler(Scheduler,Scheduler.id)" data-bs-dismiss="modal">Run<i class="bi bi-play"></i></button>
-
-                      </div>
-                  </div>
-          </div>
-        </div>
-      </div>
-    </section>-->
-
-
-
-
-<section class="product-area pb-70">
-  <div class="container">
-      <div class="scetion-title text-center">
-          <span>Schedulers</span>
-          <h2>this is overview of our schedulers</h2>
-          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Non ad dolor voluptas praesentium placeat dolores nisi blanditiis aperiam odit doloremque earum commodi totam dolorum delectus quo, excepturi beatae aspernatur! Voluptate.</p>
-      </div>
-        <div class="row">
-          <ul class="list-group ">
-              <li class=""  class=" list-group-item"
-              *ngFor="let Scheduler of schedulers; let i = index"
-              >
-            <div [class.active]="i == currentIndex"
-                  (click)="setActiveScheduler(Scheduler, i)" class="product-card">
-                  <img id="im" src="../../../../assets/img/flags/sched.png" height="" alt="">
-                      <i  (click)=" deletethisScheduler(Scheduler.id)" id="cross" class="fa fa-times"></i>
-
-                      <div class="product-content">
-                          <a routerLink="/sched/{{Scheduler.id}}"><p>{{Scheduler.name}}</p></a>
-
-                          <div class="form-group">
-                            <label for="description">Name</label>
-                            <input
-                              class="form-control"
-                              id="description"
-                              required
-                              [(ngModel)]="Scheduler.name"
-                              name="description"
-                            />
-                            <label for=""> Scan mode </label>
-                            <select  [(ngModel)]="Scheduler.scanMode" class="form-select" aria-label="Default select example">
-                             <option selected>Open this select menu</option>
-                             <option value="Once">Once</option>
-                             <option value="Cron">Cron</option>
-
-                           </select> <br>
-
-                            <label for=""> Starts time </label>
-                            <input type="text"  [(ngModel)]="Scheduler.startsTime"><br>
-
-
-                            <div class="field" *ngIf="Scheduler.scanMode=='Cron'">
-                              <label for=""> End time </label>
-                            <input type="text"  [(ngModel)]="Scheduler.endTime"><br>
-                             <label>Cron expression</label>
-                             <br>
-                             <input type="text" placeholder="cronExpression" [(ngModel)]="Scheduler.cronExpression" name="cron">
-                             <br>
-                           </div>
-
-                          </div>
-                          <button type="button" class="btn btn-dark" (click)=" updateScheduler(Scheduler,Scheduler.id)" data-bs-dismiss="modal">Run<i class="fa fa-play"></i><i class="bi bi-play"></i></button>
-                           <!--<button type="submit" class="btn btn-primary" (click)="updateScheduler(Scheduler,Scheduler.id)"> Update </button>-->
-                      </div>
-                    </div>
-                  </li>
-              </ul>
-          </div>
-        </div>
-
-    </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!--<div class="container">
       <div class="row">
         <ul class="list-group ">
-          <li class=""  class=" list-group-item"
-          *ngFor="let Scheduler of schedulers; let i = index"
+          <li class=""  class="list-group-item"
+          *ngFor="let Scheduler of schedulers ;
+    let i = index"
           >
             <div class="card " [class.active]="i == currentIndex"
             (click)="setActiveScheduler(Scheduler, i)">
             <div class="card-body">
               <div class="submit-form">
                 <div *ngIf="!submitted">
+                  <img id="im" src="../../../../assets/img/flags/sched.png" height="" alt="">
+                      <i  (click)=" deletethisScheduler(Scheduler.id)" id="cross" ></i><span class="material-icons"  (click)=" deletethisScheduler(Scheduler.id)">
+                        clear
+                        </span>
+
+
+                          <a routerLink="/sched/{{Scheduler.id}}"><p>{{Scheduler.name}}</p></a>
                   <div class="form-group">
                     <label for="description">Name</label>
                     <input
@@ -348,8 +134,7 @@
                      <br>
                      <input type="text" placeholder="cronExpression" [(ngModel)]="Scheduler.cronExpression" name="cron">
                    </div>
-                   <button type="button" class="btn btn-danger" (click)=" deletethisScheduler(Scheduler.id)" data-bs-dismiss="modal">Delete</button>
-                   <button type="submit" class="btn btn-primary" (click)="updateScheduler(Scheduler,Scheduler.id)"> Update </button>
+                   <button type="submit" class="btn btn-primary" > Run </button>
 
           </div>
           </div>
@@ -358,8 +143,28 @@
         </ul>
       </div>
     </div>
-  -->
+  </section>-->
 
+<!--<div class="mt-3">
+  <button class="m-3 btn btn-sm btn-danger" (click)="removeAllSchedulers()">
+    Remove All
+  </button>
+  Items per Page:
+  <select (change)="handlePageSizeChange($event)">
+    <option *ngFor="let size of pageSizes" [ngValue]="size">
+      {{ size }}
+    </option>
+  </select>
+</div>
+    <div class="col-md-12">
+      <pagination-controls
+        previousLabel="Prev"
+        nextLabel="Next"
+        [responsive]="true"
+        (pageChange)="handlePageChange($event)"
+      ></pagination-controls>
+    </div>
+  -->
 
 
 
@@ -418,8 +223,76 @@
 
 
 
-      <button class="m-3 btn btn-sm btn-danger" (click)="removeAllSchedulers()">
-        Remove All
-      </button>
+
 </body>
 </html>
+
+
+
+<!--Start Pricing Table Area-->
+<section class="pricing-table-area">
+
+
+  <div class="container">
+      <div class="sec-title-style4 text-center">
+          <p>OUR SCHEDULERS</p>
+          <div class="big-title"><h2>You can add scheduler or update existing one</h2></div>
+          <div class="border-box center">
+              <div class="borders-left thm-bgc3"></div>
+              <div class="borders-right thm-bgc3"></div>
+          </div>
+      </div>
+      <div class="row">
+          <!--Start Single Price Box-->
+          <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12" *ngFor="let Scheduler of schedulers; let i = index">
+              <div class="single-price-box" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="700">
+                  <div class="pattern-bg" ></div>
+                  <div class="title">
+                      <h3>{{Scheduler.name}}</h3>
+
+                  </div>
+                  <div class="icon">
+                      <span class="flaticon-bank"></span>
+                  </div>
+                  <div class="inner-box">
+
+                      <div class="form-group">
+                        <label for="description">Name</label>
+                        <input
+                          class="form-control"
+                          id="description"
+                          required
+                          [(ngModel)]="Scheduler.name"
+                          name="description"
+                        />
+                        <label for=""> Scan mode </label>
+                        <select  [(ngModel)]="Scheduler.scanMode" class="form-select" aria-label="Default select example">
+                         <option selected>Open this select menu</option>
+                         <option value="Once">Once</option>
+                         <option value="Cron">Cron</option>
+
+                       </select> <br>
+
+                        <label for=""> Starts time </label>
+                        <input type="text"  [(ngModel)]="Scheduler.startsTime"><br>
+
+
+                        <div class="field" *ngIf="Scheduler.scanMode=='Cron'">
+                          <label for=""> End time </label>
+                        <input type="text"  [(ngModel)]="Scheduler.endTime"><br>
+                         <label>Cron expression</label>
+                         <br>
+                         <input type="text" placeholder="cronExpression" [(ngModel)]="Scheduler.cronExpression" name="cron">
+                       </div><br>
+                      <div class="btn-box">
+                          <a class="btn-four" routerLink="/sched/{{Scheduler.id}}"><span class="txt">Edit</span></a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+          <!--End Single Price Box-->
+      </div>
+  </div>
+</section>
+<!--End Pricing Table Area-->

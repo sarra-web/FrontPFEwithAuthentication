@@ -2,7 +2,7 @@
 
 
 .sidenav{
-  background-color:#263238;
+  background-color:#18212e;
   transition: all .5s ease;
   position: fixed;
   z-index: 1;
@@ -75,7 +75,78 @@
       text-decoration: none;
       border-radius: 0.625rem;
       transition: all .3s ease;
+      #sidenav-link-icon2{
+        font-size: 22px;
+        width: 2rem;
+        min-width: 2rem;
+        margin: 0 0.5rem;
+        text-align: center;
+      }
+      #sidenav-link-icon{
+        font-size: 22px;
+        width: 2rem;
+        min-width: 2rem;
+        margin: 0 0.5rem;
+        text-align: center;
+      }
+      #an{
+        color:white;
+        font-size: 22px;
+        width: 2rem;
+        min-width: 2rem;
+        margin: 0 0.5rem;
+        text-align: center;
+      }
       .sidenav-link-icon{
+        font-size: 22px;
+        width: 2rem;
+        min-width: 2rem;
+        margin: 0 0.5rem;
+        text-align: center;
+      }
+      #sidenav-link-icon6{
+        font-size: 22px;
+        width: 2rem;
+        min-width: 2rem;
+        margin: 0 0.5rem;
+        text-align: center;
+      }
+      #sidenav-link-icon7{
+        font-size: 22px;
+        width: 2rem;
+        min-width: 2rem;
+        margin: 0 0.5rem;
+        text-align: center;
+      }
+      #sidenav-link-icon8{
+        font-size: 22px;
+        width: 2rem;
+        min-width: 2rem;
+        margin: 0 0.5rem;
+        text-align: center;
+      }
+      #sidenav-link-icon9{
+        font-size: 22px;
+        width: 2rem;
+        min-width: 2rem;
+        margin: 0 0.5rem;
+        text-align: center;
+      }
+      #sidenav-link-icon5{
+        font-size: 22px;
+        width: 2rem;
+        min-width: 2rem;
+        margin: 0 0.5rem;
+        text-align: center;
+      }
+      #sidenav-link-icon4{
+        font-size: 22px;
+        width: 2rem;
+        min-width: 2rem;
+        margin: 0 0.5rem;
+        text-align: center;
+      }
+      #sidenav-link-icon3{
         font-size: 22px;
         width: 2rem;
         min-width: 2rem;

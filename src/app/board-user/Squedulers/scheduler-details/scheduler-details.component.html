@@ -13,67 +13,9 @@
 
 <ng-template #editable>
   <div *ngIf="currentScheduler.id" class="edit-form">
-    <h4>currentScheduler</h4>
-    <form>
-      <div class="form-group">
-        <label for="description">Name</label>
-        <input
-          class="form-control"
-          id="description"
-          required
-          [(ngModel)]="currentScheduler.name"
-          name="description"
-        />
-        <label for=""> Scan mode </label>
-        <select  [(ngModel)]="currentScheduler.scanMode" class="form-select" aria-label="Default select example">
-         <option selected>Open this select menu</option>
-         <option value="Once">Once</option>
-         <option value="Cron">Cron</option>
-
-       </select> <br>
-
-        <label for=""> Starts time </label>
-        <input type="text"  [(ngModel)]="currentScheduler.startsTime"><br>
-
-
-        <div class="field" *ngIf="currentScheduler.scanMode=='Cron'">
-          <label for=""> End time </label>
-        <input type="text"  [(ngModel)]="currentScheduler.endTime"><br>
-         <label>Cron expression</label>
-         <br>
-         <input type="text" placeholder="cronExpression" [(ngModel)]="currentScheduler.cronExpression" name="cron">
-         <br>
-       </div>
-
-      </div>
-      <button type="button" class="btn btn-dark" (click)=" updateScheduler(currentScheduler,currentScheduler.id)" data-bs-dismiss="modal">Run<i class="fa fa-play"></i><i class="bi bi-play"></i></button>
-
-
-        <!--
-
-<div class="form-group">
-        <label for="description">Role</label>
-        <select class="select-text" name="role"  [(ngModel)]="currentcurrentScheduler.roles[0].name">
-          <option class="dropdown-item"  selected>Select an Option</option>
-          <option class="dropdown-item" *ngFor="let role of roledata" >
-            {{role.name}}
-          </option>
-        </select>
-</div>
-        -->
 
 
 
-    </form>
-
-
-    <button
-      type="submit"
-      class="badge badge-success mb-2"
-      (click)="updateScheduler(currentScheduler,currentScheduler.id)"
-    >
-      Update
-    </button>
     <p>{{ message }}</p>
   </div>
 
@@ -84,3 +26,76 @@
 </ng-template>
 
 
+<mat-card>
+  <mat-tab-group mat-stretch-tabs="false">
+
+      <!-- Tab 2 -->
+      <mat-tab label="Profile">
+          <mat-card-content>
+              <mat-card-title>Updating Scheduler</mat-card-title>
+              <!-- ============================================================== -->
+              <!-- column -->
+              <!-- ============================================================== -->
+              <form class="basic-form">
+                  <div class="row">
+                      <!-- column -->
+                      <div class="col-12">
+                        <label for="description">Name</label>
+
+                        <input
+                        class="form-control"
+                        id="description"
+                        required
+                        [(ngModel)]="currentScheduler.name"
+                        name="description"
+                      />
+
+                      </div>
+                      <div class="col-12">
+                        <label for=""> Scheduling mode </label>
+
+
+        <select  [(ngModel)]="currentScheduler.scanMode" class="form-select" name="modeSched">
+
+          <option value="Once">Once</option>
+          <option value="Cron">Cron</option>
+
+        </select>
+                    </div>
+                      <!-- column -->
+                      <div class="col-12">
+                        <label for=""> Starts time </label>
+
+                        <input type="text"  [(ngModel)]="currentScheduler.startsTime" name="s"><br>
+
+                      </div>
+                      <!-- column -->
+                      <div class="field" *ngIf="currentScheduler.scanMode=='Cron'">
+                      <div class="col-12">
+
+        <input type="text"  [(ngModel)]="currentScheduler.endTime" name="endT"><br>
+
+                      </div>
+
+                      <!-- column -->
+
+
+                      <!-- column -->
+                      <div class="col-12">
+
+         <input type="text" placeholder="cronExpression" [(ngModel)]="currentScheduler.cronExpression" name="cro">
+
+                      </div>
+                    </div>
+                      <!-- column -->
+                      <div class="col-12">
+                          <button mat-flat-button color="primary" (click)=" updateScheduler(currentScheduler,currentScheduler.id)">Update Scheduler<span class="material-icons">
+                            play_arrow
+                            </span></button>
+                      </div>
+                  </div>
+              </form>
+          </mat-card-content>
+      </mat-tab>
+  </mat-tab-group>
+</mat-card>

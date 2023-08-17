@@ -1,8 +1,14 @@
 <div class="row">
-<mat-icon (click)="refrech()">refresh</mat-icon>
-<i class="fa fa-refresh"></i>
+
+<button style="margin-right: 5%;" (click)="refrech()"><span class="material-icons">
+  autorenew
+  </span></button>
+
+
 <button class="btn btn-danger" (click)="deleteLogs()">
-  Delete
+  Delete All <span class="material-icons">
+    delete_forever
+    </span>
 </button>
 
 </div>

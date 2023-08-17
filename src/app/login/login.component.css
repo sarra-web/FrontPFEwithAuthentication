@@ -28,8 +28,8 @@ body {
 
 /* Style the card header */
 .card-header {
-  background-color: #0A66C2;
-  color: #fff;
+
+
   padding: 10px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -61,7 +61,7 @@ body {
 
 /* Style the login button */
 .btn-primary {
-  background-color: #0A66C2;
+  background-color: #18212e;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -71,7 +71,7 @@ body {
 
 /* Style the register link */
 .btn-link {
-  color: #0A66C2;
+  color: #18212e;
   text-decoration: none;
   margin-left: 10px;
 }

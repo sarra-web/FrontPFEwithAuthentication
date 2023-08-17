@@ -1,9 +1,19 @@
+#reset{
+  background-color: #FA9928;
+}
+#ret{
+  background-color: #888484;
+}
+#save{
+  background-color: #18212e;
+}
 .progress-bar {
   padding: 0;
 }
 
 .progress {
   width: 50px;
+
 }
 
 #fileInput {

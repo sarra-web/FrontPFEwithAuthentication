@@ -85,7 +85,7 @@
             <div *ngIf="className.errors['required']">className is required</div>
           </div>
         </div>
-        <button name="res" type="button" (click)="testConnection()" class="btn btn-warning float-right">
+        <button id="test" name="res" type="button" (click)="testConnection()" class="btn btn-warning float-right">
           Test connection</button>
           <div class="form-group" *ngIf="msg" class="messag"  [style.color]=color>
             {{msg }}
@@ -138,7 +138,8 @@
 
 
 
-      <a class="btn btn-secondary" (click)="onClick()">Retrieve fields</a>
+    <div class="row">  <a class="btn btn-secondary" (click)="onClick()">Retrieve fields</a>
+    </div><br>
       <div class="form-group" *ngIf="messageQuery" class="message">
         {{ messageQuery }}
       </div>
@@ -194,14 +195,15 @@
         </div>
       </div>
 
-      <div class="form-group">
-      <button type="submit" name="reg"  (click)="onSubmit()" class="btn btn-primary" ><!-- [disabled]="disabled"-->
-        Save</button>
-        <button name="Can" type="button" (click)="changementDePage()" class="btn btn-danger">Cancel</button>
+      <div class="row">
+   <div class="col-8"><button id="sav" type="submit" name="reg"  (click)="onSubmit()" class="btn btn-info" ><!-- [disabled]="disabled"-->
+    Save</button></div>
 
-     <button name="res" type="button" (click)="onReset(f)" class="btn btn-warning float-right">
-        Reset </button>
-      </div>
+        <div class="col-4"> <button id="tes" name="res" type="button" (click)="onReset(f)" class="btn btn-warning float-right">
+          Reset </button></div>
+      </div><br>
+      <div class="row"> <button name="Can" type="button" (click)="changementDePage()" class="btn btn-danger">Cancel</button></div>
+
   </form>
   </div>
 

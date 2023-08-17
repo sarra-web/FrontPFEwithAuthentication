@@ -1,9 +1,17 @@
-
+#test{
+  background-color: #FA9928;
+}
+#tes{
+  background-color: #FA9928;
+}
+#sav{
+  background-color: #18212e;
+}
 
 .content-box {
   box-sizing: content-box;
-  width: 50%;
-  border: solid #5B6DCD 10px;
+  width: 90%;
+  border: solid #18212e 7px;
   padding: 5px;
 
   padding: 20px;

@@ -9,6 +9,7 @@ type Tabs = 'Sidebar' | 'Header' | 'Toolbar';
 interface SidenavToggle{
   screenWidth:number;
   collapsed:boolean;
+
 }
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ interface SidenavToggle{
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
+
   isSideNavCollapsed=false;
   screenWidth=0;
   activeTab: Tabs = 'Sidebar';
@@ -23,10 +25,11 @@ export class AppComponent implements OnInit{
   isExpanded = false;
   currentUser: any;
 
-
+  navsideVisible:true;
   title(title: any) {
     throw new Error('Method not implemented.');
   }
+  hiden=false
   private roles: string[] = [];
   isLoggedIn = false;
   showAdminBoard = false;
@@ -44,7 +47,10 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.isLoggedIn = this.storageService.isLoggedIn();
+  this.isLoggedIn = this.storageService.isLoggedIn();
+  if(!this.isLoggedIn){
+this.hiden===true
+  }
 
     if (this.isLoggedIn) {
       const user = this.storageService.getUser();

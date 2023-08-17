@@ -1,8 +1,55 @@
+
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+  <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title">Add connector</h4>
+      </div>
+  <div class="modal-body">
+
+  <div class="type"><label>Type of connector</label>
+    <div class="ui fluid search dropdown selection">
+      <select [(ngModel)]="selectedValue">
+        <option value="JDBC">JDBC</option>
+        <option value="CSV">CSV</option>
+        <!--
+          <option value="XML">XML</option>
+        -->
+      </select><i class="dropdown icon"></i></div>
+  </div>
+ <!--
+   <div class="mode"><label>Creation mode </label>
+    <div class="ui fluid search dropdown selection"><select >
+        <option value="">New</option>
+        <option value="Id">Copy</option>
+      </select><i class="dropdown icon"></i></div>
+  </div>
+ -->
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-dark" (click)="changementDePageWithCondition()" data-bs-dismiss="modal">Continue</button>
+
+      <button type="button" class="btn btn-danger" (click)="cancel()" data-bs-dismiss="modal" >Cancel</button>
+    </div>
+  </div>
+
+
+  </div>
+  </div>
+<div class="row">
+  <h2  class="col-sm-6" >Our connectors</h2><br>
+
+  <div  class="col-sm-6"><button class="btn btn-outline-secondary" (click)="openModel()">Add
+    <!--<i class="fa fa-plus-circle"></i>-->
+  </button></div>
+</div> <br>
+
 <div class="container">
   <!-- Rest of the HTML code remains the same -->
 
   <div class="list row">
-    <div class="col-md-8">
+    <div class="col-md-6">
       <div class="input-group mb-3">
         <input
           type="text"
@@ -11,7 +58,7 @@
           [(ngModel)]="name"
         />
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" (click)="searchByNameIgnoreCase2()">
+          <button class="btn btn-outline-secondary"  (click)="searchByNameIgnoreCase2()">
             Search
           </button>
         </div>
@@ -23,8 +70,9 @@
     <div class="col-md-4">
       <div class="form-group">
         <label>Filter by project name</label>
-        <select
-          class="select-text"
+
+        <select data-style="btn-primary"
+          class="selectpicker"
           (change)="searchByProjectName($event)"
           [(ngModel)]="projectName"
           name="projectName"
@@ -35,61 +83,21 @@
         </select>
       </div>
     </div>
-    <div class="col-md-5"></div>
-    <div class="col-md-3">
-      <button class="btn btn-outline-secondary" (click)="openModel()">Add
-        <i class="fa fa-plus-circle"></i>
-      </button>
-    </div>
+
   </div>
-  <div>
-    <div class="modal" id="myModal">
-    <div class="modal-dialog">
-    <div class="modal-content">
-
-        <div class="modal-header">
-          <h4 class="modal-title">Add connector</h4>
-        </div>
-    <div class="modal-body">
-
-    <div class="type"><label>Type of connector</label>
-      <div class="ui fluid search dropdown selection">
-        <select [(ngModel)]="selectedValue">
-          <option value="JDBC">JDBC</option>
-          <option value="CSV">CSV</option>
-          <!--
-            <option value="XML">XML</option>
-          -->
-        </select><i class="dropdown icon"></i></div>
-    </div>
-   <!--
-     <div class="mode"><label>Creation mode </label>
-      <div class="ui fluid search dropdown selection"><select >
-          <option value="">New</option>
-          <option value="Id">Copy</option>
-        </select><i class="dropdown icon"></i></div>
-    </div>
-   -->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="changementDePageWithCondition()" data-bs-dismiss="modal">Continue</button>
-
-        <button type="button" class="btn btn-danger" (click)="cancel()" data-bs-dismiss="modal" >Cancel</button>
-      </div>
-    </div>
 
 
-    </div>
-    </div>
-  </div>
+
 </div>
+
+
 
 <table class="table">
 <thead>
 <tr>
 <th scope="col">#</th>
-<th scope="col">Type</th>
 <th scope="col">Name</th>
+<th scope="col">Type</th>
 <th scope="col">Action</th>
 </tr>
 </thead>
@@ -105,33 +113,62 @@ let i = index
 [class.active]="i == currentIndex"
 >
 <th scope="row">{{i}}</th>
+<td><a href=""
+  (click)="setActiveConnector(connector, i)"
+  routerLink="/connectors/{{currentConnector.typeConnector}}/{{currentConnector.id}}"
+  > {{ connector.name}}</a></td>
 <td> {{connector.typeConnector}}</td>
-<td> {{ connector.name}}</td>
+
 
 <td (click)="setActiveConnector(connector, i)">
 
-<a id="edit"
-(click)="setActiveConnector(connector, i)"
-routerLink="/connectors/{{currentConnector.typeConnector}}/{{currentConnector.id}}">
-Edit <i class="fa fa-pencil"></i>
-</a>
-<i class="fa fa-trash"
-(click)="setActiveConnector(connector, i)"  (click)="deletethisConnector(currentConnector.id)"
-></i>
 
-<button (click)="setActiveConnector(connector, i)"  (click)="scan()">Scan</button>
+
+  <span
+  (click)="setActiveConnector(connector, i)"
+  routerLink="/connectors/{{currentConnector.typeConnector}}/{{currentConnector.id}}"
+  class="material-icons" id="cros">
+    edit_note
+    </span>
+
+
+
+
+
+
+<!--<i class="fa fa-trash"
+(click)="setActiveConnector(connector, i)"  (click)="deletethisConnector(currentConnector.id)"
+></i>-->
+
+
+  <span class="material-icons" (click)="setActiveConnector(connector, i)"  (click)="scan()">
+    qr_code_scanner
+    </span>
+
+
+
+
+
+
+
 <!--
   <button (click)="setActiveConnector(connector, i)"  (click)="clearFromProxem()">Clear</button>
 
 -->
-<a
+
+<span class="material-icons"
 (click)="setActiveConnector(connector, i)"
-routerLink="/connectorsAction/{{currentConnector.typeConnector}}/{{currentConnector.id}}">
-<mat-icon>more_vert</mat-icon>
+routerLink="/connectorsAction/{{currentConnector.typeConnector}}/{{currentConnector.id}}"
+>
+  more_horiz
+  </span>
+<span
+(click)="setActiveConnector(connector, i)"  (click)="deletethisConnector(currentConnector.id)"
+class="material-icons"
 
-</a>
-
-
+>
+clear
+</span>
 </td>
 </tr>
 </tbody>

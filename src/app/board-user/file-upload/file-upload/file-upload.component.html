@@ -78,7 +78,7 @@
         <div class="form-group">
          <mat-toolbar *ngIf="currentFile" class="progress-bar">
             <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
-            <span class="progress">{{ progress }}%</span>
+            <span >{{ progress }}%</span>
           </mat-toolbar>
           <mat-form-field>
             <div >
@@ -86,7 +86,7 @@
                 <input matInput [value]="fileName" id="file" name="fil"
                />
                 <a mat-flat-button color="primary" [disabled]="!currentFile" (click)="upload()"> Upload </a>
-              </mat-toolbar>-
+              </mat-toolbar>
               <input type="file" id="fff" id="fileInput" (change)="selectFile($event)" name="fileInput" />
             </div>
           </mat-form-field>
@@ -100,10 +100,11 @@
       <mat-list-item role="listitem" *ngFor="let file of fileInfos | async">
         <a href="{{ file.url }}">{{ file.name }}</a></mat-list-item></mat-list></mat-card-content></mat-card>
   -->
-        <a mat-flat-button color="primary" (click)="onClick(this.connector.separator)">Retrieve fields</a>
+       <div class="row"> <a id="ret" mat-flat-button  (click)="onClick(this.connector.separator)">Retrieve fields</a>
         <!--<button type="button" (click)="PagePrecedente()">Precedente</button>
           <button (click)="removeFiles()">RemoveAll</button>-->
-     <div class="container">
+        </div><br>
+          <div class="container">
           <div id="box" class="box" *ngFor="let field of result ; let i = index;">
             <div class="ui form">
               <div class="ui grid">
@@ -155,12 +156,12 @@
           </div>
         </div>
         <div class="form-group">
-        <button type="submit" name="reg"  (click)="onSubmit()" class="btn btn-primary" ><!-- [disabled]="disabled"-->
+        <button id="save" type="submit" name="reg"  (click)="onSubmit()" class="btn btn-dark" ><!-- [disabled]="disabled"-->
           Save</button>
 
         <button name="Can" type="button" (click)="changementDePage()" class="btn btn-danger">Cancel</button>
 
-       <button name="res" type="button" (click)="onReset(f)" class="btn btn-warning float-right">
+       <button id="reset" name="res" type="button" (click)="onReset(f)" class="btn btn-warning float-right">
           Reset </button>
         </div>
     </form>

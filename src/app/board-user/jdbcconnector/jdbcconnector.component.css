@@ -1,9 +1,34 @@
+#ret{
+  background-color: #524f4f;
+}
+#up{
+  color:white;
+  background-color: #18212e;
+}
 .mat-toolbar-single-row {
   height: auto !important;
   background: transparent;
   padding: 0;
 }
+#test{
+  background-color: #FA9928;
+}
+#tes{
+  background-color: #FA9928;
+}
+.content-box {
+  box-sizing: content-box;
+  width: 90%;
+  border: solid #18212e 7px;
+  padding: 5px;
 
+  padding: 20px;
+
+  /* Total width: 160px + (2 * 20px) + (2 * 8px) = 216px
+     Total height: 80px + (2 * 20px) + (2 * 8px) = 136px
+     Content box width: 160px
+     Content box height: 80px */
+}
 .mat-toolbar-single-row button {
   width: 100px;
 }

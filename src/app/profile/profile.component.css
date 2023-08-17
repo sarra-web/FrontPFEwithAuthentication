@@ -370,7 +370,9 @@ Footer Area CSS
 
 
 
-
+#upt{
+  color: white;
+}
 
 
 
@@ -386,13 +388,13 @@ Footer Area CSS
 }
 
 /* Styles for the header */
-.jumbotron {
+/*.jumbotron {
   background-color: #0A66C2;
   color: #fff;
   text-align: center;
   padding: 10px;
   border-radius: 5px;
-}
+}*/
 
 /* Styles for the profile information */
 p {

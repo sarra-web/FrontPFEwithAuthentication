@@ -1,7 +1,12 @@
 .progress-bar {
   padding: 0;
 }
-
+#ret{
+  background-color: #aaa;
+}
+#upd{
+  background-color: #18212e;
+}
 .progress {
   width: 50px;
 }

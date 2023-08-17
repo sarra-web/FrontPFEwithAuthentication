@@ -7,13 +7,14 @@ import { Scheduler } from 'src/app/model/Scheduler';
 import { SchedulerService } from '../scheduler.service';
 import { ConnectorServiceService } from 'src/app/_services/connector-service.service';
 import { Connector } from 'src/app/model/Connector';
+import { ProjectServiceService } from 'src/app/_services/project.service';
 @Component({
   selector: 'app-scheduler-details',
   templateUrl: './scheduler-details.component.html',
   styleUrls: ['./scheduler-details.component.css']
 })
 export class SchedulerDetailsComponent {
-  constructor(
+  constructor(private projectService:ProjectServiceService,
     private service: SchedulerService,
     private route: ActivatedRoute,private connectorService: ConnectorServiceService,
     private router: Router) { }
@@ -104,6 +105,20 @@ export class SchedulerDetailsComponent {
       this.planifier(data2);
   }
   planifier(data:any){
+    const a=this.currentConnector.projectName
+    console.log("currentConnector"+a)
+    this.projectService.findByName2(a).subscribe({
+      next: (res) => {
+        console.log("les info de"+a+res.proxemToken)
+       if(res.proxemToken!="a0e04a5f-ab7c-4b0e-97be-af263a61ba49"){
+        alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
+
+       }
+      },
+
+      error: (e) => {console.error(e)
+      }
+    });
     console.log("planification en cours")
     const now = new Date();
     if((data.startsTime<=now)||((data.endTime<=now)&&(data.endTime!=''))){
@@ -134,7 +149,7 @@ export class SchedulerDetailsComponent {
     });}
 
 
-   
+
   }
 
 }

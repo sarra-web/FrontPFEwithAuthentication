@@ -69,7 +69,8 @@ const materialModules = [
   MatInputModule,
   MatFormFieldModule,
   MatProgressBarModule,
-  MatListModule
+  MatListModule,
+
 ];
 @NgModule({
   declarations: [
@@ -99,7 +100,13 @@ const materialModules = [
      JDBCconnectorComponent,
     AddJDBCconnectorComponent,
     LogComponent
-    ,HomeComponent,FilterPipe, ExampleComponent, SidenavComponent, DashboardComponent, ProfileDetailsComponent, ActionComponent, ActionJDBCComponent
+    ,HomeComponent,FilterPipe,
+    ExampleComponent,
+    SidenavComponent,
+     DashboardComponent,
+     ProfileDetailsComponent,
+     ActionComponent,
+     ActionJDBCComponent
 
   ],
   imports: [

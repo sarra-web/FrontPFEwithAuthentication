@@ -17,7 +17,15 @@
 </div>
 <ng-template #editable>
   <div *ngIf="currentConnector.id" class="edit-form">
-    <h4>Connector CSV</h4>
+   <div class="row">
+
+    <div class="col-8"><h4>Connector CSV:{{currentConnector.name}}</h4></div>
+   <div class="col-4"><button class="btn btn-light" > <a routerLink="/squeduler/{{currentConnector.id}}/squedulers">
+    Operation
+  </a>  </button></div>
+</div>
+
+
     <div class="register-form">
     <form
     name="currentConnector"
@@ -103,7 +111,7 @@
         <label>File path</label>
       <mat-toolbar *ngIf="currentFile" class="progress-bar">
           <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
-          <span class="progress">{{ progress }}%</span>
+          <span >{{ progress }}%</span>
         </mat-toolbar>
         <mat-form-field>
           <div>
@@ -123,8 +131,8 @@
       </div>
 <!--      <button (click)="onClick(this.currentConnector.separator)" [disabled]="false">Retrieve fields</button>
 -->
-<a mat-flat-button color="primary" (click)="onClick(this.currentConnector.separator)">Retrieve fields</a>
-
+<div class="row"><a mat-flat-button id="ret" (click)="onClick(this.currentConnector.separator)">Retrieve fields</a>
+</div><br>
       <div class="container">
         <div class="box" *ngFor="let field of currentConnector.fields ; let i = index;">
           <div class="ui form">
@@ -186,8 +194,9 @@
           </div>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary" (click)="updateConnector()"> Update </button>
-      <!--
+      <br><div class="row"><button id="upd" type="submit" class="btn btn-dark" (click)="updateConnector()"> Update </button>
+      </div><br>
+        <!--
         <div class="form-group"><label for="name">Name</label><input
           type="text"
           class="form-control"
@@ -225,13 +234,14 @@
       Publish
     </button>
   -->
-    <button class="btn btn-danger" (click)="deleteConnector()"> Delete </button>
+  <div class="row">
+  <div class="col-8">    <button class="btn btn-danger" (click)="deleteConnector()"> Delete </button>
+  </div>
+  <div class="col-4">    <button class="btn btn-info" (click)=" pushActiveConnector()"> Scan </button>
+  </div>
+</div>
+    <!--<button class="btn btn-success" (click)=" clear()"> Clear </button>-->
 
-    <button class="btn btn-info" (click)=" pushActiveConnector()"> Scan </button>
-    <button class="btn btn-success" (click)=" clear()"> Clear </button>
-    <button class="btn btn-light" > <a routerLink="/squeduler/{{currentConnector.id}}/squedulers">
-      Operation
-    </a>  </button>
     <p>{{ message }}</p>
   </div>
   <div *ngIf="!currentConnector.id">

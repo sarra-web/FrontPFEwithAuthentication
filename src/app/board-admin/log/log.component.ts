@@ -7,6 +7,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { FormsModule } from '@angular/forms'
 import { StorageService } from 'src/app/_services/storage.service';
+import * as alertify from 'alertifyjs'
+
 /**
  * @title Data table with sorting, pagination, and filtering.
  */
@@ -68,14 +70,15 @@ ngAfterViewInit() {
   this.dataSource.sort = this.sort;
 }
 deleteLogs(){
-  this.logService.deleteLog("myLog.csv").subscribe(
+  alertify.confirm("Remove logs","do you want remove all these log information?",()=>{this.logService.deleteLog("myLog.csv").subscribe(
     (response) => {
       console.log("deleted successfully")
-
+      window.location.reload();
     },
     (error) => {
       console.log('Erreur lors de la suppression des données CSV :', error);
     });
+  },function(){})
 
 }
 

@@ -60,5 +60,8 @@ export class ProjectServiceService {
   findByName(name: any): Observable<Project[]> {
     return this.http.get<Project[]>(`${baseUrl}?name=${name}`);
   }
+  findByName2(name: any): Observable<any> {
+    return this.http.get<any>(`${baseUrl}/${name}`);
+  }
 }
 

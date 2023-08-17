@@ -10,16 +10,18 @@
 </div>
 <ng-template #editable>
   <div *ngIf="currentConnector.id" class="edit-form">
-    <h4>Connector</h4>
-    <div class="register-form">
-    <form
-    name="currentConnector"
-    #f="ngForm"
-    (ngSubmit)="f.form.valid && updateConnector()"
-    novalidate
+    <div class="row">
+      <div class="col-8">
+        <h4>ConnectorjDBC:{{currentConnector.name}}</h4>
+      </div>
+      <div class="col-4"><button class="btn btn-light"> <a routerLink="/squeduler/{{currentConnector.id}}/squedulers">
+            Operation
+          </a> </button></div>
 
-    >
-    <!--<div class="form-group">
+    </div>
+    <div class="register-form">
+      <form name="currentConnector" #f="ngForm" (ngSubmit)="f.form.valid && updateConnector()" novalidate>
+        <!--<div class="form-group">
       <label>Project name</label>
       <select  class="select-text"  [(ngModel)]="currentConnector.projectName" name="projectName" #projectName="ngModel"
       [ngClass]="{ 'is-invalid': f.submitted && projectName.errors}" required>
@@ -33,153 +35,166 @@
         <div *ngIf="projectName.errors['required']">Project name is required</div>
       </div>
     </div>-->
-    <label>Project name</label>
-    <mat-form-field>
-      <mat-label>Project</mat-label>
-      <select matNativeControl [(ngModel)]="currentConnector.projectName" name="projectName" #projectName="ngModel"
-      [ngClass]="{ 'is-invalid': f.submitted && projectName.errors}" required>
-        <option value="" selected></option>
-        <option *ngFor="let project of projects">
-          {{project.name}}
-        </option>
-      </select>
-      <div *ngIf="f.submitted && projectName.errors" class="invalid-feedback">
-        <div *ngIf="projectName.errors['required']">Project name is required</div>
-      </div>
-    </mat-form-field>
-    <div class="form-group">
-        <label>Name</label>
-        <input type="text" class="form-control" id="nameId" [(ngModel)]="currentConnector.name" name="name" required  #name="ngModel"
-        [ngClass]="{ 'is-invalid': f.submitted && name.errors }"/>
+        <label>Project name</label>
+        <mat-form-field>
+          <mat-label>Project</mat-label>
+          <select matNativeControl [(ngModel)]="currentConnector.projectName" name="projectName" #projectName="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && projectName.errors}" required>
+            <option value="" selected></option>
+            <option *ngFor="let project of projects">
+              {{project.name}}
+            </option>
+          </select>
+          <div *ngIf="f.submitted && projectName.errors" class="invalid-feedback">
+            <div *ngIf="projectName.errors['required']">Project name is required</div>
+          </div>
+        </mat-form-field>
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="form-control" id="nameId" [(ngModel)]="currentConnector.name" name="name" required
+            #name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.errors }" />
 
-        <div *ngIf="f.submitted && name.errors" class="invalid-feedback">
-          <div *ngIf="name.errors['required']">Name is required</div>
+          <div *ngIf="f.submitted && name.errors" class="invalid-feedback">
+            <div *ngIf="name.errors['required']">Name is required</div>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label>JDBC url</label>
-        <input type="text" class="form-control" [(ngModel)]="currentConnector.jdbcUrl" name="jdbcUrl" required #jdbcUrl="ngModel"
-        [ngClass]="{ 'is-invalid': f.submitted && jdbcUrl.errors }" />
-        <div *ngIf="f.submitted && jdbcUrl.errors" class="invalid-feedback">
-          <div *ngIf="jdbcUrl.errors['required']">JDBC url is required</div>
+        <!--test connection-->
+        <div class="content-box">
+          <div class="form-group">
+            <label>JDBC url</label>
+            <input type="text" class="form-control" [(ngModel)]="currentConnector.jdbcUrl" name="jdbcUrl" required
+              #jdbcUrl="ngModel" [ngClass]="{ 'is-invalid': f.submitted && jdbcUrl.errors }" />
+            <div *ngIf="f.submitted && jdbcUrl.errors" class="invalid-feedback">
+              <div *ngIf="jdbcUrl.errors['required']">JDBC url is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" class="form-control" [(ngModel)]="currentConnector.username" name="username" required
+              #username="ngModel" [ngClass]="{ 'is-invalid': f.submitted && username.errors }" />
+            <div *ngIf="f.submitted && username.errors" class="invalid-feedback">
+              <div *ngIf="username.errors['required']">Username is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input id="myInput" type="password" class="form-control" [(ngModel)]="currentConnector.password"
+              name="password" required #password="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && password.errors }" />
+            <div *ngIf="f.submitted && password.errors" class="invalid-feedback">
+              <div *ngIf="password.errors['required']">Password is required</div>
+            </div>
+            <!-- An element to toggle between password visibility -->
+            <input type="checkbox" (click)="myFunction()">Show Password
+          </div>
+          <div class="form-group">
+            <label>Class name</label>
+            <input id="class" type="text" name="class" class="form-control" required
+              [(ngModel)]="currentConnector.className" #class="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && class.errors }" />
+            <div *ngIf="f.submitted && class.errors" class="invalid-feedback">
+              <div *ngIf="class.errors['required']">Class name is required</div>
+            </div>
+          </div>
+          <button id="test" name="res" type="button" (click)="testConnection()" class="btn btn-warning float-right">
+            Test connection</button>
+          <div class="form-group" *ngIf="msg" class="messag" [style.color]=color>
+            {{msg }}
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label>Username</label>
-        <input type="text" class="form-control" [(ngModel)]="currentConnector.username" name="username" required  #username="ngModel"
-        [ngClass]="{ 'is-invalid': f.submitted && username.errors }" />
-        <div *ngIf="f.submitted && username.errors" class="invalid-feedback">
-          <div *ngIf="username.errors['required']">Username  is required</div>
+
+        <!--test connection-->
+        <div class="form-group">
+          <label>Table name</label>
+          <input id="table" name="table" type="text" class="form-control" [(ngModel)]="currentConnector.tableName" />
         </div>
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input id="myInput" type="password" class="form-control" [(ngModel)]="currentConnector.password" name="password" required
-        #password="ngModel"
-        [ngClass]="{ 'is-invalid': f.submitted && password.errors }"  />
-        <div *ngIf="f.submitted && password.errors" class="invalid-feedback">
-          <div *ngIf="password.errors['required']">Password is required</div>
+        <div class="form-group" *ngIf="message" class="message">
+          {{ message }}
         </div>
-      <!-- An element to toggle between password visibility -->
-           <input type="checkbox" (click)="myFunction()">Show Password
-      </div>
-      <div class="form-group">
-        <label>Class name</label>
-        <input id="class" type="text" name="class" class="form-control" required [(ngModel)]="currentConnector.className" #class="ngModel"
-        [ngClass]="{ 'is-invalid': f.submitted && class.errors }"  />
-        <div *ngIf="f.submitted && class.errors" class="invalid-feedback">
-          <div *ngIf="class.errors['required']">Class name is required</div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Table name</label>
-        <input id="table" name="table" type="text" class="form-control"  [(ngModel)]="currentConnector.tableName" />
-      </div>
-      <div class="form-group" *ngIf="message" class="message">
-        {{ message }}
-      </div>
-      <!--      <button (click)="onClick()" [disabled]="false">Retrieve fields</button>
+        <!--      <button (click)="onClick()" [disabled]="false">Retrieve fields</button>
 -->
 
-<div class="ui fluid search dropdown selection">
-  <Label>Query mode</Label>
-  <select  [(ngModel)]="currentConnector.mode" name="mode"
-  >
-  <option value="Full">Full</option>
-    <option value="Incremental">Incremental</option>
+        <div class="ui fluid search dropdown selection">
+          <Label>Query mode</Label>
+          <select [(ngModel)]="currentConnector.mode" name="mode">
+            <option value="Full">Full</option>
+            <option value="Incremental">Incremental</option>
 
-  </select>
-</div>
-<div class="form-group">
-  <label for="comment">Initial query:</label>
-  <textarea name="query" (input)="handleKeyDown($event)" [(ngModel)]="currentConnector.initialQuery" class="form-control" rows="5" id="comment"
-
-  #query="ngModel"
-        [ngClass]="{ 'is-invalid': f.submitted && query.errors }" ></textarea>
-        <div *ngIf="f.submitted && query.errors" class="invalid-feedback">
-          <div *ngIf="query.errors['required']">Query  is required</div>
+          </select>
         </div>
-</div>
+        <div class="form-group">
+          <label for="comment">Initial query:</label>
+          <textarea name="query" (input)="handleKeyDown($event)" [(ngModel)]="currentConnector.initialQuery"
+            class="form-control" rows="5" id="comment" #query="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && query.errors }"></textarea>
+          <div *ngIf="f.submitted && query.errors" class="invalid-feedback">
+            <div *ngIf="query.errors['required']">Query is required</div>
+          </div>
+        </div>
 
 
-<div class="if" *ngIf="currentConnector.mode=='Incremental'">
-  <label>Checkpoint Column</label>
-  <input type="text" placeholder="checkpointColumn" [(ngModel)]="currentConnector.checkpointColumn" name="checkP"/>
-<br>
-  <label>Incremental variable</label>
+        <div class="if" *ngIf="currentConnector.mode=='Incremental'">
+          <label>Checkpoint Column</label>
+          <input type="text" placeholder="checkpointColumn" [(ngModel)]="currentConnector.checkpointColumn"
+            name="checkP" />
+          <br>
+          <label>Incremental variable</label>
 
-  <input type="text" placeholder="incrementalVariable" [(ngModel)]="currentConnector.incrementalVariable" name="incrV" />
-  <div class="form-group">
-    <label for="comment">Incremental query:</label>
-    <textarea name="query2" (input)="handleKeyDown($event)" [(ngModel)]="currentConnector.incrementalQuery" class="form-control" rows="5" id="comment"></textarea>
-  </div>
+          <input type="text" placeholder="incrementalVariable" [(ngModel)]="currentConnector.incrementalVariable"
+            name="incrV" />
+          <div class="form-group">
+            <label for="comment">Incremental query:</label>
+            <textarea name="query2" (input)="handleKeyDown($event)" [(ngModel)]="currentConnector.incrementalQuery"
+              class="form-control" rows="5" id="comment"></textarea>
+          </div>
 
-</div>
-      <a mat-flat-button color="primary" (click)="onClick()">Retrieve fields</a>
-      <div class="form-group" *ngIf="messageQuery" class="message">
-        {{ messageQuery }}
-      </div>
-      <div class="container">
-        <div class="box" *ngFor="let field of currentConnector.fields ; let i = index;">
-          <div class="ui form">
-            <div class="ui grid">
-              <div class="sixteen wide right aligned column">
-                <div class="ui checkbox" style="margin-right: 1em;">
-                  <input class="form-check-input" type="checkbox" id="flex_{{i}}"  name="zz_{{i}}" [(ngModel)]="field.included"  />
-                  <label class="form-check-label" for="flexCheckChecked"> Included </label>
+        </div>
+        <div class="row"> <a id="ret" mat-flat-button (click)="onClick()">Retrieve fields</a></div><br>
+        <div class="form-group" *ngIf="messageQuery" class="message">
+          {{ messageQuery }}
+        </div>
+        <div class="container">
+          <div class="box" *ngFor="let field of currentConnector.fields ; let i = index;">
+            <div class="ui form">
+              <div class="ui grid">
+                <div class="sixteen wide right aligned column">
+                  <div class="ui checkbox" style="margin-right: 1em;">
+                    <input class="form-check-input" type="checkbox" id="flex_{{i}}" name="zz_{{i}}"
+                      [(ngModel)]="field.included" />
+                    <label class="form-check-label" for="flexCheckChecked"> Included </label>
+                  </div>
+                  <!--<button class="boutton"  (click)="changeButton()" [ngStyle]="{ 'background-color': buttonColor }"  >{{ buttonText }}</button>-->
                 </div>
-                <!--<button class="boutton"  (click)="changeButton()" [ngStyle]="{ 'background-color': buttonColor }"  >{{ buttonText }}</button>-->
+                <!-- <app-button></app-button>[(ngModel)]="connector.headers[i].field_type"-->
               </div>
-              <!-- <app-button></app-button>[(ngModel)]="connector.headers[i].field_type"-->
-            </div>
-            <div class="field">
-              <label>Type of column</label>
-              <br style="display: none;">
-              <div class="ui fluid search dropdown selection">
-                <select [(ngModel)]="field.fieldType" name="fieldType{{i}}"
-
-                [disabled]="!field.included">
-                  <option value="Identifier">Identifier</option>
-                  <option value="Title">Title</option>
-                  <option value="Text">Text</option>
-                  <option value="Date">Date</option>
-                  <option value="Meta">Meta</option>
-                  <option value="Language">Language</option>
-                </select>
-                <i class="dropdown icon"></i>
+              <div class="field">
+                <label>Type of column</label>
+                <br style="display: none;">
+                <div class="ui fluid search dropdown selection">
+                  <select [(ngModel)]="field.fieldType" name="fieldType{{i}}" [disabled]="!field.included">
+                    <option value="Identifier">Identifier</option>
+                    <option value="Title">Title</option>
+                    <option value="Text">Text</option>
+                    <option value="Date">Date</option>
+                    <option value="Meta">Meta</option>
+                    <option value="Language">Language</option>
+                  </select>
+                  <i class="dropdown icon"></i>
+                </div>
               </div>
-            </div>
-            <div class="field" *ngIf="field.fieldType=='Meta'">
-              <label>Name of meta</label>
-              <br>
-              <input [disabled]="!field.included" type="text" placeholder="Name of meta" [(ngModel)]="field.meta" name="meta name{{i}}">
-            </div>
-            <div class="field">
-              <label>Name of column</label>
-              <br>
-              <input [disabled]="!field.included" type="text" placeholder="Name of column" [(ngModel)]="field.name" name="name{{i}}">
-            </div>
-            <!--
+              <div class="field" *ngIf="field.fieldType=='Meta'">
+                <label>Name of meta</label>
+                <br>
+                <input [disabled]="!field.included" type="text" placeholder="Name of meta" [(ngModel)]="field.meta"
+                  name="meta name{{i}}">
+              </div>
+              <div class="field">
+                <label>Name of column</label>
+                <br>
+                <input [disabled]="!field.included" type="text" placeholder="Name of column" [(ngModel)]="field.name"
+                  name="name{{i}}">
+              </div>
+              <!--
        <div class="inline fields"><div class="field"><div class="ui checkbox" style="margin-right: 1em;"><input type="checkbox" tabindex="0" class="hidden"><label>
               Scinder la colonne
               <i data-content="Si une colonne contient plusieurs métadonnées séparées par un caractère séparateur comme une virgule ou un point-virgule, cochez la case correspondante et précisez le caractère séparateur pour ajouter ces métadonnées au document"
@@ -187,21 +202,21 @@
               :
             </label></div></div><div class="field disabled"></div></div>
      -->
-            <div class="field">
-              <label>Overview</label>
-              <br style="display: none;">
-              <div class="ui fluid search dropdown selection">
-                <select [disabled]="!field.included" id="{{i}}">
-                  <option *ngFor="let cell of field.content" [value]="cell">{{cell}}</option>
-                </select>
-                <i class="dropdown icon"></i>
+              <div class="field">
+                <label>Overview</label>
+                <br style="display: none;">
+                <div class="ui fluid search dropdown selection">
+                  <select [disabled]="!field.included" id="{{i}}">
+                    <option *ngFor="let cell of field.content" [value]="cell">{{cell}}</option>
+                  </select>
+                  <i class="dropdown icon"></i>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary" (click)="updateConnector()"> Update </button>
-      <!--
+        </div><br>
+        <button type="submit" id="up" class="btn btn-light" (click)="updateConnector()"> Update </button>
+        <!--
         <div class="form-group"><label for="name">Name</label><input
           type="text"
           class="form-control"
@@ -217,12 +232,12 @@
         /></div>
 
       -->
-      <!--
+        <!--
        <div class="form-group"><label><strong>Status:</strong></label>
         {{ currentConnector.published ? "Published" : "Pending" }}
       </div>
      -->
-    </form>
+      </form>
     </div>
     <!--
       <button
@@ -239,45 +254,50 @@
       Publish
     </button>
   -->
-    <button class="btn btn-danger" (click)="deleteConnector()"> Delete </button>
+    <div class="row">
+      <div class="col-8"> <button class="btn btn-danger" (click)="deleteConnector()"> Delete </button>
+      </div>
+      <div class="col-4"> <button class="btn btn-info" (click)=" scan()"> Scan </button>
+      </div>
+    </div>
 
-    <button class="btn btn-info" (click)=" scan()"> Scan </button>
-    <button class="btn btn-success" (click)=" clear()"> Clear </button>
-    <button class="btn btn-light" > <a routerLink="/squeduler/{{currentConnector.id}}/squedulers">
-      Operation
-    </a>  </button>
+
+    <!--<button class="btn btn-success" (click)=" clear()"> Clear </button>-->
+
     <p>{{ message }}</p>
   </div>
   <div class="row">
-    <button *ngIf="currentConnector.mode==='Incremental'" class="btn btn-success" (click)="openModel()">Scan from check point</button>
+    <button *ngIf="currentConnector.mode==='Incremental'" class="btn btn-secondary" (click)="openModel()">Scan from
+      check point</button>
   </div>
   <div>
-  <div class="modal" id="myModal">
-  <div class="modal-dialog">
-  <div class="modal-content">
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
 
-      <div class="modal-header">
-        <h4 class="modal-title">Modal Heading</h4>
-      </div>
-  <div class="modal-body">
-  <div class="type">
-    <label>Checkpoint</label>
+          <div class="modal-header">
+            <h4 class="modal-title">Scan from checkPoint</h4>
+          </div>
+          <div class="modal-body">
+            <div class="type">
+              <label>Checkpoint</label>
               <br>
-  <input type="text"  [(ngModel)]="checkPoint">
-  </div>
+              <input type="text" [(ngModel)]="checkPoint">
+            </div>
 
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-dark" (click)="scanFromCheckPoint()"
+              data-bs-dismiss="modal">Scan</button>
+
+            <button type="button" class="btn btn-danger" (click)="cancel()" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+
+
+      </div>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-danger" (click)="scanFromCheckPoint()" data-bs-dismiss="modal">Run</button>
-
-      <button type="button" class="btn btn-danger" (click)="cancel()" data-bs-dismiss="modal" >Cancel</button>
-    </div>
   </div>
-
-
-  </div>
-  </div>
-</div>
 
   <div *ngIf="!currentConnector.id">
     <br />
