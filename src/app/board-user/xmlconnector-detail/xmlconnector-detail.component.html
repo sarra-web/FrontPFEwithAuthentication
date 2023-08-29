@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<div *ngIf="viewMode; else editable">
+  <div *ngIf="currentConnector.id">
+    <a routerLink="/connectors/{{currentConnector.typeConnector}}/{{currentConnector.id}}">  </a>
+  </div>
+  <div *ngIf="!currentConnector">
+    <br />
+    <p>Please click on a Connector...</p>
+  </div>
+</div>
+<ng-template #editable>
+  <div *ngIf="currentConnector.id" class="edit-form">
+   <div class="row">
+
+    <div class="col-8"><h4>Connector XML:{{currentConnector.name}}</h4></div>
+   <div class="col-4"><button class="btn btn-light" > <a routerLink="/squeduler/{{currentConnector.id}}/squedulers">
+    Operation
+  </a>  </button></div>
+</div>
+
+
+    <div class="register-form">
+    <form
+    name="currentConnector"
+    #f="ngForm"
+    (ngSubmit)="f.form.valid && updateConnector()"
+    novalidate>
+    <label>Project name</label>
+    <mat-form-field>
+      <mat-label>Project</mat-label>
+      <select matNativeControl [(ngModel)]="currentConnector.projectName" name="projectName" #projectName="ngModel"
+      [ngClass]="{ 'is-invalid': f.submitted && projectName.errors}" required>
+        <option value="" selected></option>
+        <option *ngFor="let project of projects">
+          {{project.name}}
+        </option>
+      </select>
+      <div *ngIf="f.submitted && projectName.errors" class="invalid-feedback">
+        <div *ngIf="projectName.errors['required']">Project name is required</div>
+      </div>
+    </mat-form-field>
+
+
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" id="nameId" [(ngModel)]="currentConnector.name" name="name" required  #name="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && name.errors }"/>
+
+        <div *ngIf="f.submitted && name.errors" class="invalid-feedback">
+          <div *ngIf="name.errors['required']">Name is required</div>
+        </div>
+      </div>
+
+      <!--<div class="form-group">
+        <label>Tag name</label>
+        <input type="text" class="form-control" [(ngModel)]="currentConnector.tagName" name="quoting" required />
+      </div>-->
+      <div>
+        <label>File path</label>
+      <mat-toolbar *ngIf="currentFile" class="progress-bar">
+          <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
+          <span >{{ progress }}%</span>
+        </mat-toolbar>
+        <mat-form-field>
+          <div>
+            <mat-toolbar>
+              <input matInput [value]="fileName" [(ngModel)]="currentConnector.path" name="file" />
+
+              <a mat-flat-button color="primary" [disabled]="!currentFile" (click)="upload()">Upload</a>
+
+              <!--<button mat-flat-button color="primary" [disabled]="!currentFile" (click)="upload()"> Upload </button>-->
+            </mat-toolbar>
+          <input type="file" id="fileInput" (change)="selectFile($event)" name="fileInput"  />
+          </div>
+        </mat-form-field>
+      </div>
+      <div class="form-group" *ngIf="message" class="message">
+        {{ message }}
+      </div>
+<!--      <button (click)="onClick(this.currentConnector.separator)" [disabled]="false">Retrieve fields</button>
+-->
+<div class="row"><a mat-flat-button id="ret" (click)="onClick()">Retrieve fields</a>
+</div><br>
+      <div class="container">
+        <div class="box" *ngFor="let field of currentConnector.fields ; let i = index;">
+          <div class="ui form">
+            <div class="ui grid">
+              <div class="sixteen wide right aligned column">
+                <div class="ui checkbox" style="margin-right: 1em;">
+                  <input class="form-check-input" type="checkbox" id="flex_{{i}}"  name="zz_{{i}}" [(ngModel)]="field.included"  />
+                  <label class="form-check-label" for="flexCheckChecked"> Included </label>
+                </div>
+                <!--<button class="boutton"  (click)="changeButton()" [ngStyle]="{ 'background-color': buttonColor }"  >{{ buttonText }}</button>-->
+              </div>
+              <!-- <app-button></app-button>[(ngModel)]="connector.headers[i].field_type"-->
+            </div>
+            <div class="field">
+              <label>Type of column</label>
+              <br style="display: none;">
+              <div class="ui fluid search dropdown selection">
+                <select [(ngModel)]="field.fieldType" name="fieldType{{i}}"
+
+                [disabled]="!field.included">
+                  <option value="Identifier">Identifier</option>
+                  <option value="Title">Title</option>
+                  <option value="Text">Text</option>
+                  <option value="Date">Date</option>
+                  <option value="Meta">Meta</option>
+                  <option value="Language">Language</option>
+                </select>
+                <i class="dropdown icon"></i>
+              </div>
+            </div>
+            <div class="field" *ngIf="field.fieldType=='Meta'">
+              <label>Name of meta</label>
+              <br>
+              <input [disabled]="!field.included" type="text" placeholder="Name of meta" [(ngModel)]="field.meta" name="meta name{{i}}">
+            </div>
+            <div class="field">
+              <label>Name of column</label>
+              <br>
+              <input [disabled]="!field.included" type="text" placeholder="Name of column" [(ngModel)]="field.name" name="name{{i}}">
+            </div>
+
+            <div class="field">
+              <label>Overview</label>
+              <br style="display: none;">
+              <div class="ui fluid search dropdown selection">
+                <select [disabled]="!field.included" id="{{i}}">
+                  <option *ngFor="let cell of field.content" [value]="cell">{{cell}}</option>
+                </select>
+                <i class="dropdown icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br><div class="row"><button id="upd" type="submit" class="btn btn-dark" (click)="updateConnector()"> Update </button>
+      </div><br>
+
+    </form>
+    </div>
+  <div class="row">
+  <div class="col-8">    <button class="btn btn-danger" (click)="deleteConnector()"> Delete </button>
+  </div>
+  <div class="col-4">    <button class="btn btn-info" (click)=" pushActiveConnector()"> Scan </button>
+  </div>
+</div>
+    <!--<button class="btn btn-success" (click)=" clear()"> Clear </button>-->
+
+    <p>{{ message }}</p>
+  </div>
+  <div *ngIf="!currentConnector.id">
+    <br />
+    <p>Cannot access this connector...</p>
+  </div>
+</ng-template>
+</body>
+</html>

@@ -9,34 +9,21 @@ import { ConnectorJDBC } from 'src/app/model/ConnectorJDBC';
 import { ConnectorJDBCService } from 'src/app/_services/connector-jdbc.service';
 import * as alertify from 'alertifyjs'
 import { ProjectServiceService } from 'src/app/_services/project.service';
-import { BehaviorSubject, Observable, catchError, map, of, startWith } from 'rxjs';
-
-import { ApiResponse } from '../../../model/api-response';
-import { Page } from '../../../model/page';
-import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-scheduler-list',
   templateUrl: './scheduler-list.component.html',
   styleUrls: ['./scheduler-list.component.css']
 })
 export class SchedulerListComponent implements OnInit{
-
-schedulersState$: Observable<{ appState: string; appData?: ApiResponse<Page>; error?: HttpErrorResponse; }>;
-  responseSubject = new BehaviorSubject<ApiResponse<Page>>(null);
-  private currentPageSubject = new BehaviorSubject<number>(0);
-  currentPage$ = this.currentPageSubject.asObservable();
-  constructor(private projectService:ProjectServiceService,private service:ConnectorJDBCService,private connectorService: ConnectorServiceService,
+ constructor(private projectService:ProjectServiceService,private service:ConnectorJDBCService,private connectorService: ConnectorServiceService,
     private route: ActivatedRoute,private schedulerService:SchedulerService){
 }
-page = 1;
-  count = 0;
-  pageSize = 3;
-  pageSizes = [3, 6, 9];
 submitted:false
 schedulers?: Scheduler[];
 
 currentIndex = -1;
 id = '';
+jobId='';
 @Input() viewMode = false;
 
 @Input() currentConnector: Connector = {
@@ -53,7 +40,8 @@ scheduler: Scheduler = {
   startsTime:'',
   cronExpression:'',
   endTime:'',
-  published: false
+  jobId:'',
+  status: true
 };
 @Input() currentScheduler: Scheduler = {
   id: '',
@@ -62,29 +50,13 @@ scheduler: Scheduler = {
   startsTime:'',
   cronExpression:'',
   endTime:'',
-  published: false
+  jobId:'',
+  status: true
 };
 
 message: string;
 
   ngOnInit(): void {
-
-
-     // this.message = '';
-     // this.getConnector(this.route.snapshot.params["id"]);
-     // this.retrieveSchedulers2()
-    /*this.schedulersState$ = this.schedulerService.schedulers$(this.route.snapshot.params["id"]).pipe(
-    map((response: ApiResponse<Page>) => {
-    this.responseSubject.next(response);
-    this.currentPageSubject.next(response.data.page.number);
-    console.log(response);
-    return ({ appState: 'APP_LOADED', appData: response });
-  }),
-  startWith({ appState: 'APP_LOADING' }),
-  catchError((error: HttpErrorResponse) =>{
-    return of({ appState: 'APP_ERROR', error })}
-    )
-)*/
     if (!this.viewMode) {
       this.message = '';
       this.getConnector(this.route.snapshot.params["id"]);
@@ -93,68 +65,6 @@ message: string;
 
     }
 //this.retrieveSchedulers();
-}
-
-
-retrieveSchedulers2(): void {
-  const params = this.getRequestParams(this.route.snapshot.params["id"],this.page, this.pageSize);
-  this.schedulerService.getAllByConnectorDAOIdWithPagination(params)
-    .subscribe({
-      next: (data) => {
-        const {schedulers, totalItems } = data;
-        this.schedulers = schedulers;
-        this.count = totalItems;
-        console.log(data);
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
-}
-getRequestParams(id: string, page: number, pageSize: number): any {
-  let params: any = {};
-
-  if (id) {
-    params[`id`] = id;
-  }
-
-  if (page) {
-    params[`page`] = page - 1;
-  }
-
-  if (pageSize) {
-    params[`size`] = pageSize;
-  }
-
-  return params;
-}
-
-gotToPage(pageNumber: number = 0): void {
-
-   this.schedulersState$ = this.schedulerService.schedulers$(this.route.snapshot.params["id"],pageNumber).pipe(
-     map((response: ApiResponse<Page>) => {
-       this.responseSubject.next(response);
-       this.currentPageSubject.next(pageNumber);
-       console.log(response);
-       return ({ appState: 'APP_LOADED', appData: response });
-     }),
-     startWith({ appState: 'APP_LOADED', appData: this.responseSubject.value }),
-     catchError((error: HttpErrorResponse) =>{
-    return of({ appState: 'APP_ERROR', error })}
-       )
-   )
- }
- goToNextOrPreviousPage(direction?: string): void {
-   this.gotToPage( direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1);
- }
-handlePageChange(event: number): void {
-  this.page = event;
-  this.retrieveSchedulers2();
-}
-handlePageSizeChange(event: any): void {
-  this.pageSize = event.target.value;
-  this.page = 1;
-  this.retrieveSchedulers2();
 }
  getConnector(id: string): void {
     this.connectorService.get2(id)
@@ -190,7 +100,7 @@ handlePageSizeChange(event: any): void {
        endTime:data.endTime,
        cronExpression:data.cronExpression,
        connectorDAO:this.currentConnector,
-       published: false
+
      };
       this.planifier(data2);
   }
@@ -205,19 +115,10 @@ handlePageSizeChange(event: any): void {
         },
         error: (e) => console.error(e)
       });
+}
 
-  }
-  savescheduler(): void {
-    const data1 = {
-
-       id:Math.floor(Math.random() * 1001),
-       name: this.scheduler.name,
-       scanMode:this.scheduler.scanMode,
-       startsTime:this.scheduler.startsTime,
-       endTime:this.scheduler.endTime,
-       cronExpression:this.scheduler.cronExpression,
-       published: false
-     };
+savescheduler(): void {
+     let a:string;
      const data2 = {
       timeZone:"Europe/Paris",
       dateTime:this.scheduler.startsTime,
@@ -227,75 +128,133 @@ handlePageSizeChange(event: any): void {
       endTime:this.scheduler.endTime,
       cronExpression:this.scheduler.cronExpression,
       connectorDAO:this.currentConnector,
-      published: false
+      status:true
     };
-     this.schedulerService.create(data1,this.currentConnector.id)
-       .subscribe({
-         next: (res) => {
-           console.log("res",res);
-           alertify.success("your Scheduler was saved successfelly")
-           this.refreshList()
-           this.CloseModel()
-           //this.submitted = true;
-         },
-         error: (e) => {
-          console.log("error in saving scheduler ")
-          console.error(e)
+   // const res=this.planifier(data2);
+    //alert("this"+res)
+    this.planifier(data2).then(job => {
+      a=job;
+      console.log("Job ID:"+ job);
 
-        }
-       });
+      console.log("this.jobId aprés planif",a);
+      const data1 = {
+        id:Math.floor(Math.random() * 6)+1,
+        name: this.scheduler.name,
+        scanMode:this.scheduler.scanMode,
+        startsTime:this.scheduler.startsTime,
+        endTime:this.scheduler.endTime,
+        cronExpression:this.scheduler.cronExpression,
+        jobId:a,
+      };
 
-    this.planifier(data2)
-    window.location.reload();
+       this.schedulerService.create(data1,this.currentConnector.id)
+         .subscribe({
+           next: (res) => {
+             console.log("res",res);
+             alertify.success("your Scheduler was saved successfelly")
+             this.refreshList()
+             this.CloseModel()
+             //this.submitted = true;
+           },
+           error: (e) => {console.error(e)
+          }
+         });
+    }).catch(error => {
+      console.error("Erreur:", error.message);
+    });
+
    }
-   planifier(data:any){
-
-    const a=this.currentConnector.projectName
+planifier(data: any): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+/////verifProject
+const a=this.currentConnector.projectName
     console.log("currentConnector"+a)
     this.projectService.findByName2(a).subscribe({
       next: (res) => {
         console.log("les info de"+a+res.proxemToken)
        if(res.proxemToken!="a0e04a5f-ab7c-4b0e-97be-af263a61ba49"){
-        alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
-
-       }
+        alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details") }
       },
-
       error: (e) => {console.error(e)
       }
     });
-     console.log("planification en cours")
-     const now = new Date();
-     if((data.startsTime<=now)||((data.endTime<=now)&&(data.endTime!=''))){
-      alertify.confirm("date must be after current date")
-     }
+      let job = '';
+      const now = new Date();
+      console.log("now"+now);
 
-     console.log("avant",this.currentConnector.typeConnector)
-     if(this.currentConnector.typeConnector==='connectorCSV')
-     {console.log("aprés",this.currentConnector.typeConnector)
-     console.log("data",data)
-       this.schedulerService.planifierCSV(data)
-     .subscribe({
-       next: (res) => {
-        alertify.success("your connector was Scheduled successfelly")
-        console.log("resJob",res);
-       },
-    error: (e) => console.error("erreur",e)
+      const year = now.getFullYear();
+      const month = ('0' + (now.getMonth() + 1)).slice(-2);
+      const day = ('0' + now.getDate()).slice(-2);
+      const hour = ('0' + now.getHours()).slice(-2);
+      const minute = ('0' + now.getMinutes()).slice(-2);
+      const second = ('0' + now.getSeconds()).slice(-2);
 
-     });}
-     if(this.currentConnector.typeConnector==='connectorJDBC')
-     {this.schedulerService.planifierJDBC(data)
-     .subscribe({
-       next: (res) => {
-         console.log(res);
-        // this.submitted = true;
-       },
-       error: (e) => console.error(e)
-     });}
+      // Format the transformed date string
+      const trans = `${year}-${month}-${day}T${hour}:${minute}:${second}`;
 
+      if ((data.startsTime > data.endTime && (data.endTime !=''))) {
+        alert("The end time must be later than the start time")
+      }
+      if ((data.startsTime <= trans) || ((data.endTime <= trans) && (data.endTime !=''))) {
+        alert("Date must be after current date")
+        reject(new Error("Date must be after current date"));
+        return;
+      }
 
-     this.refreshList();
-   }
+      if (this.currentConnector.typeConnector === 'connectorCSV') {
+        this.schedulerService.planifierCSV(data).subscribe({
+          next: (res) => {
+            job = res.jobId;
+            resolve(job);
+            alertify.success("your Scheduler was scheduled successfelly")
+          },
+          error: (e) => {
+            reject(e);
+            alertify.confirm("This connector doesn't scheduled successefully")
+          }
+        });
+      } else if (this.currentConnector.typeConnector === 'connectorJDBC') {
+        this.schedulerService.planifierJDBC(data).subscribe({
+          next: (res) => {
+            job = res.jobId;
+            resolve(job);
+            alertify.success("your Scheduler was scheduled successfelly")
+          },
+          error: (e) => {
+            reject(e);
+            alertify.confirm("This connector doesn't scheduled successefully")
+          }
+        });
+      }
+      else if (this.currentConnector.typeConnector === 'connectorXML') {
+        this.schedulerService.planifierXML(data).subscribe({
+          next: (res) => {
+            job = res.jobId;
+            resolve(job);
+            alertify.success("your Scheduler was scheduled successfelly")
+          },
+          error: (e) => {
+            reject(e);
+            alertify.confirm("This connector doesn't scheduled successefully")
+          }
+        });
+      }
+      else if (this.currentConnector.typeConnector === 'connectorNoSQL') {
+        this.schedulerService.planifierNoSQL(data).subscribe({
+          next: (res) => {
+            job = res.jobId;
+            resolve(job);
+            alertify.success("your Scheduler was scheduled successfelly")
+          },
+          error: (e) => {
+            reject(e);
+            alertify.confirm("This connector doesn't scheduled successefully")
+          }
+        });
+      }
+    });
+  }
+
 
   retrieveSchedulers(i:string): void {
 
@@ -336,10 +295,28 @@ handlePageSizeChange(event: any): void {
    scheduler=  this.currentScheduler;
     this.currentIndex = index;
   }
+  stopScheduler(job:any):void{
+    alertify.confirm("Remove Scheduler","do you want strop this scheduler?",()=>{
+      this.schedulerService.stopScheduler(job)
+      .subscribe({
+        next: (res) => {
+          console.log("stop result",res);
+          alertify.success ('Scheduler stopped successfully! ');
+        },
+        error: (e) => console.error(e)
+      });},function(){})
+  }
+  deletethisScheduler(id:any,jobId:any): void {
+   alertify.confirm("Remove Scheduler","do you want remove this scheduler?",()=>{
+        console.log("job: "+jobId);
+        this.stopScheduler(jobId);
+        this.delete(id);
+ },function(){})
 
-  deletethisScheduler(id:any): void {
 
-      alertify.confirm("Remove Scheduler","do you want remove this scheduler?",()=>{this.schedulerService.delete(id)
+}
+delete(id: any) {
+    this.schedulerService.delete(id)
         .subscribe({
           next: (res) => {
             console.log(res);
@@ -347,11 +324,36 @@ handlePageSizeChange(event: any): void {
             this.refreshList();
           },
           error: (e) => console.error(e)
-        });},function(){})
+        });
+  }
+
+/**
+ * stopScheduler(job:any):Promise<string> {
+    return new Promise<string>((resolve, reject) => {{
+    alertify.confirm("Remove Scheduler","do you want strop this scheduler?",()=>{
+      this.schedulerService.stopScheduler(job)
+      .subscribe({
+        next: (res) => {
+          console.log("stop result",res);
+          alertify.success ('Scheduler stopped successfully! ');
+        },
+        error: (e) => console.error(e)
+      });},function(){})
+  }})}
+  deletethisScheduler(id:any,jobId:any): void {
+   alertify.confirm("Remove Scheduler","do you want remove this scheduler?",()=>{
+        console.log("job: "+jobId);
+        this.stopScheduler(jobId).then(a=>{
+          this.delete(id);
+        }
+
+        )
+
+ },function(){})
 
 
 }
-
+ */
 removeAllSchedulers(): void {
       alertify.confirm("Remove schedulers","do you want remove all these schedulers?",()=>{this.schedulerService.deleteAll(this.currentConnector.id)
         .subscribe({
@@ -362,25 +364,6 @@ removeAllSchedulers(): void {
           error: (e) => console.error(e)
         });},function(){})
     }
-
- /* searchName(): void {
-    this.currentScheduler = {};
-    this.currentIndex = -1;
-
-    this.schedulerService.findBy
-      .subscribe({
-        next: (data) => {
-          this.tutorials = data;
-          console.log(data);
-        },
-        error: (e) => console.error(e)
-      });
-  }*/
-
-
-
-
-
 
 
 }

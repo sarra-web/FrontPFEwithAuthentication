@@ -1,0 +1,73 @@
+.progress-bar {
+  padding: 0;
+}
+#ret{
+  background-color: #aaa;
+}
+#upd{
+  background-color: #18212e;
+}
+.progress {
+  width: 50px;
+}
+
+#fileInput {
+  position: absolute;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+}
+
+.mat-toolbar-single-row {
+  height: auto !important;
+  background: transparent;
+  padding: 0;
+}
+
+.mat-toolbar-single-row button {
+  width: 100px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  display: block;
+}
+
+.message {
+  background-color: #ddd;
+  padding: 15px;
+  color: #333;
+  border: #aaa solid 1px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+.column-box {
+  display: inline-block;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+}
+.container {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.box {
+
+  border: 1px solid #000000; /* Set the border style */
+  padding: 10px;
+  margin-right: 10px;
+  /* Ajoutez d'autres styles selon vos besoins */
+}
+.boutton {
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}

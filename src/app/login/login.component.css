@@ -4,7 +4,12 @@ body, html {
   padding: 0;
   font-family: Arial, sans-serif;
 }
-
+.container-login100{
+  background:#F1F5F9;
+}
+.login100-form-btn {
+  background:#18212e ;
+}
 /* Center the login form vertically and horizontally */
 body {
 
@@ -96,6 +101,52 @@ body {
     transform: rotate(360deg);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -37,14 +37,15 @@
 
       </select> <br>
 
-       <label for=""> Starts time </label>
-       <input type="text"  [(ngModel)]="scheduler.startsTime"><br>
+       <label for=""> Start time </label>
+       <input type="text"  [(ngModel)]="scheduler.startsTime" placeholder="YYYY-MM-DDTHH:MM:SS"><br>
 
 
 
        <div class="field" *ngIf="scheduler.scanMode=='Cron'">
         <label for=""> End time </label>
-        <input type="text"  [(ngModel)]="scheduler.endTime"><br>
+        <input type="text"  [(ngModel)]="scheduler.endTime" placeholder="YYYY-MM-DDTHH:MM:SS
+        "><br>
         <label>Cron expression</label>
         <br>
         <input type="text" placeholder="cronExpression" [(ngModel)]="scheduler.cronExpression" name="cron">
@@ -67,12 +68,6 @@
   </div>
 
   </div>
-
-
-
-
-
-
 
   <div class="row">
     <p class="col-12 col-md-8">OUR SCHEDULERS</p>
@@ -223,12 +218,6 @@
 
 
 
-
-</body>
-</html>
-
-
-
 <!--Start Pricing Table Area-->
 <section class="pricing-table-area">
 
@@ -265,28 +254,37 @@
                           [(ngModel)]="Scheduler.name"
                           name="description"
                         />
-                        <label for=""> Scan mode </label>
-                        <select  [(ngModel)]="Scheduler.scanMode" class="form-select" aria-label="Default select example">
+                        <label for="mode"> Scan mode </label>
+                        <select id="mode" name="mode" [(ngModel)]="Scheduler.scanMode" class="form-select">
                          <option selected>Open this select menu</option>
                          <option value="Once">Once</option>
                          <option value="Cron">Cron</option>
 
                        </select> <br>
 
-                        <label for=""> Starts time </label>
-                        <input type="text"  [(ngModel)]="Scheduler.startsTime"><br>
+                        <label for="start"> Start time </label>
+                        <input id="start" name="start" type="text"  [(ngModel)]="Scheduler.startsTime" placeholder="YYYY-MM-DDTHH:MM:SS"><br>
 
 
                         <div class="field" *ngIf="Scheduler.scanMode=='Cron'">
-                          <label for=""> End time </label>
-                        <input type="text"  [(ngModel)]="Scheduler.endTime"><br>
-                         <label>Cron expression</label>
+                          <label for="end"> End time </label>
+                        <input type="text" id="end" name="end" [(ngModel)]="Scheduler.endTime" placeholder="YYYY-MM-DDTHH:MM:SS"><br>
+                         <label for="cron">Cron expression</label>
                          <br>
-                         <input type="text" placeholder="cronExpression" [(ngModel)]="Scheduler.cronExpression" name="cron">
+                         <input id="cron" name="cron" type="text" placeholder="cronExpression" [(ngModel)]="Scheduler.cronExpression" name="cron">
                        </div><br>
                       <div class="btn-box">
                           <a class="btn-four" routerLink="/sched/{{Scheduler.id}}"><span class="txt">Edit</span></a>
+
                       </div>
+                      <div>
+                      <mat-slide-toggle [(ngModel)]="Scheduler.status">Toggle Switch</mat-slide-toggle>
+
+                      <p>Status: {{ Scheduler.status ? 'ON' : 'OFF' }}</p>
+                    </div>
+                      <a class="material-icons"  (click)=" deletethisScheduler(Scheduler.id,Scheduler.jobId)">Delete</a>
+                      <a class="material-icons"  (click)=" stopScheduler(Scheduler.jobId)">Stop</a>
+
                   </div>
               </div>
           </div>
@@ -295,4 +293,15 @@
       </div>
   </div>
 </section>
+<div class="row">
+  <button class="m-3 btn btn-sm btn-danger" (click)="removeAllSchedulers()">
+    Remove All
+  </button>
+</div>
 <!--End Pricing Table Area-->
+
+
+
+</body>
+</html>
+

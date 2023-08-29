@@ -1,3 +1,11 @@
+a.ng-star-inserted{
+  font-size: 200%;
+  font: 20px;
+}
+
+.ref{
+  font-size: 20px;
+}
 #a{
   font-size: 25px;
   text-align: center;

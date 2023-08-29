@@ -61,6 +61,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileDetailsComponent } from './profile/profile-details/profile-details.component';
 import { ActionComponent } from './board-user/action/action.component';
 import { ActionJDBCComponent } from './board-user/action-jdbc/action-jdbc.component';
+import { AddXMLconnectorComponent } from './board-user/add-xmlconnector/add-xmlconnector.component';
+import { XMLconnectorDetailComponent } from './board-user/xmlconnector-detail/xmlconnector-detail.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { NoSQLconnectorComponent } from './board-user/no-sqlconnector/no-sqlconnector.component';
+import { AddNoSQLconnectorComponent } from './board-user/add-no-sqlconnector/add-no-sqlconnector.component';
 
 const materialModules = [
   MatCardModule,
@@ -106,7 +111,11 @@ const materialModules = [
      DashboardComponent,
      ProfileDetailsComponent,
      ActionComponent,
-     ActionJDBCComponent
+     ActionJDBCComponent,
+     AddXMLconnectorComponent,
+     XMLconnectorDetailComponent,
+     NoSQLconnectorComponent,
+     AddNoSQLconnectorComponent
 
   ],
   imports: [
@@ -135,6 +144,7 @@ const materialModules = [
     MatFormFieldModule,MatIconModule
     //,NgModule
     //,CommonModule
+    ,MatSlideToggleModule
 
   ],
   schemas: [NO_ERRORS_SCHEMA],

@@ -1,0 +1,145 @@
+<div class="register-form">
+  <form
+    name="connector"
+    #f="ngForm"
+    (ngSubmit)="f.form.valid && onSubmit()"
+    novalidate>
+  <label>Project name</label>
+  <mat-form-field>
+    <mat-label>Project</mat-label>
+    <select matNativeControl [(ngModel)]="connector.projectName" name="projectName" #projectName="ngModel"
+    [ngClass]="{ 'is-invalid': f.submitted && projectName.errors}" required>
+      <option value="" selected></option>
+      <option *ngFor="let project of projects">
+        {{project.name}}
+      </option>
+    </select>
+    <div *ngIf="f.submitted && projectName.errors" class="invalid-feedback">
+      <div *ngIf="projectName.errors['required']">Project name is required</div>
+    </div>
+  </mat-form-field>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" id="aa" [(ngModel)]="connector.name" name="name" required
+        #name="ngModel"
+        [ngClass]="{ 'is-invalid': f.submitted && name.errors }"/>
+
+        <div *ngIf="f.submitted && name.errors" class="invalid-feedback">
+          <div *ngIf="name.errors['required']">Name is required</div>
+        </div>
+      </div>
+
+      <!--test connection-->
+
+        <div class="form-group">
+          <label>Connection string</label>
+          <input type="text" id="bb" class="form-control" [(ngModel)]="connector.connectionString" name="jdbcUrl" required
+          #jdbcUrl="ngModel"   [ngClass]="{ 'is-invalid': f.submitted && jdbcUrl.errors }"/>
+
+          <div *ngIf="f.submitted && jdbcUrl.errors" class="invalid-feedback">
+            <div *ngIf="jdbcUrl.errors['required']">connectionString is required</div>
+          </div>
+        </div>
+        <button id="test" name="res" type="button" (click)="testConnection()" class="btn btn-warning float-right">
+          Test connection</button>
+          <div class="form-group" *ngIf="msg" class="messag"  [style.color]=color>
+            {{msg }}
+          </div>
+        <!--test connection-->
+        <div class="form-group">
+          <label>Data base name</label>
+          <input type="text" id="cc" class="form-control" [(ngModel)]="connector.dbName" name="username" required
+          #username="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.errors }"/>
+
+          <div *ngIf="f.submitted && username.errors" class="invalid-feedback">
+            <div *ngIf="username.errors['required']">Data base name is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Collection name</label>
+          <input id="myInput" type="text" class="form-control" [(ngModel)]="connector.collectionName" name="password" required  name="password" required
+          #password="ngModel" [ngClass]="{ 'is-invalid': f.submitted && password.errors }"/>
+
+          <div *ngIf="f.submitted && password.errors" class="invalid-feedback">
+            <div *ngIf="password.errors['required']">Collection name is required</div>
+          </div>
+
+        </div>
+
+    <div class="row">  <a class="btn btn-secondary" (click)="onClick()">Retrieve fields</a>
+    </div><br>
+      <div class="form-group" *ngIf="messageQuery" class="message">
+        {{ messageQuery }}
+      </div>
+      <div class="container">
+        <div id="box" class="box" *ngFor="let field of result ; let i = index;">
+          <div class="ui form">
+            <div class="ui grid">
+              <div class="sixteen wide right aligned column">
+                <div class="ui checkbox" style="margin-right: 1em;">
+                  <input class="form-check-input" type="checkbox" id="flex_{{i}}"  [(ngModel)]="field.included"  name="zz_{{i}}"/>
+                  <label class="form-check-label" for="flexCheckChecked"> Included </label>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Type of column</label>
+              <br style="display: none;">
+              <div class="ui fluid search dropdown selection">
+                <select id="select_{{i}}" [(ngModel)]="field.fieldType" name="fieldType{{i}}"
+                [disabled]="!field.included" >
+                  <option value="Identifier">Identifier</option>
+                  <option value="Title">Title</option>
+                  <option value="Text">Text</option>
+                  <option value="Date">Date</option>
+                  <option value="Meta">Meta</option>
+                  <option value="Language">Language</option>
+                </select>
+                <i class="dropdown icon"></i>
+              </div>
+            </div>
+            <div class="field" *ngIf="field.fieldType=='Meta'">
+              <label>Name of meta</label>
+              <br>
+              <input type="text" placeholder="Nom du meta" [(ngModel)]="field.meta" [disabled]="!field.included" name="meta name{{i}}">
+            </div>
+            <div class="field">
+              <label>Name of column</label>
+              <br>
+              <input type="text" [disabled]="!field.included"
+              placeholder="Nom de la colonne" [(ngModel)]="field.name" name="name{{i}}">
+            </div>
+            <div class="field">
+              <label>Overview:</label>
+              <br style="display: none;">
+              <div class="ui fluid search dropdown selection">
+                <select id="{{i}}" [disabled]="!field.included">
+                  <option *ngFor="let cell of field.content" [value]="cell">{{cell}}</option>
+                </select>
+                <i class="dropdown icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+   <div class="col-8"><button id="sav" type="submit" name="reg"  (click)="onSubmit()" class="btn btn-info" ><!-- [disabled]="disabled"-->
+    Save</button></div>
+
+        <div class="col-4"> <button id="tes" name="res" type="button" (click)="onReset(f)" class="btn btn-warning float-right">
+          Reset </button></div>
+      </div><br>
+      <div class="row"> <button name="Can" type="button" (click)="changementDePage()" class="btn btn-danger">Cancel</button></div>
+
+  </form>
+  </div>
+
+
+
+
+
+
+
+
+

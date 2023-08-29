@@ -21,7 +21,6 @@ export class ConnectorDetailsComponent {
 
 
   @Input() viewMode = false;
-
   @Input() currentConnector: ConnectorCSV = {
   id:'',
   name:'',

@@ -1,40 +1,23 @@
 <div *ngIf="viewMode; else editable">
   <div *ngIf="currentScheduler.id">
     <h4>currentScheduler</h4>
-
-
+    <a routerLink="/sched/{{currentScheduler.id}}">  </a>
   </div>
-
   <div *ngIf="!currentScheduler">
     <br />
     <p>Please click on a currentScheduler...</p>
   </div>
 </div>
-
 <ng-template #editable>
   <div *ngIf="currentScheduler.id" class="edit-form">
-
-
-
-    <p>{{ message }}</p>
-  </div>
-
-  <div *ngIf="!currentScheduler.id">
-    <br />
-    <p>Cannot access this currentScheduler...</p>
-  </div>
-</ng-template>
-
-
 <mat-card>
   <mat-tab-group mat-stretch-tabs="false">
-
       <!-- Tab 2 -->
       <mat-tab label="Profile">
           <mat-card-content>
               <mat-card-title>Updating Scheduler</mat-card-title>
               <!-- ============================================================== -->
-              <!-- column -->
+              <!--column -->
               <!-- ============================================================== -->
               <form class="basic-form">
                   <div class="row">
@@ -55,7 +38,7 @@
                         <label for=""> Scheduling mode </label>
 
 
-        <select  [(ngModel)]="currentScheduler.scanMode" class="form-select" name="modeSched">
+        <select id="m"  [(ngModel)]="currentScheduler.scanMode" class="form-control" name="modeSched">
 
           <option value="Once">Once</option>
           <option value="Cron">Cron</option>
@@ -64,16 +47,16 @@
                     </div>
                       <!-- column -->
                       <div class="col-12">
-                        <label for=""> Starts time </label>
+                        <label for=""> Start time </label>
 
-                        <input type="text"  [(ngModel)]="currentScheduler.startsTime" name="s"><br>
+                        <input id="st" type="text"  [(ngModel)]="currentScheduler.startsTime" name="s" placeholder="YYYY-MM-DDTHH:MM:SS"><br>
 
                       </div>
                       <!-- column -->
                       <div class="field" *ngIf="currentScheduler.scanMode=='Cron'">
                       <div class="col-12">
 
-        <input type="text"  [(ngModel)]="currentScheduler.endTime" name="endT"><br>
+        <input id="ent" type="text"  [(ngModel)]="currentScheduler.endTime" name="endT" placeholder="YYYY-MM-DDTHH:MM:SS"><br>
 
                       </div>
 
@@ -83,7 +66,7 @@
                       <!-- column -->
                       <div class="col-12">
 
-         <input type="text" placeholder="cronExpression" [(ngModel)]="currentScheduler.cronExpression" name="cro">
+         <input id="cr" type="text" placeholder="cronExpression" [(ngModel)]="currentScheduler.cronExpression" name="cro">
 
                       </div>
                     </div>
@@ -99,3 +82,12 @@
       </mat-tab>
   </mat-tab-group>
 </mat-card>
+
+<p>{{ message }}</p>
+</div>
+
+<div *ngIf="!currentScheduler.id">
+  <br />
+  <p>Cannot access this currentScheduler...</p>
+</div>
+</ng-template>

@@ -18,6 +18,8 @@ import {filter,  switchMap, tap,takeUntil, debounceTime
 import { Project } from 'src/app/model/Project';
 import { ProjectServiceService } from 'src/app/_services/project.service';
 import { StorageService } from 'src/app/_services/storage.service';
+import { XmlConnectorService } from 'src/app/_services/xml-connector.service';
+import { ConnectorNoSQLService } from 'src/app/_services/connector-no-sql.service';
 @Component({
   selector: 'app-connectors',
   templateUrl: './connectors.component.html',
@@ -55,8 +57,10 @@ export class ConnectorsComponent implements OnInit{
   constructor(private projectService:ProjectServiceService,private router: Router,private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private location: Location,
-    private connectorService:ConnectorServiceService,
-    private connectorJDBCService:ConnectorJDBCService ,private storageService:StorageService,) { }
+    private connectorService:ConnectorServiceService,private connectorXMLService:XmlConnectorService,
+    private connectorJDBCService:ConnectorJDBCService,
+    private connectorNoSQLService:ConnectorNoSQLService
+    ,private storageService:StorageService,) { }
 
   ngOnInit(): void {
     this.currentUser=this.storageService.getUser()
@@ -166,7 +170,6 @@ export class ConnectorsComponent implements OnInit{
         }
       });
   }
-  clearFromProxem(){}
   fCSV( id:any):void{
      this.router.navigate(['/connectors/csv/'+id]);
   }
@@ -177,9 +180,13 @@ export class ConnectorsComponent implements OnInit{
   scan(): void {
     const a=this.currentConnector.projectName
     console.log("currentConnector"+a)
+    if(this.currentUser.email!="mehdi.khayati@keyrus.com"){
+      alertify.confirm("You are not autorized to push document in proxem")
+    }
     this.projectService.findByName2(a).subscribe({
       next: (res) => {
-        console.log("les info de"+a+res.proxemToken)
+        console.log("les info de "+a+" sont "+res.proxemToken)
+
        if(res.proxemToken!="a0e04a5f-ab7c-4b0e-97be-af263a61ba49"){
         alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
 
@@ -242,6 +249,63 @@ export class ConnectorsComponent implements OnInit{
 
         }
       });}
+      if(this.currentConnector.typeConnector==="connectorXML"){
+        console.log(this.currentConnector)
+
+        this.connectorXMLService.updateProx(this.currentConnector).subscribe({
+          next: (res) => {
+            console.log("res",res);
+            const now = new Date();
+            let j=0;
+            for (let i = 0; i < res.length; i = i + 1){
+              if(res[i].UpsertSuccessful===true){
+                    j=j+1;
+              }}
+            if(res[0].UpsertSuccessful===true){
+              alertify.success (j+' documents are pushed to proxem successfully! \n start time: '+now);
+            }
+            if(!res[0].Errors ===false){
+              alertify.success ('You data was pushed to proxem successfully! but not accepted');
+            }
+            if(res.lenght===0){
+              alertify.success ('You data does not pushed to proxem successfully!');
+            }
+
+          },
+          error: (e) => {console.error(e)
+          //  alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
+
+          }
+        });}
+        if(this.currentConnector.typeConnector==="connectorNoSQL"){
+          console.log(this.currentConnector)
+
+          this.connectorNoSQLService.updateProx(this.currentConnector).subscribe({
+            next: (res) => {
+              console.log("res",res);
+              const now = new Date();
+              let j=0;
+              for (let i = 0; i < res.length; i = i + 1){
+                if(res[i].UpsertSuccessful===true){
+                      j=j+1;
+                }}
+              if(res[0].UpsertSuccessful===true){
+                alertify.success (j+' documents are pushed to proxem successfully! \n start time: '+now);
+              }
+              if(!res[0].Errors ===false){
+                alertify.success ('You data was pushed to proxem successfully! but not accepted');
+              }
+              if(res.lenght===0){
+                alertify.success ('You data does not pushed to proxem successfully!');
+              }
+
+            },
+            error: (e) => {console.error(e)
+            //  alertify.confirm("Based on the information provided, it is likely that the project you are referring to does not yet exist in Proxem. To confirm or select an existing project, please verify the details")
+
+            }
+          });}
+
 
 
   }
@@ -367,6 +431,32 @@ removeAllConnectors(): void {
     }
     if(this.currentConnector.typeConnector==="connectorJDBC"){
       alertify.confirm("Remove Connector","do you want remove this connector?",()=>{this.connectorJDBCService.delete(id)
+        .subscribe({
+          next: (res) => {
+            console.log(res);
+            alertify.success ('connector removed successfully! ');
+            this.refreshList();
+            this.router.navigate(['/connectors']);
+          },
+          error: (e) => console.error(e)
+        });},function(){})
+    }
+    if(this.currentConnector.typeConnector==="connectorXML"){
+      alertify.confirm("Remove Connector","do you want remove this connector?",()=>{
+        this.connectorXMLService.delete(id)
+        .subscribe({
+          next: (res) => {
+            console.log(res);
+            alertify.success ('connector removed successfully! ');
+            this.refreshList();
+            this.router.navigate(['/connectors']);
+          },
+          error: (e) => console.error(e)
+        });},function(){})
+    }
+    if(this.currentConnector.typeConnector==="connectorNoSQL"){
+      alertify.confirm("Remove Connector","do you want remove this connector?",()=>{
+        this.connectorNoSQLService.delete(id)
         .subscribe({
           next: (res) => {
             console.log(res);
@@ -521,12 +611,22 @@ removeAllConnectors(): void {
    else if (this.selectedValue==='XML')
     {pass:true
       this.CloseModel()
-      this.router.navigateByUrl('/addxml');}
+      this.router.navigateByUrl('/addXML');}
 
 
 
    else if (this.selectedValue==='JDBC')
     {this.router.navigateByUrl('/addjdbc');
+    pass:true
+    this.CloseModel()
+   }
+   else if (this.selectedValue==='XML')
+    {this.router.navigateByUrl('/addXML');
+    pass:true
+    this.CloseModel()
+   }
+   else if (this.selectedValue==='NoSQL')
+    {this.router.navigateByUrl('/addNoSQL');
     pass:true
     this.CloseModel()
    }

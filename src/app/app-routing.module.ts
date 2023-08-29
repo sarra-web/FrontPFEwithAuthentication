@@ -29,6 +29,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileDetailsComponent } from './profile/profile-details/profile-details.component';
 import { ActionComponent } from './board-user/action/action.component';
 import { ActionJDBCComponent } from './board-user/action-jdbc/action-jdbc.component';
+import { AddXMLconnectorComponent } from './board-user/add-xmlconnector/add-xmlconnector.component';
+import { XMLconnectorDetailComponent } from './board-user/xmlconnector-detail/xmlconnector-detail.component';
+import { AddNoSQLconnectorComponent } from './board-user/add-no-sqlconnector/add-no-sqlconnector.component';
+import { NoSQLconnectorComponent } from './board-user/no-sqlconnector/no-sqlconnector.component';
 
 
 const routes: Routes = [
@@ -55,6 +59,12 @@ const routes: Routes = [
   { path: 'user/connectors', component: ConnectorsComponent },
   { path: 'upload', component: FileUploadComponent },
   { path: 'addjdbc', component: AddJDBCconnectorComponent },
+  { path: 'addXML', component: AddXMLconnectorComponent },
+  { path: 'addNoSQL', component: AddNoSQLconnectorComponent },
+
+  { path: 'connectors/connectorXML/:id', component: XMLconnectorDetailComponent },
+  { path: 'connectors/connectorNoSQL/:id', component: NoSQLconnectorComponent },
+
   { path: 'connectors/connectorCSV/:id', component: ConnectorDetailsComponent },
   { path: 'connectors/connectorJDBC/:id', component: JDBCconnectorComponent },
   { path: 'connectorsAction/connectorCSV/:id', component: ActionComponent },

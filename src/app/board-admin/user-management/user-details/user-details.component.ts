@@ -17,7 +17,8 @@ export class UserDetailsComponent {
     username:'',
     email:'',
     password:'',
-    roles:[]
+    roles:[],
+    userToken:''
   };
   roledata: any;
 
@@ -67,6 +68,7 @@ saveUser(): void {
   username: this.currentUser.username,
   password: this.currentUser.password,
   email:this.currentUser.email,
+  userToken:this.currentUser.userToken,
   roles:s
 };
 console.log(data)

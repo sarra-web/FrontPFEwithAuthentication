@@ -7,7 +7,8 @@ export class Scheduler {
   startsTime?:string
   cronExpression?:string
   endTime?:string
-  published?: boolean;
+  status?: boolean;
+  jobId?:string;
 
 
  }

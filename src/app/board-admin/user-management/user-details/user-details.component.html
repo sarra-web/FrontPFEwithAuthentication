@@ -5,6 +5,9 @@
       <label><strong>Username:</strong></label> {{currentUser.username  }}
     </div>
     <div>
+      <label><strong>Token:</strong></label> {{currentUser.userToken  }}
+    </div>
+    <div>
       <label><strong>Role</strong></label>
       {{currentUser.roles[0]}}
     </div>
@@ -38,6 +41,17 @@
           [(ngModel)]="currentUser.email"
           name="aa"/>
       </div>
+
+      <div class="form-group">
+        <label for="token">Token</label>
+        <input
+          type="text"
+          class="form-control"
+          id="at"
+          [(ngModel)]="currentUser.userToken"
+          name="token"/>
+      </div>
+
       <div class="form-group">
         <label for="title">Password</label>
         <input
@@ -72,7 +86,7 @@
 
     <button
       type="submit"
-     
+
       (click)="update()"
     >
       Update

@@ -11,8 +11,10 @@
   <div class="type"><label>Type of connector</label>
     <div class="ui fluid search dropdown selection">
       <select [(ngModel)]="selectedValue">
-        <option value="JDBC">JDBC</option>
+        <option value="JDBC">SQL Database(JDBC)</option>
         <option value="CSV">CSV</option>
+        <option value="XML">XML</option>
+        <option value="NoSQL">NoSQL Database(mongoDB)</option>
         <!--
           <option value="XML">XML</option>
         -->
@@ -38,9 +40,9 @@
   </div>
   </div>
 <div class="row">
-  <h2  class="col-sm-6" >Our connectors</h2><br>
+  <h2  class="col-sm-10" >Our connectors</h2><br>
 
-  <div  class="col-sm-6"><button class="btn btn-outline-secondary" (click)="openModel()">Add
+  <div  class="col-sm-"><button class="btn btn-outline-secondary" (click)="openModel()">Add
     <!--<i class="fa fa-plus-circle"></i>-->
   </button></div>
 </div> <br>

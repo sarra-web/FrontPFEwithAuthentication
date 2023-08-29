@@ -7,16 +7,22 @@ import { Page } from '../../model/page';
 
 const baseUrl = 'http://localhost:8080/squeduler';
 const baseUrl2 = 'http://localhost:8080';
-
+const AUTH_API="http://localhost:8080/ScheduleScanJDBC/delete";
 @Injectable({
   providedIn: 'root'
 })
 export class SchedulerService {
-  planifierCSV(data:any) {
+  planifierCSV(data:any):Observable<any>  {
     return this.http.post(`${baseUrl2}/ScheduleScanCSV`, data);
   }
-  planifierJDBC(data:any) {
+  planifierJDBC(data:any):Observable<any>  {
     return this.http.post(`${baseUrl2}/ScheduleScanJDBC`, data);
+  }
+  planifierXML(data:any):Observable<any>  {
+    return this.http.post(`${baseUrl2}/ScheduleScanXML`, data);
+  }
+  planifierNoSQL(data:any):Observable<any>  {
+    return this.http.post(`${baseUrl2}/ScheduleScanNoSQL`, data);
   }
 
   constructor(private http: HttpClient) { }
@@ -32,7 +38,15 @@ export class SchedulerService {
   getById(id: any): Observable<Scheduler> {
     return this.http.get<Scheduler>(`${baseUrl}/SquedulerDAOs/${id}`);
   }
-
+  stopScheduler(jobId:any):Observable<any>{
+    return this.http.post(
+      AUTH_API ,
+      {
+        jobId,
+        jobGroup:"scan-jobs"
+      }
+    )
+  }
   create(data: any,idConnector:any): Observable<any> {
     return this.http.post(`${baseUrl}/ConnectorDAOs/${idConnector}/SquedulerDAOs`, data);
   }

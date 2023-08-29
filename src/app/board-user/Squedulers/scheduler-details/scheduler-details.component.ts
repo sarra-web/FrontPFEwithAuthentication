@@ -14,34 +14,34 @@ import { ProjectServiceService } from 'src/app/_services/project.service';
   styleUrls: ['./scheduler-details.component.css']
 })
 export class SchedulerDetailsComponent {
-  constructor(private projectService:ProjectServiceService,
-    private service: SchedulerService,
-    private route: ActivatedRoute,private connectorService: ConnectorServiceService,
-    private router: Router) { }
   @Input() viewMode = false;
-
-  @Input() currentConnector: Connector = {
+  @Input() currentScheduler: Scheduler = {
+   id:'',
+   name:'',
+   scanMode:'',
+   startsTime:'',
+   cronExpression:'',
+   endTime:''
+   };
+  /*@Input()*/ currentConnector: Connector = {
     id:'',
     name:'',
     fields: [],
     published: false
     };
-  @Input() currentScheduler: Scheduler = {
 
-  name:'',
-  scanMode:'',
-  startsTime:'',
-  cronExpression:'',
-  endTime:''
-  };
   roledata: any;
 
   message = '';
-  ngOnInit(){
+  constructor(private projectService:ProjectServiceService,
+    private service: SchedulerService,
+    private route: ActivatedRoute,private connectorService: ConnectorServiceService,
+    private router: Router) { }
+  ngOnInit():void{
 
     if (!this.viewMode) {
-      this.getConnector(this.route.snapshot.params["id"]);
       this.getScheduler(this.route.snapshot.params["id"]);
+      console.log("scheddd",this.getScheduler(this.route.snapshot.params["id"]));
 
     }
   }
@@ -143,6 +143,19 @@ export class SchedulerDetailsComponent {
     .subscribe({
       next: (res) => {
         console.log(res);
+        alertify.success("your connector was Scheduled successfelly")
+
+       // this.submitted = true;
+      },
+      error: (e) => console.error(e)
+    });}
+    if(this.currentConnector.typeConnector==='connectorXML')
+    {this.service.planifierXML(data)
+    .subscribe({
+      next: (res) => {
+        console.log(res);
+        alertify.success("your connector was Scheduled successfelly")
+
        // this.submitted = true;
       },
       error: (e) => console.error(e)

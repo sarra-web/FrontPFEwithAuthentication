@@ -13,7 +13,7 @@ import * as alertify from 'alertifyjs'
   styleUrls: ['./add-scheduler.component.css']
 })
 export class AddSchedulerComponent implements OnInit{
-
+jobId='';
   @Input() viewMode = false;
   @Input() currentConnector: Connector = {
   id:'',
@@ -29,7 +29,8 @@ export class AddSchedulerComponent implements OnInit{
     scanMode:'',
     startsTime:'',
     cronExpression:'',
-    published: false
+    jobId:'',
+    status: true
   };
   submitted = false;
   message: string;
@@ -37,6 +38,7 @@ export class AddSchedulerComponent implements OnInit{
   constructor(private connectorService: ConnectorServiceService,private serviceJDBC:ConnectorJDBCService,
     private route: ActivatedRoute,private projectService:ProjectServiceService,private schedulerService: SchedulerService) { }
   ngOnInit(): void {
+      console.log("jooooob"+this.jobId)
     if (!this.viewMode) {
       this.message = '';
       this.getConnector(this.route.snapshot.params["id"]);
@@ -70,9 +72,8 @@ export class AddSchedulerComponent implements OnInit{
   }
 
   savescheduler(): void {
-
-   const data = {
-      id:Math.floor(Math.random() * 6),
+    const jobId='';
+const data2 = {
       timeZone:"Europe/Paris",
       dateTime:this.scheduler.startsTime,
       name: this.scheduler.name,
@@ -82,6 +83,54 @@ export class AddSchedulerComponent implements OnInit{
       connectorDAO:this.currentConnector,
       published: false
     };
+   // this.planifier(data2);
+
+///////////////////////////////////////////////////////
+   if(this.currentConnector.typeConnector==='connectorCSV')
+   {console.log("aprés",this.currentConnector.typeConnector)
+     this.schedulerService.planifierCSV(data2)
+   .subscribe({
+     next: (res) => {
+       this.jobId=res[1];
+       this.submitted = true;
+       console.log("resss",res)
+       alertify.confirm("This connector was scheduled successefully")
+     },
+     error: (e) =>{console.error(e)
+       alertify.confirm("This connector doesn't scheduled successefully")}
+   });}
+   if(this.currentConnector.typeConnector==='connectorJDBC')
+   {this.schedulerService.planifierJDBC(data2)
+   .subscribe({
+     next: (res) => {
+       console.log(res);
+       this.jobId=res[1];
+
+       this.submitted = true;
+       alertify.confirm("This connector was scheduled successefully")
+
+     },
+     error: (e) => {console.error(e)
+       alertify.confirm("This connector doesn't scheduled successefully")
+
+     }
+   });}
+
+///////////////////////////////////////////////////////////////////////
+    console.log("jjjj",this.jobId)
+    const data = {
+      id:Math.floor(Math.random() * 6),
+      timeZone:"Europe/Paris",
+      dateTime:this.scheduler.startsTime,
+      name: this.scheduler.name,
+      scanMode:this.scheduler.scanMode,
+      startsTime:this.scheduler.startsTime,
+      cronExpression:this.scheduler.cronExpression,
+      connectorDAO:this.currentConnector,
+      jobId:this.jobId,
+      published: false
+    };
+
     this.schedulerService.create(data,this.currentConnector.id)
       .subscribe({
         next: (res) => {
@@ -91,29 +140,9 @@ export class AddSchedulerComponent implements OnInit{
         error: (e) => console.error(e)
       });
 
-      if(this.currentConnector.typeConnector==='connectorCSV')
-      {console.log("planif en cour",this.currentConnector.typeConnector)
-        this.schedulerService.planifierCSV(data)
-      .subscribe({
-        next: (res) => {
-          console.log(res);
-          this.submitted = true;
-        },
-        error: (e) => console.error(e)
-      });}
-      if(this.currentConnector.typeConnector==='connectorJDBC')
-      {console.log("planif en cour",this.currentConnector.typeConnector)
-        this.schedulerService.planifierJDBC(data)
-      .subscribe({
-        next: (res) => {
-          console.log(res);
-          this.submitted = true;
-        },
-        error: (e) => console.error(e)
-      });}
 
   }
-  planifier(){
+  planifier(data:any){
     const a=this.currentConnector.projectName
     console.log("currentConnector"+a)
     this.projectService.findByName2(a).subscribe({
@@ -129,7 +158,7 @@ export class AddSchedulerComponent implements OnInit{
       }
     });
     console.log("planification en cours")
-    const data = {
+    /*const data = {
       timeZone:"Europe/Paris",
       name: this.scheduler.name,
       scanMode:this.scheduler.scanMode,
@@ -137,26 +166,39 @@ export class AddSchedulerComponent implements OnInit{
       cronExpression:this.scheduler.cronExpression,
       connectorCSVDTO:this.currentConnector,
       published: false
-    };
+    };*/
     console.log("avant",this.currentConnector.typeConnector)
   if(this.currentConnector.typeConnector==='connectorCSV')
     {console.log("aprés",this.currentConnector.typeConnector)
       this.schedulerService.planifierCSV(data)
     .subscribe({
       next: (res) => {
-        console.log(res);
+        console.log("ress",res);
+        console.log("ress[1]",res[1]);
+        this.jobId=res[1];
+        console.log("jobId",this.jobId);
+        alert(this.jobId)
         this.submitted = true;
+        alertify.confirm("This connector was scheduled successefully")
       },
-      error: (e) => console.error(e)
+      error: (e) =>{console.error(e)
+        alertify.confirm("This connector doesn't scheduled successefully")}
     });}
     if(this.currentConnector.typeConnector==='connectorJDBC')
     {this.schedulerService.planifierJDBC(data)
     .subscribe({
       next: (res) => {
         console.log(res);
+        this.jobId=res[1];
+
         this.submitted = true;
+        alertify.confirm("This connector was scheduled successefully")
+
       },
-      error: (e) => console.error(e)
+      error: (e) => {console.error(e)
+        alertify.confirm("This connector doesn't scheduled successefully")
+
+      }
     });}
   }
 
@@ -165,7 +207,7 @@ export class AddSchedulerComponent implements OnInit{
     this.scheduler = {
       id: '',
       name: '',
-      published: false
+
     };
   }
 
